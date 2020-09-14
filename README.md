@@ -1,7 +1,10 @@
 # Among-Us-Editor
+
+**WINDOWS ONLY**
+
 Edit the Among Us playerPrefs files with premade values, allows for free DLC skins, pets, hats and even a secret glitched color!
 
-The secret color is a lighter version of the dark green, in lobbies chat normally won't work, you can't customize your character.  
+The secret color is a lighter version of the dark green, in lobbies chat normally won't work, you can't customize your character. People also see your name as "???".  
 In game, your dead body will be red, in meetings you'll be red and in chat you'll be red.
 
 Therefore there can be 3 greens and 2 reds, and I believe if multiple people have a different color value above 12, there can be multiple glitched greens (Untested).
