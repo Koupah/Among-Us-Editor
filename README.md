@@ -10,7 +10,7 @@ My Discord: Koupah#5129
 
 Information for those interested:
 
-Custom names that include "\", ")" or "\[" will result in a "Banned from Room" message.
+Custom names that include "\\", ")" or "\[" will result in a "Banned from Room" message.
 You also cannot include "," in your name as it breaks the file.
 Names longer than 10 characters will also not work in online games, 
 local lets you start but I'm not sure if others can join.
