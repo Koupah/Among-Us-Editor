@@ -10,10 +10,8 @@ My Discord: Koupah#5129
 
 Information for those interested:
 
-Custom names that include "\\", ")" or "\[" will result in a "Banned from Room" message.  
-You also cannot include "," in your name as it breaks the file.  
-Names longer than 10 characters will also not work in online games,  
-local lets you start but I'm not sure if others can join.
+Custom names that include "\\", ")" or "\[" will result in a "Banned from Room" message and you also cannot include "," in your name as it breaks the file.  
+Names longer than 10 characters will also not work in online games, local play lets you make a lobby but I'm not sure if others can join.
 
 Indexes of playerPrefs file (Starting from 1 instead of 0, just -1 in your head)  
 1st: Player Name  
