@@ -1,22 +1,25 @@
 # Among-Us-Editor
 
-**WINDOWS ONLY**
-
-Edit the Among Us playerPrefs files with premade values, allows for free DLC skins, pets, hats and even a secret glitched color!
-
-The secret color is a lighter version of the dark green, in lobbies chat normally won't work, you can't customize your character. People also see your name as "???".  
-In game, your dead body will be red, in meetings you'll be red and in chat you'll be red.
-
-Therefore there can be 3 greens and 2 reds, and I believe if multiple people have a different color value above 12, there can be multiple glitched greens (Untested).
+**WINDOWS ONLY (Not Android/IOS)**
 
 NOTE: You need to relaunch/have your game closed when using this! 
 The game only seems to read settings on launch, so use this then launch your game!
+
+### Secret/Glitched Color ###
+The secret color is a lighter version of the dark green, in lobbies chat normally won't work, you can't customize your character. People also see your name as "???".  
+In game, your dead body will be red, in meetings you'll be red and in chat you'll be red.
+Therefore there can be 3 greens and 2 reds, and I believe if multiple people have a different color value above 12, there can be multiple glitched greens (Untested).
+![](images/differences.png)
+
+### Video ###
+https://youtu.be/2wRJmS7DKpc
+
 
 If you upload a video showing or using this please give credit or atleast link this GitHub page!
 
 My Discord: Koupah#5129
 
-Information for those interested:
+### Information for those interested: ###
 
 Custom names that include "\\", ")" or "\[" will result in a "Banned from Room" message and you also cannot include "," in your name as it breaks the file.  
 Names longer than 10 characters will also not work in online games, local play lets you make a lobby but I'm not sure if others can join.
