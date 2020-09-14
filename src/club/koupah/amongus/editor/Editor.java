@@ -47,85 +47,21 @@ public class Editor extends JFrame {
 
 	private JPanel contentPane;
 
-	/*
-	 * Values:
-	 * 
-	 * 1st: name 2nd: Controls 0 Mouse 1 Mouse and Keyboard 3rd: Preferred color
-	 * 4th: Unknown 5th: Unknown 6th: Unknown 7th: Unknown 8th: Unknown 9th: Unknown
-	 * 10th: Unknown 11th: Hat 12th: SFX volume 0-255 13th: Music volume 0-255 14th:
-	 * Unknown 15th: Unknown 16th: Skin (costume) 17th: pet 18th: censor chat
-	 * boolean 19th: language 0 english 20th: vsync
-	 */
-
-	// Colors
-	/*
-	 * Negative numbers give random colors every launch 0: red 1: dark blue 2: dark
-	 * green 3: pink 4: orange 5: yellow 6: black 7: white 8: purple 9: brown 10:
-	 * light blue 11: light green 12: Secret green color and weird glitches (Chat
-	 * doesn't work in the lobby) (No name at meetings/chat and appear red in
-	 * meetings too)
-	 * 
-	 */
-
-	// Skins (Costumes)
-	/*
-	 * 10: orange karate 11: weird blue suit 12: construction worker (hi vis) 13:
-	 * overalls 14: puffer jacket 15: Indiana Jones
-	 * 
-	 */
-
-	// Hats
-	/*
-	 * 68 in game 26 below 20: Snowman 21: Antlers 22: Christmas Lights 23: Santa
-	 * Hat 24: Christmas Tree 25: Present Box 26: Candy Canes 27: Elf Hat & Ears
-	 * 
-	 * 45: Headphones 46: Gas Mask
-	 * 
-	 * 48: Hat & Glasses (Disguise)
-	 * 
-	 * 61: cat hat 62: bat wings 63: devil horns 64: mohawk 65: pumpkin 66: spooky
-	 * paper bag 67: witch hat 68: wolf ears 69: pirate hat 70: Beak Mask (Plague
-	 * doctor) 71: sword in head 72: jason mask 73: miner hat 74: blue beanie 75:
-	 * icy cowboy hat 76 - 93: in game 94: none
-	 * 
-	 */
-
-	// Name
-	/*
-	 * # - Banned from rooms \ - Banned from rooms ) - Banned from rooms [ - Banned
-	 * from rooms , - Breaks format
-	 * 
-	 * Server refuses names longer than 10 characters
-	 */
-
-	// PETS
-	/*
-	 * 0 No pet 1 Green Alien 2 Mini Me (Mini Crewmate) 3 Blue Alien Dog 4 Stickmin
-	 * (Male) 5 Hamster Pet (In Ball) 6 Robot (Crewmate) 7 UFO 8 Stickmin (Female) 9
-	 * Bed Crab 1 10 Bed Crab 2 (Crab?)
-	 */
-
 	public static ArrayList<Setting> allGUISettings = new ArrayList<Setting>();
 
-	String[] currentSettings;
+	private String[] currentSettings;
 
-	String[] newSettings;
+	private String[] newSettings;
 
-	static File playerPrefs;
+	private File playerPrefs;
 
-	static String directory;
-
+	private String directory;
+	
+	private String version = "1.0";
+	
+	static String name = "Among Us Editor";
+	
 	public static void main(String[] args) {
-
-		directory = System.getProperty("user.home") + "\\AppData\\LocalLow\\Innersloth\\Among Us\\playerPrefs";
-
-		playerPrefs = new File(directory);
-
-		if (!playerPrefs.exists()) {
-			new PopUp("You don't seem to have the game installed?\nIf you do, try running the game then trying again.",
-					true);
-		}
-
 		// Idk how to get them to initialize their values cause am big noob
 		Hats.values();
 		Pets.values();
@@ -150,15 +86,7 @@ public class Editor extends JFrame {
 	 */
 
 	JButton applySettings;
-	/*
-	 * Values:
-	 * 
-	 * 2nd: Controls 0 Mouse 1 Mouse and Keyboard 3rd: Preferred color 4th: Unknown
-	 * 5th: Unknown 6th: Unknown 7th: Unknown 8th: Unknown 9th: Unknown 10th:
-	 * Unknown 11th: Hat 12th: SFX volume 0-255 13th: Music volume 0-255 14th:
-	 * Unknown 15th: Unknown 16th: Skin (costume) 17th: pet 18th: censor chat
-	 * boolean 19th: language 0 english 20th: vsync
-	 */
+	
 	int nameIndex = 0;
 	int hatIndex = 10;
 	int petIndex = 16;
@@ -172,7 +100,9 @@ public class Editor extends JFrame {
 	int controlIndex = 1;
 
 	public Editor() {
-		setTitle("Among Us Editor - By Koupah");
+
+		setTitle(name + " (" + version + ") - By Koupah");
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -251,20 +181,23 @@ public class Editor extends JFrame {
 				refresh();
 			}
 		});
+		
+		
 
+		// I moved this stuff out of the main method so I don't need to make stuff static
+		directory = System.getProperty("user.home") + "\\AppData\\LocalLow\\Innersloth\\Among Us\\playerPrefs";
+
+		playerPrefs = new File(directory);
+
+		if (!playerPrefs.exists()) {
+			new PopUp("You don't seem to have the game installed?\nIf you do, try running the game then trying again.",
+					true);
+		}
+		
 		refresh();
 	}
-
-	/*
-	 * Values:
-	 * 
-	 * 1st: name 2nd: Controls 0 Mouse 1 Mouse and Keyboard 3rd: Preferred color
-	 * 4th: Unknown 5th: Unknown 6th: Unknown 7th: Unknown 8th: Unknown 9th: Unknown
-	 * 10th: Unknown 11th: Hat 12th: SFX volume 0-255 13th: Music volume 0-255 14th:
-	 * Unknown 15th: Unknown 16th: Skin (costume) 17th: pet 18th: censor chat
-	 * boolean 19th: language 0 english 20th: vsync
-	 */
-
+	
+	//Made this cause it's smaller than writing allGUISettings.add()
 	public void add(Setting setting) {
 		allGUISettings.add(setting);
 	}
@@ -278,8 +211,8 @@ public class Editor extends JFrame {
 	public void saveSettings() {
 		try (FileWriter fileWriter = new FileWriter(playerPrefs)) {
 			fileWriter.write(String.join(",", newSettings));
-			System.out.println("Saved the following line to the settings file:\n" + String.join(",", newSettings));
 			fileWriter.close();
+			System.out.println("Saved the following line to the settings file:\n" + String.join(",", newSettings));
 		} catch (IOException e) {
 			new PopUp("Error! " + e.getMessage(), true);
 		}
@@ -290,25 +223,24 @@ public class Editor extends JFrame {
 
 			String line = bufferedReader.readLine();
 			System.out.println("Read following line from settings file: \n" + line);
-
+			
 			// This is unnecessary, playerPrefs file is 1 line
 			// while(line != null) { line = bufferedReader.readLine(); }
+			
 			bufferedReader.close();
 			if (line.contains(",") && line.split(",").length == 20)
 				currentSettings = line.split(",");
 			else
-				new PopUp(
-						"Error loading settings (Potentially newer version?)\nScreenshot the following and send it to Koupah#5129 (Discord)\n"
-								+ line,
-						true);
+				new PopUp("Error loading settings (Potentially newer version?)\nScreenshot the following and send it to Koupah#5129 (Discord)\n"
+								+ line, true);
 
-			// Added this later, realized I never set it anywhere :p
+
 			newSettings = currentSettings;
 
 		} catch (FileNotFoundException e) {
-			// Exception handling
+			new PopUp("Error loading settings, file doesn't exist?\nAre you sure you have the game and have run it before?", true);
 		} catch (IOException e) {
-			// Exception handling
+			new PopUp("Error! " + e.getMessage(), true);
 		}
 	}
 }
