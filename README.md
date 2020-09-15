@@ -11,11 +11,10 @@ In game, your dead body will be red, in meetings you'll be red and in chat you'l
 Therefore there can be 3 greens and 2 reds, and I believe if multiple people have a different color value above 12, there can be multiple glitched greens (Untested).  
 ![](images/differences.png)
 
-#### This glitched color is references in this wiki page below ####  
-https://among-us.fandom.com/wiki/Player
+#### This glitched color is references in this wiki page https://among-us.fandom.com/wiki/Player ####
 ![](images/fortegreen.png)  
 ![](images/fortegreen1.png)  
-
+  
 ### Video ###
 https://youtu.be/2wRJmS7DKpc
 
