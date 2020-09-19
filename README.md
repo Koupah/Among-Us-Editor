@@ -5,6 +5,9 @@
 NOTE: You need to relaunch/have your game closed when using this! 
 The game only seems to read settings on launch, so use this then launch your game!
 
+# Credits  
+SovietSeal#0001: Wrote out all the names, ID's and Category of all Hats & Skins  
+
 ### Secret/Glitched Color (Fortegreen) ###
 The secret color is a lighter version of the dark green, in lobbies chat normally won't work, you can't customize your character. People also see your name as "???".  
 In game, your dead body will be red, in meetings you'll be red and in chat you'll be red.
@@ -37,7 +40,7 @@ Indexes of playerPrefs file (Starting from 1 instead of 0, just -1 in your head)
 6th: Unknown  
 7th: Unknown  
 8th: Unknown  
-9th: Unknown 
+9th: Unknown  
 10th: Unknown  
 11th: Hat (0 to like 90 something)  
 12th: SFX volume 0-255  
