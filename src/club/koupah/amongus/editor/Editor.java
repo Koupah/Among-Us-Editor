@@ -65,7 +65,7 @@ public class Editor extends JFrame {
 	private String directory;
 	
 	//Should I make this a double, that way with the version check I can check if their version is less than rather than equal to
-	private static String version = "1.2";
+	private static String version = "1.1";
 	
 	static String name = "Among Us Editor";
 	
