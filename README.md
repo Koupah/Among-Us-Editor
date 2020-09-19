@@ -31,7 +31,7 @@ Names longer than 10 characters will also not work in online games, local play l
 Indexes of playerPrefs file (Starting from 1 instead of 0, just -1 in your head)  
 1st: Player Name  
 2nd: Controls (0 Mouse, 1 Mouse and Keyboard)  
-3rd: Preferred color (0-11, 12+ for glitched color)  
+3rd: Preferred color (0-11, 12+ for Fortegreen ~~glitched~~ color)  
 4th: Unknown  
 5th: Unknown  
 6th: Unknown  
