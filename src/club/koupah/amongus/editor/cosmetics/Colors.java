@@ -2,25 +2,28 @@ package club.koupah.amongus.editor.cosmetics;
 
 import club.koupah.amongus.editor.cosmetics.Cosmetic.CosmeticType;
 
+import club.koupah.amongus.editor.cosmetics.Cosmetic.CosmeticCategory;
+import static club.koupah.amongus.editor.cosmetics.Cosmetic.CosmeticCategory.*;
+
 public enum Colors {
 
-	Random_Every_Launch(-1),
-	Red(0),
-	Dark_Blue(1),
-	Dark_Green(2),
-	Pink(3),
-	Orange(4),
-	Yellow(5),
-	Black(6),
-	White(7),
-	Purple(8),
-	Brown(9),
-	Cyan(10),
-	Lime(11),
-	Glitched_Green_Red(12);
+	Random_Every_Launch(-1, Free),
+	Red(0, Free),
+	Dark_Blue(1, Free),
+	Dark_Green(2, Free),
+	Pink(3, Free),
+	Orange(4, Free),
+	Yellow(5, Free),
+	Black(6, Free),
+	White(7, Free),
+	Purple(8, Free),
+	Brown(9, Free),
+	Cyan(10, Free),
+	Lime(11, Free),
+	Fortegreen(12, Free);
 	
 	
-	Colors(int ID) {
-		new Cosmetic(this,ID,CosmeticType.Color);
+	Colors(int ID, CosmeticCategory category) {
+		new Cosmetic(this,ID,CosmeticType.Color, category);
 	}
 }

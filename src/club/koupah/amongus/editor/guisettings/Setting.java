@@ -3,36 +3,24 @@ package club.koupah.amongus.editor.guisettings;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import club.koupah.amongus.editor.Editor;
+import club.koupah.amongus.editor.PopUp;
 import club.koupah.amongus.editor.cosmetics.Cosmetic;
 import club.koupah.amongus.editor.cosmetics.Cosmetic.CosmeticType;
 import club.koupah.amongus.editor.settings.Language;
 
-public class Setting {
-
-	JLabel label;
-	String labelText;
-
-	JComponent component;
-
-	int index;
+public class Setting extends GUIComponent {
 
 	int settingIndex;
-
-	int id;
 
 	static String[] currentSettings;
 
 	public Setting(JLabel label, JComponent component, int settingIndex) {
+		super(label,component);
 		this.settingIndex = settingIndex;
-		this.label = label;
-		this.labelText = label.getText();
-		this.component = component;
-		index = Editor.allGUISettings.size();
-		label.setBounds(10, 75 + (index * 31), 250, 30);
-		component.setBounds(270, 80 + (index * 31), 159, 20);
+	}
+
+	public Setting(JLabel label, JComboBox<String> component) {
+		this(label, component, -1);
 	}
 
 	public void updateLabel() {
@@ -43,30 +31,9 @@ public class Setting {
 		System.out.println("Update Component function not overriden.");
 	}
 
-	public static void updateAllLabels(String[] currentSettings) {
-		updateSettings(currentSettings);
-		for (Setting set : Editor.allGUISettings) {
-			set.updateLabel();
-		}
-	}
-
-	public static void updateAllComponents() {
-		for (Setting set : Editor.allGUISettings) {
-			set.updateComponent();
-		}
-	}
-
-	public void setValue(int id) {
-		this.id = id;
-	}
-
-	public static void updateSettings(String[] cs) {
-		currentSettings = cs;
-	}
-
 	public String getValue(boolean fromLabel) {
 		if (fromLabel)
-			return this.label.getText().split(labelText)[1];
+			return this.label.getText().split(getLabelText())[1];
 
 		return getProperValue();
 	}
@@ -77,7 +44,7 @@ public class Setting {
 	}
 
 	@SuppressWarnings("unchecked")
-	String getSaveValue() {
+	protected String getSaveValue() {
 		switch (settingIndex) {
 		case (1): {
 			return String.valueOf(((JComboBox<String>)component).getSelectedIndex());
@@ -114,11 +81,13 @@ public class Setting {
 			return id;
 		}
 		}
+		//I should've done this from the start, no one wants a messed up playerPrefs file
+		new PopUp("Error in save value??", true);
 		return "ErrorInSaveValue";
 	}
 
 	@SuppressWarnings("unchecked")
-	String getSettingValue() {
+	protected String getSettingValue() {
 		switch (settingIndex) {
 		case (0): {
 			return currentSettings[settingIndex];
@@ -160,13 +129,11 @@ public class Setting {
 		return "No case";
 	}
 
-	public void addToPane(JPanel contentPane) {
-		contentPane.add(this.label);
-		contentPane.add(this.component);
-
-	}
-
 	public int getSettingIndex() {
 		return this.settingIndex;
+	}
+
+	public static void setCurrentSettings(String[] currentSettings2) {
+		currentSettings = currentSettings2;
 	}
 }

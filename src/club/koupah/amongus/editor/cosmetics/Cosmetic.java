@@ -8,16 +8,55 @@ public class Cosmetic {
 	String friendlyName;
 	String name;
 	int id;
+	CosmeticCategory category;
+	
+	//Good name
+	public static enum CosmeticType {
+		Hat, Pet, Skin, Color;
+		
+		//I know name variable is unnecessary, but go away
+		String name;
+		CosmeticType() {
+			this.name = name();
+		}
+		
+		public static CosmeticType findType(String toFind) {
+			for (CosmeticType type : values())
+				if (type.name.equalsIgnoreCase(toFind))
+					return type;
+			return null;
+		}
+	}
+	//Probably horrible name, surely someone recommends me a better name for this enum
+	public static enum CosmeticCategory {
+		Free(0), Paid(1), Halloween(2), Holiday(3);
+		int value;
+		
+		//I know name variable is unnecessary, but go away. I like having variables in enums, its fun
+		String name;
+		CosmeticCategory(int type) {
+			this.name = name();
+			this.value = type;
+		}
+		public static CosmeticCategory findCategory(String toFind) {
+			for (CosmeticCategory category : values())
+				if (category.name.equalsIgnoreCase(toFind))
+					return category;
+			return null;
+		}
+	}
 
+	
 	public static ArrayList<Cosmetic> hats = new ArrayList<Cosmetic>();
 	public static ArrayList<Cosmetic> pets = new ArrayList<Cosmetic>();
 	public static ArrayList<Cosmetic> skins = new ArrayList<Cosmetic>();
 	public static ArrayList<Cosmetic> colors = new ArrayList<Cosmetic>();
 
-	public Cosmetic(Enum<?> cosmetic, int id, CosmeticType type) {
+	public Cosmetic(Enum<?> cosmetic, int id, CosmeticType type, CosmeticCategory category) {
 		this.friendlyName = cosmetic.name().replaceAll("_", " ");
 		this.name = cosmetic.name();
 		this.id = id;
+		this.category = category;
 		addCosmetic(type, this);
 	}
 
@@ -44,10 +83,6 @@ public class Cosmetic {
 					cosmetic.getName(true), type.name()));
 		}
 		}
-	}
-
-	public static enum CosmeticType {
-		Hat, Pet, Skin, Color;
 	}
 
 	public String getName(boolean friendlyName) {
@@ -85,9 +120,41 @@ public class Cosmetic {
 		}
 		return null;
 	}
+	
+	public static List<String> getItems(CosmeticType type, CosmeticCategory category, boolean andAbove) {
+		ArrayList<String> items = new ArrayList<String>();
+		switch (type) {
+		case Hat: {
+			for (Cosmetic hat : hats)
+				if (hat.category.value == category.value || (andAbove && hat.category.value > category.value))
+					items.add(hat.friendlyName);
+			return items;
+		}
+		case Pet: {
+			for (Cosmetic pet : pets)
+				if (pet.category.value == category.value || (andAbove && pet.category.value > category.value))
+				items.add(pet.friendlyName);
+			return items;
+		}
+		case Skin: {
+			for (Cosmetic skin : skins)
+				if (skin.category.value == category.value || (andAbove && skin.category.value > category.value))
+				items.add(skin.friendlyName);
+			return items;
+		}
+		case Color: {
+			for (Cosmetic color : colors)
+				if (color.category.value == category.value || (andAbove && color.category.value > category.value))
+				items.add(color.friendlyName);
+			return items;
+		}
 
+		}
+		return null;
+	}
+	
 	public static String getItem(CosmeticType type, String stringID) {
-		int id = Integer.valueOf(stringID);
+		Integer id = Integer.valueOf(stringID);
 		// Wouldn't need the switch if it wasn't for overlapping IDs
 		switch (type) {
 		case Hat: {
@@ -112,7 +179,9 @@ public class Cosmetic {
 			for (Cosmetic color : colors)
 				if (color.getID() == id) 
 					return color.getName(true);
-			return "Some Color (ID " + id + ")";
+			
+			//Changed to support people who may have already changed their playerPrefs
+				return id > 12 ? Colors.Fortegreen.name() : id < 0 ? "Random Every Launch" : "Some Color (ID " + id + ")";
 		}
 		}
 
