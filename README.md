@@ -15,7 +15,7 @@ Therefore there can be 3 greens and 2 reds, and I believe if multiple people hav
 ![](images/fortegreen.png)  
 ![](images/fortegreen1.png)  
   
-### Video ###
+# Video  
 https://youtu.be/2wRJmS7DKpc
 
 If you upload a video showing or using this please give credit or atleast link this GitHub page!
@@ -25,7 +25,7 @@ My Discord: Koupah#5129
 # Credits  
 SovietSeal#0001: Wrote out all the names, ID's and Category of all Hats & Skins  
 
-### Information for those interested: ###
+# Information for those interested:  
 
 Custom names that include "\\", ")" or "\[" will result in a "Banned from Room" message and you also cannot include "," in your name as it breaks the file.  
 Names longer than 10 characters will also not work in online games, local play lets you make a lobby but I'm not sure if others can join.
