@@ -13,8 +13,8 @@ public enum Pets {
 	Robot(6),
 	UFO(7),
 	Female_Stickmin(8),
-	Bed_Crab_1(9),
-	Bed_Crab_2(10);
+	Squig(9),
+	Headcrab(10);
 	
 	Pets(int ID) {
 		new Cosmetic(this,ID,CosmeticType.Pet);
