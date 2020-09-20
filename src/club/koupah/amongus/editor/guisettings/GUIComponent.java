@@ -20,8 +20,8 @@ public class GUIComponent {
 		this.labelText = label.getText();
 		this.component = component;
 		index = Editor.allGUIComponents.size();
-		label.setBounds(10, 75 + (index * 31), 250, 30);
-		component.setBounds(270, 80 + (index * 31), 159, 20);
+		label.setBounds(10, 75 + (index * Editor.scale), 250, 30);
+		component.setBounds(270, 80 + (index * Editor.scale), 160, 20);
 	}
 	
 	public void addToPane(JPanel contentPane) {

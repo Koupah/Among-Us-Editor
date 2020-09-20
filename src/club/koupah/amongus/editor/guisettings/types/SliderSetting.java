@@ -21,12 +21,12 @@ public class SliderSetting extends Setting {
 
 	@Override
 	public void updateLabel() {
-		label.setText(getLabelText() + df.format(((double) ((double) Integer.parseInt(getSettingValue()) / (double) max) * 100)) + "%");
+		label.setText(getLabelText() + df.format(((double) ((double) Integer.parseInt(getCurrentSettingValue()) / (double) max) * 100)) + "%");
 	}
 	
 	@Override
 	public void updateComponent() {
-		((JSlider)component).setValue(Integer.parseInt(getSettingValue()));
+		((JSlider)component).setValue(Integer.parseInt(getCurrentSettingValue()));
 	}
 	
 	@Override

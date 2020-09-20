@@ -4,9 +4,9 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import club.koupah.amongus.editor.PopUp;
-import club.koupah.amongus.editor.cosmetics.Cosmetic;
-import club.koupah.amongus.editor.cosmetics.Cosmetic.CosmeticType;
-import club.koupah.amongus.editor.settings.Language;
+import club.koupah.amongus.editor.settings.cosmetics.Cosmetic;
+import club.koupah.amongus.editor.settings.cosmetics.Cosmetic.CosmeticType;
+import club.koupah.amongus.editor.settings.language.Language;
 
 public class Setting extends GUIComponent {
 
@@ -31,7 +31,7 @@ public class Setting extends GUIComponent {
 		System.out.println("Update Component function not overriden.");
 	}
 
-	public String getValue(boolean fromLabel) {
+	public String getComponentValue(boolean fromLabel) {
 		if (fromLabel)
 			return this.label.getText().split(getLabelText())[1];
 
@@ -44,7 +44,7 @@ public class Setting extends GUIComponent {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected String getSaveValue() {
+	protected String getValueToSave() {
 		switch (settingIndex) {
 		case (1): {
 			return String.valueOf(((JComboBox<String>)component).getSelectedIndex());
@@ -87,7 +87,7 @@ public class Setting extends GUIComponent {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected String getSettingValue() {
+	protected String getCurrentSettingValue() {
 		switch (settingIndex) {
 		case (0): {
 			return currentSettings[settingIndex];
@@ -96,10 +96,10 @@ public class Setting extends GUIComponent {
 			return String.valueOf(((JComboBox<String>)component).getItemAt(Integer.parseInt(currentSettings[settingIndex])));
 		}
 		case (2): {
-			return Cosmetic.getItem(CosmeticType.Color, currentSettings[settingIndex]);
+			return Cosmetic.getItemName(CosmeticType.Color, currentSettings[settingIndex]);
 		}
 		case (10): {
-			return Cosmetic.getItem(CosmeticType.Hat, currentSettings[settingIndex]);
+			return Cosmetic.getItemName(CosmeticType.Hat, currentSettings[settingIndex]);
 		}
 		// sfx
 		case (11): {
@@ -110,10 +110,10 @@ public class Setting extends GUIComponent {
 			return currentSettings[settingIndex];
 		}
 		case (15): {
-			return Cosmetic.getItem(CosmeticType.Skin, currentSettings[settingIndex]);
+			return Cosmetic.getItemName(CosmeticType.Skin, currentSettings[settingIndex]);
 		}
 		case (16): {
-			return Cosmetic.getItem(CosmeticType.Pet, currentSettings[settingIndex]);
+			return Cosmetic.getItemName(CosmeticType.Pet, currentSettings[settingIndex]);
 		}
 		case (17): {
 			return currentSettings[settingIndex].equals("True") ? "On" : "Off";

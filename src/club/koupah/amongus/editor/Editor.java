@@ -6,12 +6,14 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -30,20 +32,21 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
-import club.koupah.amongus.editor.cosmetics.Colors;
-import club.koupah.amongus.editor.cosmetics.Cosmetic;
-import club.koupah.amongus.editor.cosmetics.Cosmetic.CosmeticType;
-import club.koupah.amongus.editor.cosmetics.Hats;
-import club.koupah.amongus.editor.cosmetics.Pets;
-import club.koupah.amongus.editor.cosmetics.Skins;
 import club.koupah.amongus.editor.guisettings.GUIComponent;
 import club.koupah.amongus.editor.guisettings.Setting;
 import club.koupah.amongus.editor.guisettings.types.CheckboxSetting;
 import club.koupah.amongus.editor.guisettings.types.CosmeticFilter;
+import club.koupah.amongus.editor.guisettings.types.InvisibleName;
 import club.koupah.amongus.editor.guisettings.types.MultiSetting;
 import club.koupah.amongus.editor.guisettings.types.SliderSetting;
 import club.koupah.amongus.editor.guisettings.types.TextSetting;
-import club.koupah.amongus.editor.settings.Language;
+import club.koupah.amongus.editor.settings.cosmetics.Colors;
+import club.koupah.amongus.editor.settings.cosmetics.Cosmetic;
+import club.koupah.amongus.editor.settings.cosmetics.Hats;
+import club.koupah.amongus.editor.settings.cosmetics.Pets;
+import club.koupah.amongus.editor.settings.cosmetics.Skins;
+import club.koupah.amongus.editor.settings.cosmetics.Cosmetic.CosmeticType;
+import club.koupah.amongus.editor.settings.language.Language;
 
 public class Editor extends JFrame {
 
@@ -64,12 +67,15 @@ public class Editor extends JFrame {
 
 	private String directory;
 	
-	//Should I make this a double, that way with the version check I can check if their version is less than rather than equal to
-	private static String version = "1.1";
+	//Should I make this a double? That way with the version check I can check if their version is less than rather than equal to
+	private static String version = "1.2";
 	
 	static String name = "Among Us Editor";
 	
 	static Thread versionCheck;
+	
+	//Spacing between gui components
+	public static int scale = 40;
 	
 	public static void main(String[] args) {
 		
@@ -176,19 +182,23 @@ public class Editor extends JFrame {
 		// because we use the size of the array to get index because am lazy
 
 		add(new TextSetting(new JLabel("Username: "), new JTextField(), nameIndex));
-
-		add(new MultiSetting(new JLabel("Hat: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Hat), true,
+		
+		add(new InvisibleName(new JLabel("Invisible Name: "), new JCheckBox(), nameIndex));
+		
+		add(new MultiSetting(new JLabel("Hat: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Hat), true, true,
 				hatIndex));
 
-		add(new MultiSetting(new JLabel("Skin: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Skin), true,
+		add(new MultiSetting(new JLabel("Color: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Color),
+				true, true, colorIndex));
+		
+		add(new MultiSetting(new JLabel("Skin: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Skin), true, true,
 				skinIndex));
 
-		add(new MultiSetting(new JLabel("Pet: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Pet), false,
+		add(new MultiSetting(new JLabel("Pet: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Pet), false, true,
 				petIndex));
-
-		add(new MultiSetting(new JLabel("Color: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Color),
-				true, colorIndex));
-
+		
+		add(new CosmeticFilter(new JLabel("Filter Cosmetics: "), new JComboBox<String>()));
+		
 		add(new MultiSetting(new JLabel("Language: "), new JComboBox<String>(), Language.getAllLanguagesString(), false,
 				languageIndex));
 
@@ -203,8 +213,6 @@ public class Editor extends JFrame {
 
 		add(new SliderSetting(new JLabel("Music Volume: "), new JSlider(), 0, 255, musicIndex));
 
-		add(new CosmeticFilter(new JLabel("Filter Cosmetics: "), new JComboBox<String>()));
-		
 		for (GUIComponent setting : allGUIComponents) {
 			setting.addToPane(contentPane);
 		}
@@ -214,7 +222,7 @@ public class Editor extends JFrame {
 		
 		
 		//Just cause bro, don't @ me
-				int min =  75 + (allGUIComponents.size() * 31) + 80;
+				int min =  75 + (allGUIComponents.size() * scale) + 80;
 				
 				applySettings = new JButton("Apply Settings");
 				applySettings.setBounds(147, min-60, 151, 25);
@@ -232,10 +240,14 @@ public class Editor extends JFrame {
 		applySettings.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+
 				for (GUIComponent guicomponent : allGUIComponents) {
 					if (guicomponent instanceof Setting) {
 						Setting setting = (Setting)guicomponent;
-						newSettings[setting.getSettingIndex()] = setting.getValue(false);
+						
+						//This allows InvisibleName and future GUIComponents to avoid impacting settings
+						if (setting.getComponentValue(false) != null)
+							newSettings[setting.getSettingIndex()] = setting.getComponentValue(false);
 					}
 				}
 				saveSettings();
@@ -278,18 +290,17 @@ public class Editor extends JFrame {
 	}
 
 	public void saveSettings() {
-		try (FileWriter fileWriter = new FileWriter(playerPrefs)) {
-			fileWriter.write(String.join(",", newSettings));
-			fileWriter.close();
-			System.out.println("Saved the following line to the settings file:\n" + String.join(",", newSettings));
+		try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(playerPrefs), "UTF-8"))) {
+	        bufferedWriter.write(String.join(",", newSettings));
+	        bufferedWriter.close();
 		} catch (IOException e) {
-			new PopUp("Error! " + e.getMessage(), true);
-		}
+			new PopUp("Error writing to file!\n" + e.getMessage(),true);
+		} 
 	}
 
 	public void loadSettings() {
-		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(playerPrefs))) {
-
+		try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(playerPrefs), "UTF-8"))) {
+		    
 			String line = bufferedReader.readLine();
 			System.out.println("Read following line from settings file: \n" + line);
 			

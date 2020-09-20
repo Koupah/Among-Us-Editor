@@ -13,12 +13,12 @@ public class TextSetting extends Setting {
 
 	@Override
 	public void updateLabel() {
-		label.setText(getLabelText() + getSettingValue());
+		label.setText(getLabelText() + getCurrentSettingValue());
 	}
 	
 	@Override
 	public void updateComponent() {
-		((JTextField)component).setText(getSettingValue());
+		((JTextField)component).setText(getCurrentSettingValue());
 	}
 
 	@Override

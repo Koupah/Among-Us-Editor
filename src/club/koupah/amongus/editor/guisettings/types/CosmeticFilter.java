@@ -7,10 +7,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import club.koupah.amongus.editor.Editor;
-import club.koupah.amongus.editor.cosmetics.Cosmetic;
-import club.koupah.amongus.editor.cosmetics.Cosmetic.CosmeticType;
-import club.koupah.amongus.editor.cosmetics.Cosmetic.CosmeticCategory;
 import club.koupah.amongus.editor.guisettings.GUIComponent;
+import club.koupah.amongus.editor.settings.cosmetics.Cosmetic;
+import club.koupah.amongus.editor.settings.cosmetics.Cosmetic.CosmeticCategory;
+import club.koupah.amongus.editor.settings.cosmetics.Cosmetic.CosmeticType;
 
 public class CosmeticFilter extends GUIComponent {
 
