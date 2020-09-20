@@ -30,6 +30,9 @@ My Discord: Koupah#5129
 
 ## Credits ##  
 SovietSeal#0001: Wrote out all the names, ID's and Category of all Hats & Skins  
+SovietSeal#0001: Downloaded skin, pet & color images and named them their ID's for me
+
+If you'd like to help w/ something or receive credit, you can contact me on my discord listed above 
 
 ## Information for those interested: ##  
 
@@ -51,7 +54,7 @@ Indexes of playerPrefs file (Starting from 1 instead of 0, just -1 in your head)
 12th: SFX volume 0-255  
 13th: Music volume 0-255  
 14th: Unknown  
-15th: Unknown  
+15th: Apparently GUI scale for mobile (0.5,1.0,1.5)  
 16th: Skin (Costume) (0-15)  
 17th: Pet (0-10)  
 18th: Censor Chat (True/False)  
