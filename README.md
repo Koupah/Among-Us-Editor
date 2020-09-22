@@ -1,6 +1,7 @@
 # Among-Us-Editor
 
-**WINDOWS ONLY (Not Android/IOS)**
+**WINDOWS ONLY (Not Android/IOS)**  
+**Requires Java 7 or above https://www.java.com/ES/download/ **
 
 ## Download Instructions ##  
 
