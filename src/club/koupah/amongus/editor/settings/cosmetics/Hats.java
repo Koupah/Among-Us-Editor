@@ -115,9 +115,16 @@ public enum Hats {
 	Horns(92, Free),
 	Mini_Snow_Crewmate(93, Free);
 
+	int[] displayOffset;
 	
 	Hats(int ID, CosmeticCategory category) {
 		new Cosmetic(this,ID,CosmeticType.Hat, category);
+	}
+	
+	//Added for future when I calculate or find all the offsets for the display of the hats AKA future proper character preview
+	Hats(int ID, CosmeticCategory category, int[] displayOffset) {
+		this(ID,category);
+		this.displayOffset = displayOffset;
 	}
 
 }

@@ -2,6 +2,7 @@ package club.koupah.amongus.editor.guisettings;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import club.koupah.amongus.editor.Editor;
@@ -24,7 +25,7 @@ public class GUIComponent {
 		component.setBounds(270, 80 + (index * Editor.scale), 160, 20);
 	}
 	
-	public void addToPane(JPanel contentPane) {
+	public void addToPane(JLayeredPane contentPane) {
 		contentPane.add(this.label);
 		contentPane.add(this.component);
 	}

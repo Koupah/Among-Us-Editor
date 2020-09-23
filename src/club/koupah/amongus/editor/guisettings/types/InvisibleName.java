@@ -9,7 +9,7 @@ public class InvisibleName extends CheckboxSetting {
 	
 	public InvisibleName(JLabel label, JCheckBox component, int settingIndex) {
 		super(label, component, settingIndex);
-		component.setText("Active?");
+		component.setText("Off");
 	}
 
 	@Override

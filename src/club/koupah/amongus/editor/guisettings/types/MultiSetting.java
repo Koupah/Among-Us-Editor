@@ -13,6 +13,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import club.koupah.amongus.editor.PopUp;
@@ -28,12 +29,18 @@ public class MultiSetting extends Setting {
 	
 	JLabel imageLabel;
 	
-	public MultiSetting(JLabel label, JComboBox<String> component, List<String> values, boolean addKeepCurrent, boolean imagePreview, int settingIndex) {
+	int[] imageSettings;
+	
+	public MultiSetting(JLabel label, JComboBox<String> component, List<String> values, boolean addKeepCurrent, boolean imagePreview, int[] offset, int settingIndex) {
 		this(label,component,values,addKeepCurrent,settingIndex);
 		this.hasPreview = imagePreview;
 		this.imageLabel = new JLabel();
+		
+		//Per instance offsets for displaying the image & the width/height of the image
+		this.imageSettings = offset;
+		
 		int width = 60; //This is really just the JLabel width, not image
-		this.imageLabel.setBounds(component.getX() - width, component.getY() + 10 - (width/2), width, width);
+		this.imageLabel.setBounds(component.getX() - width + imageSettings[0], component.getY() +  imageSettings[1] + 10 - (width/2), width + imageSettings[2], width+ imageSettings[3]);
 	}
 	
 	public MultiSetting(JLabel label, JComboBox<String> component, List<String> values, boolean addKeepCurrent, int settingIndex) {
@@ -63,11 +70,11 @@ public class MultiSetting extends Setting {
 	}
 
 	@Override
-	public void addToPane(JPanel contentPane) {
+	public void addToPane(JLayeredPane contentPane) {
 		contentPane.add(this.label);
 		contentPane.add(this.component);
 		if (hasPreview)
-			contentPane.add(this.imageLabel);
+			contentPane.add(this.imageLabel, imageSettings == null ? -1 : imageSettings[4]);
 	}
 	
 	@Override
@@ -100,7 +107,7 @@ public class MultiSetting extends Setting {
 		BufferedImage image = ImageIO.read(Cosmetic.class.getResource(getCosmeticImagePath(settingValue)));
 		
 		//35 for height
-		ImageIcon icon = new ImageIcon(properScaleImage(image,50,40));
+		ImageIcon icon = new ImageIcon(properScaleImage(image,50+imageSettings[2],40+imageSettings[3]));
 
 		return icon;
 		} catch (Exception e) {
