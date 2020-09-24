@@ -1,10 +1,9 @@
 # Among-Us-Editor
 
 ### WINDOWS, MAC & LINUX NOW SUPPORTED (Not Android/IOS) ###  
-### Requires Java 7 or above https://www.java.com/ES/download/ ###  
 
 ## Download Instructions ##  
-
+### Requires Java 7 or above https://www.java.com/ES/download/ ###  
 Download Link: https://github.com/Koupah/Among-Us-Editor/releases  
 Download the .jar file by clicking on it, then run it once it's finished downloading  
 From there, it's as simple as choosing your settings then applying & running the game  
