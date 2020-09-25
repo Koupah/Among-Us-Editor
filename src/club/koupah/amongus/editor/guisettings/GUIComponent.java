@@ -21,7 +21,7 @@ public class GUIComponent {
 		this.component = component;
 		index = Editor.getInstance().allGUIComponents.size();
 		label.setBounds(10, 75 + (index * Editor.scale), 250, 30);
-		component.setBounds(270, 80 + (index * Editor.scale), 160, 20);
+		component.setBounds(265, 80 + (index * Editor.scale), 160, 20);
 	}
 	
 	public void addToPane(JLayeredPane contentPane) {
