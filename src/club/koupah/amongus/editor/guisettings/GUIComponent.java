@@ -3,7 +3,6 @@ package club.koupah.amongus.editor.guisettings;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 
 import club.koupah.amongus.editor.Editor;
 
@@ -20,7 +19,7 @@ public class GUIComponent {
 		this.label = label;
 		this.labelText = label.getText();
 		this.component = component;
-		index = Editor.allGUIComponents.size();
+		index = Editor.getInstance().allGUIComponents.size();
 		label.setBounds(10, 75 + (index * Editor.scale), 250, 30);
 		component.setBounds(270, 80 + (index * Editor.scale), 160, 20);
 	}

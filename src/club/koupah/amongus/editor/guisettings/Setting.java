@@ -4,6 +4,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import club.koupah.amongus.editor.PopUp;
+import club.koupah.amongus.editor.settings.cosmetics.Colors;
 import club.koupah.amongus.editor.settings.cosmetics.Cosmetic;
 import club.koupah.amongus.editor.settings.cosmetics.Cosmetic.CosmeticType;
 import club.koupah.amongus.editor.settings.language.Language;
@@ -42,7 +43,10 @@ public class Setting extends GUIComponent {
 		System.out.println("Something didn't override getProperValue()!");
 		return "Error";
 	}
-
+	
+	
+	boolean fortegreenWarning = true;
+	
 	@SuppressWarnings("unchecked")
 	protected String getValueToSave() {
 		switch (settingIndex) {
@@ -51,8 +55,15 @@ public class Setting extends GUIComponent {
 		}
 		case (2): {
 			String id = Cosmetic.getIDbyName(CosmeticType.Color, (String) ((JComboBox<String>)component).getSelectedItem());
+			
 			if (id.equals("ErrorFinding"))
 				return currentSettings[settingIndex];
+			
+			//Hard coded bro, it's 3:40 am
+			if (Integer.valueOf(id) >= Colors.Fortegreen.getID() && fortegreenWarning) {
+				fortegreenWarning = false;
+				new PopUp("Warning, using the Fortegreen color can cause all sorts of issues!\nYou can find these out by checking out the github page!", false);
+			}
 			return id;
 		}
 		case (10): {

@@ -39,7 +39,7 @@ public class CosmeticFilter extends GUIComponent {
 			public void actionPerformed(ActionEvent arg0) {
 				String selected = (String) ((JComboBox<String>) CosmeticFilter.this.component).getSelectedItem();
 				CosmeticFilter.this.label.setText(getLabelText() + selected);
-				for (GUIComponent guicomp : Editor.allGUIComponents) 
+				for (GUIComponent guicomp : Editor.getInstance().allGUIComponents) 
 					if (guicomp instanceof MultiSetting) {
 						MultiSetting multi = (MultiSetting) guicomp;
 						CosmeticType type;

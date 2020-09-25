@@ -14,7 +14,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 
 import club.koupah.amongus.editor.PopUp;
 import club.koupah.amongus.editor.guisettings.Setting;
