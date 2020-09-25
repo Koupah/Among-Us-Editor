@@ -22,7 +22,8 @@ Therefore there can be 3 greens and 2 reds, and I believe if multiple people hav
 ![](images/fortegreen1.png)  
   
 ## Video ##  
-https://youtu.be/2wRJmS7DKpc
+Latest: https://youtu.be/rlv_1qFbZFM  
+OLD: https://youtu.be/2wRJmS7DKpc  
 
 If you upload a video showing or using this please give credit or atleast link this GitHub page!
 
