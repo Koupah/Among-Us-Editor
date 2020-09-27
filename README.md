@@ -32,6 +32,7 @@ My Discord: Koupah#5129
 ## Credits ##  
 SovietSeal#0001: Wrote out all the names, ID's and Category of all Hats & Skins  
 SovietSeal#0001: Downloaded skin, pet & color images and named them their ID's for me
+Slymeball: Has helped me bring support to mac/linux via his issues. Thank you.
 
 If you'd like to help w/ something or receive credit, you can contact me on my discord listed above 
 
