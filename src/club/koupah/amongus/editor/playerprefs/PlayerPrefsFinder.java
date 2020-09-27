@@ -14,6 +14,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+
 import club.koupah.amongus.editor.Editor;
 import club.koupah.amongus.editor.PopUp;
 
@@ -23,9 +25,12 @@ public class PlayerPrefsFinder {
 	boolean foundPrefs = false;
 
 	Editor instance;
-
+	
+	String configName;
+	
 	public PlayerPrefsFinder(Editor instance) {
 		this.instance = instance;
+		this.configName = instance.config.getName();
 	}
 
 	// Used by windows and other os's
@@ -40,16 +45,15 @@ public class PlayerPrefsFinder {
 			File toReturn = new File(line);
 
 			if (!toReturn.exists()) {
-				new PopUp("The file directory in the AUEConfig file points to a playerPrefs file that doesn't exist!\n"
-						+ "Please check the \"AUEConfig\" file or delete it to reobtain the playerPrefs directory!");
+				new PopUp(String.format("The file directory in the %s file points to a playerPrefs file that doesn't exist!\n"
+						+ "Please check the \"%s\" file or delete it to reobtain the playerPrefs directory!", configName));
 			} else {
 				return toReturn;
 			}
 		} catch (IOException e) {
-			new PopUp("Couldn't read the AUEConfig file! Exiting.");
+			new PopUp(String.format("Couldn't read the %s file! Exiting.",configName));
 		}
-		new PopUp(
-				"AUEConfig file wasn't read?\nFatal error, open an issue on GitHub or contact Koupah#5129 on discord!");
+		new PopUp(String.format("%s file wasn't read?\nFatal error, open an issue on GitHub or contact Koupah#5129 on discord!", configName));
 		return null;
 	}
 
@@ -59,8 +63,8 @@ public class PlayerPrefsFinder {
 		// Check if the config exists
 		if (instance.config.exists()) {
 			File fromConfig = loadConfig();
-			// Can return null if the line is null
-			if (fromConfig != null)
+			// Can return null if the line 
+			if (fromConfig != null /*&& fromConfig.exists()*/) //Removed exists check as I want the user to know if it doesn't exist anymore
 				return fromConfig;
 		}
 
@@ -80,8 +84,7 @@ public class PlayerPrefsFinder {
 		} else {
 			// Warn user we're going to scan their PC, don't have an option to deny it
 			// **yet**
-			new PopUp(
-					"Your playerPrefs file wasn't in the expected folder nor a config file!\nPress \"OK\" to begin scanning for it!",
+			new PopUp(String.format("Your playerPrefs file wasn't in the expected folder nor the %s file!\nPress \"OK\" to begin scanning for it!", configName),
 					false);
 		}
 
@@ -162,9 +165,61 @@ public class PlayerPrefsFinder {
 			bufferedWriter.write(path);
 			bufferedWriter.close();
 		} catch (IOException e) {
-			new PopUp(
-					"Failed to save the playerPrefs file location to AUEConfig.\nContinuing but it'll have to be found again next launch!",
+			new PopUp(String.format("Failed to save the playerPrefs file location to %s.\nContinuing but it'll have to be found again next launch!", configName),
 					false);
+		}
+	}
+
+	public void choosePlayerPrefs() {
+		// I'll probably get around to looping through all files in a chosen directory
+		// to find the playerPrefs file,
+		// But I don't know
+		new PopUp("Please navigate to the playerPrefs file for Among Us\nThis will typically be in your Steam folder\n\nThis will save in a file named \""
+				+ instance.config.getName() + "\"", false);
+
+		JFileChooser chooser = new JFileChooser();
+		chooser.setSelectedFile(new File("playerPrefs"));
+		chooser.setMultiSelectionEnabled(false);
+		// Just to ensure that it shows both, it should by default though
+		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+		// Show hidden files such as the .steam file on Linux. Very Crucial.
+		// Also big shoutout to Slymeball, I will be giving them credit in the readme
+		// but
+		// without them mac/linux support probably wouldn't have existed, atleast not
+		// this soon
+		chooser.setFileHidingEnabled(false);
+
+		// Switch to go through the different user actions
+		switch (chooser.showOpenDialog(instance)) {
+
+		case JFileChooser.APPROVE_OPTION: {
+			instance.playerPrefs = chooser.getSelectedFile();
+
+			if (!instance.playerPrefs.exists()) {
+				new PopUp("The playerPrefs file you selected, doesn't exist? Exiting.", true);
+			}
+
+			try {
+				instance.config.createNewFile();
+			} catch (IOException e) {
+				new PopUp(
+						"Notice, couldn't create the config file.\nYou'll have to reselect the playerPrefs file next time you launch.",
+						false);
+				break;
+			}
+
+			// save config now
+			saveToConfig(instance.playerPrefs.getAbsolutePath());
+
+			break;
+		}
+
+		case JFileChooser.CANCEL_OPTION: {
+		}
+		case JFileChooser.ERROR_OPTION: {
+			new PopUp("You didn't seem to choose a file? Exiting.");
+		}
 		}
 	}
 

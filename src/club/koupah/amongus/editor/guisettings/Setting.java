@@ -3,6 +3,8 @@ package club.koupah.amongus.editor.guisettings;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+
+import club.koupah.amongus.editor.Editor;
 import club.koupah.amongus.editor.PopUp;
 import club.koupah.amongus.editor.settings.cosmetics.Colors;
 import club.koupah.amongus.editor.settings.cosmetics.Cosmetic;
@@ -45,7 +47,6 @@ public class Setting extends GUIComponent {
 	}
 	
 	
-	boolean fortegreenWarning = true;
 	
 	@SuppressWarnings("unchecked")
 	protected String getValueToSave() {
@@ -59,11 +60,6 @@ public class Setting extends GUIComponent {
 			if (id.equals("ErrorFinding"))
 				return currentSettings[settingIndex];
 			
-			//Hard coded bro, it's 3:40 am
-			if (Integer.valueOf(id) >= Colors.Fortegreen.getID() && fortegreenWarning) {
-				fortegreenWarning = false;
-				new PopUp("Warning, using the Fortegreen color can cause all sorts of issues!\nYou can find these out by checking out the github page!", false);
-			}
 			return id;
 		}
 		case (10): {
@@ -96,17 +92,26 @@ public class Setting extends GUIComponent {
 		new PopUp("Error in save value??", true);
 		return "ErrorInSaveValue";
 	}
-
+	
+	boolean fortegreenWarning = true;
 	@SuppressWarnings("unchecked")
 	protected String getCurrentSettingValue() {
 		switch (settingIndex) {
+		//name
 		case (0): {
 			return currentSettings[settingIndex];
 		}
+		//movement type
 		case (1): {
 			return String.valueOf(((JComboBox<String>)component).getItemAt(Integer.parseInt(currentSettings[settingIndex])));
 		}
+		//Color
 		case (2): {
+			//Warn people when saving the Fortegreen color about it's issues
+			if (Editor.getInstance().isVisible() && Integer.valueOf(currentSettings[settingIndex]) >= Colors.Fortegreen.getID() && fortegreenWarning) {
+				fortegreenWarning = false;
+				new PopUp("Using the Fortegreen color can cause all sorts of issues such as:\nHats not showing\nSkins not showing\nPets not showing\nBlack Screens when hosting\n\nYou can find all the issues listed on the GitHub page!", false);
+			}
 			return Cosmetic.getItemName(CosmeticType.Color, currentSettings[settingIndex]);
 		}
 		case (10): {
