@@ -55,8 +55,8 @@ Indexes of playerPrefs file (Starting from 1 instead of 0, just -1 in your head)
 11th: Hat (0 to like 93)  
 12th: SFX volume 0-255  
 13th: Music volume 0-255  
-14th: Unknown  
-15th: Apparently GUI scale for mobile (0.5,1.0,1.5)  
+14th: Apparently GUI scale for mobile (0.5,1.0,1.5)  
+15th: Unknown  
 16th: Skin (Costume) (0-15)  
 17th: Pet (0-10)  
 18th: Censor Chat (True/False)  
