@@ -31,7 +31,7 @@ My Discord: Koupah#5129
 
 ## Credits ##  
 SovietSeal#0001: Wrote out all the names, ID's and Category of all Hats & Skins  
-SovietSeal#0001: Downloaded skin, pet & color images and named them their ID's for me
+SovietSeal#0001: Downloaded skin, pet & color images and named them their ID's for me  
 Slymeball: Has helped me bring support to mac/linux via his issues. Thank you.
 
 If you'd like to help w/ something or receive credit, you can contact me on my discord listed above 
@@ -50,7 +50,7 @@ Indexes of playerPrefs file (Starting from 1 instead of 0, just -1 in your head)
 6th: Unknown  
 7th: Unknown  
 8th: Personalized Ads for Mobile (128 On, 129 Off)  
-9th: Unsure but potentially ads On/Off (true/false)  
+9th: Unknown, probably ad related ~~Unsure but potentially ads On/Off (true/false)~~  
 10th: Unknown  
 11th: Hat (0 to like 93)  
 12th: SFX volume 0-255  
