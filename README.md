@@ -49,8 +49,8 @@ Indexes of playerPrefs file (Starting from 1 instead of 0, just -1 in your head)
 5th: Unknown  
 6th: Unknown  
 7th: Unknown  
-8th: Unknown  
-9th: Unknown  
+8th: Personalized Ads for Mobile (128 On, 129 Off)  
+9th: Unsure but potentially ads On/Off (true/false)  
 10th: Unknown  
 11th: Hat (0 to like 93)  
 12th: SFX volume 0-255  
