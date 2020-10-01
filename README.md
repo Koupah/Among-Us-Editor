@@ -1,5 +1,9 @@
 # Among-Us-Editor
 
+Among is an online multiplayer social deduction game, developed and published by American[2] game studio InnerSloth and released on June 15, 2018. The game takes place in a space-themed setting where players each take on one of two roles, most being Crewmates, and a predetermined number being Impostors.
+
+The goal for the Crewmates is to identify the Impostors, eliminate them, and complete tasks around the map; the Impostors' goal is to covertly sabotage and kill the Crewmates before they complete all their tasks. Through a plurality vote, players believed to be Impostors may be removed from the game. If all Impostors are eliminated or all tasks are completed, the Crewmates win; if there are an equal number of Impostors and Crewmates, or if a critical sabotage goes unresolved, the Impostors win.
+
 ### WINDOWS, MAC & LINUX NOW SUPPORTED (Not Android/IOS) ###  
 
 ## Download Instructions ##  
