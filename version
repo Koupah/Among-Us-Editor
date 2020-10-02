@@ -1,6 +1,8 @@
-1.35
-These messages below the version number will be used for update messages.
-Example (Not real):
-New Colors added
-Patched Fortegreen bug
-Linux Fixes
+1.45
+- Big GUI overhaul
+- Preferences! Change the look of the GUI!
+- Added Hat offsets for some hats (View them properly!)
+- Minor bug fixes
+- Check for Update button!
+- Better Linux/Mac compatibility
+- Many more minor changes!
