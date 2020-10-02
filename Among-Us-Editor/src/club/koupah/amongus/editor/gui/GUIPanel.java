@@ -14,6 +14,7 @@ import javax.swing.JLayeredPane;
 import com.sun.glass.events.KeyEvent;
 
 import club.koupah.amongus.editor.Editor;
+import club.koupah.amongus.editor.utility.ImageUtil;
 import club.koupah.amongus.editor.utility.PopUp;
 
 public class GUIPanel extends JLayeredPane {
@@ -28,10 +29,10 @@ public class GUIPanel extends JLayeredPane {
 	
 	int maxHeight = 0;
 	
-	public GUIPanel(String name, String iconName) {
+	public GUIPanel(String name, String iconFileName) {
 		this.name = name;
 		
-		this.icon = getImage(iconName);
+		this.icon = ImageUtil.getIcon(this.getClass(), "tabicons/" + iconFileName, 50, 20);
 		
 		setLayout(null);
 		setOpaque(true);
@@ -58,53 +59,6 @@ public class GUIPanel extends JLayeredPane {
 		return KeyEvent.VK_LEFT;
 	}
 	
-	private Icon getImage(String imagename) {
-		try {
-
-			BufferedImage image = ImageIO.read(GUIPanel.class.getResource("tabicons/" + imagename));
-
-			ImageIcon icon = new ImageIcon(properScaleImage(image, 50, 20));
-
-			return icon;
-		} catch (Exception e) {
-			// Popup message incase the image for some reason won't load
-			e.printStackTrace();
-			new PopUp("Tab Icon image failed");
-		}
-		// return null, makes the image null
-		return null;
-	}
-
-	// Resize image to match new width and height
-	public static BufferedImage resize(BufferedImage img, int width, int height) {
-		final Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		final BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
-		// Have to do this for dimg to have graphics dude!!
-		Graphics2D g2d = dimg.createGraphics();
-		// I smacked these rendering hints in, I don't think they do anything but oh
-		// well
-		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g2d.drawImage(tmp, 0, 0, null);
-		g2d.dispose();
-
-		// Return the image
-		return dimg;
-	}
-
-	// Scale the image to keep aspect ratio but fit new width and height
-	BufferedImage properScaleImage(BufferedImage image, int w, int h) {
-
-		// Cast double to everything here so it doesnt return 0 from int dividing
-		double widthRatio = (double) w / (double) image.getWidth();
-		double heightRatio = (double) h / (double) image.getHeight();
-
-		// Find the smallest ratio so that we can ensure the entire image will fit
-		double ratio = Math.min(widthRatio, heightRatio);
-
-		// Return the resized image
-		return resize(image, (int) (image.getWidth() * ratio), (int) (image.getHeight() * ratio));
-	}
 
 	public int getMaxHeight() {
 		return this.maxHeight;

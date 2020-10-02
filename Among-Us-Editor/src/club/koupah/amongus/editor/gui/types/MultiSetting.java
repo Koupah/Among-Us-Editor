@@ -18,6 +18,7 @@ import club.koupah.amongus.editor.gui.GUIPanel;
 import club.koupah.amongus.editor.gui.Setting;
 import club.koupah.amongus.editor.gui.settings.cosmetics.Cosmetic;
 import club.koupah.amongus.editor.gui.settings.cosmetics.Hats;
+import club.koupah.amongus.editor.utility.ImageUtil;
 import club.koupah.amongus.editor.utility.PopUp;
 
 public class MultiSetting extends Setting {
@@ -115,7 +116,7 @@ public class MultiSetting extends Setting {
 			
 			this.imageLabel.setBounds(currentBounds[0] + cosmeticOffset[0], currentBounds[1] + cosmeticOffset[1], currentBounds[2] + cosmeticOffset[2], currentBounds[3] + cosmeticOffset[3]);
 			
-			this.imageLabel.setIcon(getImage(this.getComponentValue(false)));
+			this.imageLabel.setIcon(ImageUtil.getIcon(Cosmetic.class, getCosmeticImagePath(this.getComponentValue(false)), 50 + imageSettings[2] + cosmeticOffset[2], 40 + imageSettings[3] + cosmeticOffset[3]));
 
 		}
 	}
@@ -134,56 +135,7 @@ public class MultiSetting extends Setting {
 												// and PNG is just so we have transparency (And source images are PNG
 												// :P)
 	}
-
-	//
-	private Icon getImage(String settingValue) {
-		try {
-
-			BufferedImage image = ImageIO.read(Cosmetic.class.getResource(getCosmeticImagePath(settingValue)));
-
-			// 35 for height
-			ImageIcon icon = new ImageIcon(properScaleImage(image, 50 + imageSettings[2] + cosmeticOffset[2], 40 + imageSettings[3] + cosmeticOffset[3]));
-
-			return icon;
-		} catch (Exception e) {
-			// Popup message incase the image for some reason won't load
-			new PopUp("Couldn't load image for " + this.labelText.split(":")[0] + " ID " + settingValue
-					+ "\nFeel free to open an issue on Github if this issue persists.", false);
-		}
-		// return null, makes the image null
-		return null;
-	}
-
-	// Resize image to match new width and height
-	public static BufferedImage resize(BufferedImage img, int width, int height) {
-		final Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		final BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
-		// Have to do this for dimg to have graphics dude!!
-		Graphics2D g2d = dimg.createGraphics();
-		// I smacked these rendering hints in, I don't think they do anything but oh
-		// well
-		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g2d.drawImage(tmp, 0, 0, null);
-		g2d.dispose();
-
-		// Return the image
-		return dimg;
-	}
-
-	// Scale the image to keep aspect ratio but fit new width and height
-	BufferedImage properScaleImage(BufferedImage image, int w, int h) {
-
-		// Cast double to everything here so it doesnt return 0 from int dividing
-		double widthRatio = (double) w / (double) image.getWidth();
-		double heightRatio = (double) h / (double) image.getHeight();
-
-		// Find the smallest ratio so that we can ensure the entire image will fit
-		double ratio = Math.min(widthRatio, heightRatio);
-
-		// Return the resized image
-		return resize(image, (int) (image.getWidth() * ratio), (int) (image.getHeight() * ratio));
-	}
+	
 
 	@Override
 	public String getProperValue() {

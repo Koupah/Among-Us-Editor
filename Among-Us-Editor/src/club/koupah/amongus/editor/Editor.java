@@ -29,6 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import club.koupah.amongus.editor.utility.ImageUtil;
 import club.koupah.amongus.editor.utility.PopUp;
 import club.koupah.amongus.editor.utility.playerprefs.PlayerPrefsFinder;
 import club.koupah.amongus.editor.utility.playerprefs.PlayerPrefsManager;
@@ -127,7 +128,9 @@ public class Editor extends JFrame {
 		version = ver;
 		
 		editor = this;
-
+		
+		this.setIconImage(ImageUtil.getImage(GUIPanel.class, "tabicons/cosmetics.png", 50, 100));
+		
 		setTitle(name + " (v" + version + ") - By Koupah");
 
 		setResizable(false);
