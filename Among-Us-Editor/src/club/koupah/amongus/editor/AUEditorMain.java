@@ -14,7 +14,9 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	static String desiredLookAndFeel = "WindowsLookAndFeel";
 	
-	static double version = 1.45;
+	static double version = 1.4501;
+
+	public static String discordLink = "https://www.koupah.club/aueditor";
 	
 	public static void main(String[] args) {
 		

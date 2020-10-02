@@ -46,6 +46,7 @@ import club.koupah.amongus.editor.gui.types.SettingType;
 import club.koupah.amongus.editor.gui.types.SliderSetting;
 import club.koupah.amongus.editor.gui.types.TextSetting;
 import club.koupah.amongus.editor.gui.types.custom.CosmeticFilter;
+import club.koupah.amongus.editor.gui.types.custom.DiscordButton;
 import club.koupah.amongus.editor.gui.types.custom.InvisibleName;
 import club.koupah.amongus.editor.gui.types.custom.LookAndFeelChooser;
 import club.koupah.amongus.editor.gui.types.custom.UpdateChecker;
@@ -129,7 +130,7 @@ public class Editor extends JFrame {
 		
 		editor = this;
 		
-		this.setIconImage(ImageUtil.getImage(GUIPanel.class, "tabicons/cosmetics.png", 50, 100));
+		this.setIconImage(ImageUtil.getImage(GUIPanel.class, "tabicons/cosmetics.png"));
 		
 		setTitle(name + " (v" + version + ") - By Koupah");
 
@@ -295,7 +296,7 @@ public class Editor extends JFrame {
 		
 		add(new LookAndFeelChooser(new JLabel("Look & Feel: "), new JComboBox<String>()), PREFERENCES);
 		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), PREFERENCES);
-		
+		add(new DiscordButton(new JLabel("Join the discord server, click the button!"), new JButton("Join Server")), PREFERENCES);
 		
 		for (int i =0; i < tabbedPanel.getTabCount(); i++) {
 			GUIPanel panel = (GUIPanel) tabbedPanel.getComponentAt(i);

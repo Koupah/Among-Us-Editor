@@ -26,7 +26,21 @@ public class ImageUtil {
 		// return null, makes the image null
 		return null;
 	}
-	
+	public static BufferedImage getImage(Class<?> relative, String imagePath) {
+		try {
+
+			final BufferedImage image = ImageIO.read(relative.getResource(imagePath));
+			
+			return image;
+		} catch (Exception e) {
+			// Popup message incase the image for some reason won't load
+			e.printStackTrace();
+			new PopUp("Failed to get Image");
+			
+		}
+		// return null, makes the image null
+		return null;
+	}
 	public static Icon getIcon(Class<?> relative, String imagePath) {
 		try {
 			System.out.println(imagePath);

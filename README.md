@@ -1,6 +1,7 @@
 # Among-Us-Editor
 
 ### WINDOWS, MAC & LINUX NOW SUPPORTED (Not Android/IOS) ###  
+### DISCORD: https://koupah.club/aueditor ###  
 
 ## Download Instructions ##  
 ### Requires Java 7 or above https://www.java.com/ES/download/ ###  
