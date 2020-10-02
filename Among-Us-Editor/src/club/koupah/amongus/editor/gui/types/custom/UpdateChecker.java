@@ -15,7 +15,7 @@ public class UpdateChecker extends GUIComponent {
 	
 	public UpdateChecker(JLabel label, JButton component) {
 		super(label, component);
-		
+		label.setText(this.labelText + Editor.version);
 		component.addActionListener(new ActionListener() {
 
 			@Override

@@ -9,12 +9,12 @@ import club.koupah.amongus.editor.gui.settings.cosmetics.Pets;
 import club.koupah.amongus.editor.gui.settings.cosmetics.Skins;
 import club.koupah.amongus.editor.utility.PopUp;
 
-public class AUEMain {
+public class AUEditorMain {
 
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	static String desiredLookAndFeel = "WindowsLookAndFeel";
 	
-	static double version = 1.469;
+	static double version = 1.45;
 	
 	public static void main(String[] args) {
 		

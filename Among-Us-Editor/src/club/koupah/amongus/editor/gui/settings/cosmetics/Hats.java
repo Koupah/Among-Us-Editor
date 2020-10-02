@@ -12,13 +12,13 @@ import club.koupah.amongus.editor.gui.settings.cosmetics.Cosmetic.CosmeticType;
  */
 
 public enum Hats {
-	
+
 	None(0, Free),
-	Astronaut(1, Free),
-	Cap(2, Free),
-	Brain_Slug(3, Free),
+	Astronaut(1, Free, 0, 7),
+	Cap(2, Free, 3, 17, -8, 0),
+	Brain_Slug(3, Free, 9, 3),
 	Bush_Hat(4, Free),
-	Captain_Hat(5, Free),
+	Captain_Hat(5, Free, 7, 12, -13, 0),
 	Double_Top_Hat(6, Free),
 	Flowerpot_Hat(7, Free),
 	Goggles(8, Free),
@@ -34,14 +34,14 @@ public enum Hats {
 	Viking(18, Free),
 	Wall_Cap(19, Free),
 
-	Snowman(20,Holiday),
-	Antlers(21,Holiday),
-	Christmas_Lights(22,Holiday),
-	Santa_Hat(23,Holiday),
-	Christmas_Tree(24,Holiday),
-	Present_Box(25,Holiday),
-	Candy_Canes(26,Holiday),
-	Elf_Hat_and_Ears(27,Holiday),
+	Snowman(20, Holiday),
+	Antlers(21, Holiday),
+	Christmas_Lights(22, Holiday),
+	Santa_Hat(23, Holiday),
+	Christmas_Tree(24, Holiday),
+	Present_Box(25, Holiday),
+	Candy_Canes(26, Holiday),
+	Elf_Hat_and_Ears(27, Holiday),
 
 	Yellow_Party_Hat(28, Free),
 	White_Hat(29, Free),
@@ -61,10 +61,10 @@ public enum Hats {
 	Black_Fedora(43, Free),
 	Ski_Goggles(44, Free),
 
-	Headphones(45,Paid),
-	Gas_Mask(46,Paid),
+	Headphones(45, Paid),
+	Gas_Mask(46, Paid),
 	Medical_Mask(47, Free),
-	Hat_and_Glasses(48,Paid),
+	Hat_and_Glasses(48, Paid),
 
 	Safari_Hat(49, Free),
 	Banana_Peel(50, Free),
@@ -78,23 +78,23 @@ public enum Hats {
 	Flower(58, Free),
 	Knight_Helmet(59, Free),
 	Plant_Sprout(60, Free),
-	
-	Cat_Hat(61,Halloween),
-	Bat_Wings(62,Halloween),
-	Devil_Horns(63,Halloween),
-	Mohawk(64,Halloween),
-	Pumpkin(65,Halloween),
-	Spooky_Paper_Bag(66,Halloween),
-	Witch_Hat(67,Halloween),
-	Wolf_Ears(68,Halloween),
-	Pirate_Hat(69,Halloween),
-	Plague_Mask(70,Halloween),
-	Sword_in_Head(71,Halloween),
-	Jason_Mask(72,Halloween),
 
-	Miner_Hat(73,Paid),
-	Blue_Beanie(74,Paid),
-	Icy_Cowboy_Hat(75,Paid),
+	Cat_Hat(61, Halloween),
+	Bat_Wings(62, Halloween),
+	Devil_Horns(63, Halloween),
+	Mohawk(64, Halloween),
+	Pumpkin(65, Halloween),
+	Spooky_Paper_Bag(66, Halloween),
+	Witch_Hat(67, Halloween),
+	Wolf_Ears(68, Halloween),
+	Pirate_Hat(69, Halloween),
+	Plague_Mask(70, Halloween),
+	Sword_in_Head(71, Halloween),
+	Jason_Mask(72, Halloween),
+
+	Miner_Hat(73, Paid),
+	Blue_Beanie(74, Paid),
+	Icy_Cowboy_Hat(75, Paid),
 
 	Antenna(76, Free),
 	Balloon(77, Free),
@@ -115,16 +115,36 @@ public enum Hats {
 	Horns(92, Free),
 	Mini_Snow_Crewmate(93, Free);
 
-	int[] displayOffset;
-	
+	int[] displayOffset = { 0, 0, 0, 0 };
+	int ID;
+
 	Hats(int ID, CosmeticCategory category) {
-		new Cosmetic(this,ID,CosmeticType.Hat, category);
+		new Cosmetic(this, ID, CosmeticType.Hat, category);
+		this.ID = ID;
 	}
-	
-	//Added for future when I calculate or find all the offsets for the display of the hats AKA future proper character preview
-	Hats(int ID, CosmeticCategory category, int[] displayOffset) {
-		this(ID,category);
-		this.displayOffset = displayOffset;
+
+	// Added for future when I calculate or find all the offsets for the display of
+	// the hats AKA future proper character preview
+	Hats(int ID, CosmeticCategory category, int xOffset, int yOffset) {
+		this(ID, category);
+		this.displayOffset = new int[] { xOffset, yOffset, 0, 0 };
+	}
+
+	Hats(int ID, CosmeticCategory category, int xOffset, int yOffset, int widthOffset, int heightOffset) {
+		this(ID, category);
+		this.displayOffset = new int[] { xOffset, yOffset, widthOffset, heightOffset };
+	}
+
+	public int[] getDisplayOffset() {
+		return displayOffset;
+	}
+
+	public static int[] getOffsetByID(String id) {
+		for (Hats hat : values()) {
+			if (id.equals(String.valueOf(hat.ID)))
+				return hat.displayOffset;
+		}
+		return new int[] { 0, 0 };
 	}
 
 }

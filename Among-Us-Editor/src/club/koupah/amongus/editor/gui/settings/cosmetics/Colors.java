@@ -27,14 +27,14 @@ public enum Colors {
 	Cyan(10, Free),
 	Lime(11, Free),
 	Fortegreen(12, Free);
-	
+
 	int id;
-	
+
 	Colors(int ID, CosmeticCategory category) {
-		new Cosmetic(this,ID,CosmeticType.Color, category);
+		new Cosmetic(this, ID, CosmeticType.Color, category);
 		this.id = ID;
 	}
-	
+
 	public int getID() {
 		return this.id;
 	}

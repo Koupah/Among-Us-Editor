@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import club.koupah.amongus.editor.gui.GUIPanel;
 import club.koupah.amongus.editor.gui.Setting;
 import club.koupah.amongus.editor.gui.settings.cosmetics.Cosmetic;
+import club.koupah.amongus.editor.gui.settings.cosmetics.Hats;
 import club.koupah.amongus.editor.utility.PopUp;
 
 public class MultiSetting extends Setting {
@@ -30,6 +31,14 @@ public class MultiSetting extends Setting {
 
 	int[] imageSettings;
 
+	boolean customOffsets;
+
+	int[] bounds;
+
+	int[] currentBounds;
+	
+	int[] cosmeticOffset;
+	
 	public MultiSetting(JLabel label, JComboBox<String> component, List<String> values, boolean addKeepCurrent,
 			boolean imagePreview, int[] offset, int settingIndex) {
 		this(label, component, values, addKeepCurrent, settingIndex);
@@ -38,7 +47,10 @@ public class MultiSetting extends Setting {
 
 		// Per instance offsets for displaying the image & the width/height of the image
 		this.imageSettings = offset;
-
+		
+		//Only hats are currently supporting custom offsets, so easy hard coded check
+		customOffsets = label.getText().split(":")[0].equals("Hat");
+		cosmeticOffset = new int[] {0,0,0,0};
 	}
 
 	public MultiSetting(JLabel label, JComboBox<String> component, List<String> values, boolean addKeepCurrent,
@@ -73,11 +85,17 @@ public class MultiSetting extends Setting {
 		super.addToPane(contentPane);
 
 		if (hasPreview) {
-		
+
 			int width = 60; // This is really just the JLabel width, not image
-			this.imageLabel.setBounds(component.getX() - width + imageSettings[0],
+
+			this.bounds = new int[] { component.getX() - width + imageSettings[0],
 					component.getY() + imageSettings[1] + 10 - (width / 2), width + imageSettings[2],
-					width + imageSettings[3]);
+					width + imageSettings[3] };
+
+			this.currentBounds = this.bounds.clone();
+			
+			this.imageLabel.setBounds(currentBounds[0], currentBounds[1], currentBounds[2], currentBounds[3]);
+
 			contentPane.add(this.imageLabel, imageSettings == null ? -1 : imageSettings[4]);
 		}
 	}
@@ -89,7 +107,16 @@ public class MultiSetting extends Setting {
 
 	public void settingChanged(ActionEvent arg0) {
 		if (hasPreview) {
+
+			if (customOffsets) {
+				cosmeticOffset = Hats.getOffsetByID(this.getComponentValue(false));
+				this.currentBounds = this.bounds.clone();
+			}
+			
+			this.imageLabel.setBounds(currentBounds[0] + cosmeticOffset[0], currentBounds[1] + cosmeticOffset[1], currentBounds[2] + cosmeticOffset[2], currentBounds[3] + cosmeticOffset[3]);
+			
 			this.imageLabel.setIcon(getImage(this.getComponentValue(false)));
+
 		}
 	}
 
@@ -115,7 +142,7 @@ public class MultiSetting extends Setting {
 			BufferedImage image = ImageIO.read(Cosmetic.class.getResource(getCosmeticImagePath(settingValue)));
 
 			// 35 for height
-			ImageIcon icon = new ImageIcon(properScaleImage(image, 50 + imageSettings[2], 40 + imageSettings[3]));
+			ImageIcon icon = new ImageIcon(properScaleImage(image, 50 + imageSettings[2] + cosmeticOffset[2], 40 + imageSettings[3] + cosmeticOffset[3]));
 
 			return icon;
 		} catch (Exception e) {
@@ -165,8 +192,8 @@ public class MultiSetting extends Setting {
 		if (saveValue.equals("ErrorInSaveValue")) {
 			System.out.println("Error in save value for: " + label.getText());
 			new PopUp("Error in save value for " + label.getText().split(":")[0]); // I really need to add a function so
-		}																			// I don't have to split everytime
-																					// lol
+		} // I don't have to split everytime
+			// lol
 
 		return saveValue;
 	}

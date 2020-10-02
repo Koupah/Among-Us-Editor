@@ -291,7 +291,7 @@ public class Editor extends JFrame {
 		 */
 		
 		add(new LookAndFeelChooser(new JLabel("Look & Feel: "), new JComboBox<String>()), PREFERENCES);
-		add(new UpdateChecker(new JLabel("Check for Update!"), new JButton("Check")), PREFERENCES);
+		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), PREFERENCES);
 		
 		
 		for (int i =0; i < tabbedPanel.getTabCount(); i++) {
