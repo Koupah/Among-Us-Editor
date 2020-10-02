@@ -166,8 +166,10 @@ public class PlayerPrefsFinder {
 		try (BufferedWriter bufferedWriter = new BufferedWriter(
 				new OutputStreamWriter(new FileOutputStream(instance.config), "UTF-8"))) {
 			bufferedWriter.write(settings);
+			if (Editor.currentLookAndFeel != null) {
 			bufferedWriter.newLine();
 			bufferedWriter.write(Editor.currentLookAndFeel);
+			}
 			bufferedWriter.close();
 		} catch (IOException e) {
 			new PopUp(String.format("Failed to save the playerPrefs file location to %s.\nContinuing but it'll have to be found again next launch!", configName),
