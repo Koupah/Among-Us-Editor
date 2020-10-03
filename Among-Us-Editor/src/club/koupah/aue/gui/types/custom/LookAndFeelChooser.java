@@ -5,21 +5,17 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.GUIComponent;
-import club.koupah.aue.utility.PopUp;
-
-import javax.swing.UnsupportedLookAndFeelException;
 
 public class LookAndFeelChooser extends GUIComponent {
 
 	LookAndFeelInfo[] allLookAndFeels;
 	
-	public LookAndFeelChooser(JLabel label, JComboBox<String> component) {
+	public LookAndFeelChooser(final JLabel label, JComboBox<String> component) {
 		super(label, component);
 		
 		allLookAndFeels = UIManager.getInstalledLookAndFeels();
@@ -28,7 +24,9 @@ public class LookAndFeelChooser extends GUIComponent {
 			component.addItem(lnf.getName());
 		}
 
-		component.setSelectedItem(UIManager.getLookAndFeel().getName());
+		component.setSelectedItem(Editor.getInstance().configManager.getLookAndFeel());
+		
+		label.setText(LookAndFeelChooser.this.labelText + component.getSelectedItem());
 		
 		component.addActionListener(new ActionListener() {
 			@SuppressWarnings("unchecked")
@@ -36,6 +34,7 @@ public class LookAndFeelChooser extends GUIComponent {
 			public void actionPerformed(ActionEvent arg0) {
 				String selected = (String) ((JComboBox<String>) LookAndFeelChooser.this.component).getSelectedItem();
 				setLookAndFeel(selected);
+				label.setText(LookAndFeelChooser.this.labelText + selected);
 			}
 		});
 	}
@@ -43,16 +42,8 @@ public class LookAndFeelChooser extends GUIComponent {
 	public void setLookAndFeel(String name) {
 		for (LookAndFeelInfo lnf : allLookAndFeels) {
 			if (lnf.getName().equals(name)) {
-				try {
 					Editor.getInstance().configManager.setLookAndFeel(lnf.getClassName());
-					UIManager.setLookAndFeel(lnf.getClassName());
-					SwingUtilities.updateComponentTreeUI(Editor.getInstance());
-				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-						| UnsupportedLookAndFeelException e) {
-					new PopUp("Look and Feel error?\n" + e.getMessage());
-					e.printStackTrace();
-				}
-				
+					Editor.getInstance().guiManager.updateLookAndFeel();
 				break;
 			}
 		}

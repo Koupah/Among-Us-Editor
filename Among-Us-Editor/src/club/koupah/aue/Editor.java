@@ -1,7 +1,19 @@
 package club.koupah.aue;
 
-import static club.koupah.aue.gui.types.SettingType.*;
-import static club.koupah.aue.utility.playerprefs.Indexes.*;
+import static club.koupah.aue.gui.types.SettingType.COSMETIC;
+import static club.koupah.aue.gui.types.SettingType.PREFERENCES;
+import static club.koupah.aue.gui.types.SettingType.SETTING;
+import static club.koupah.aue.utility.playerprefs.Indexes.censorChat;
+import static club.koupah.aue.utility.playerprefs.Indexes.color;
+import static club.koupah.aue.utility.playerprefs.Indexes.control;
+import static club.koupah.aue.utility.playerprefs.Indexes.hat;
+import static club.koupah.aue.utility.playerprefs.Indexes.language;
+import static club.koupah.aue.utility.playerprefs.Indexes.music;
+import static club.koupah.aue.utility.playerprefs.Indexes.name;
+import static club.koupah.aue.utility.playerprefs.Indexes.pet;
+import static club.koupah.aue.utility.playerprefs.Indexes.sfx;
+import static club.koupah.aue.utility.playerprefs.Indexes.skin;
+import static club.koupah.aue.utility.playerprefs.Indexes.vsync;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -27,13 +39,14 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import club.koupah.aue.gui.GUIComponent;
+import club.koupah.aue.gui.GUIManager;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.GUITabbedPanel;
 import club.koupah.aue.gui.Setting;
+import club.koupah.aue.gui.settings.GUIScheme;
 import club.koupah.aue.gui.settings.cosmetics.Cosmetic;
 import club.koupah.aue.gui.settings.cosmetics.Cosmetic.CosmeticType;
 import club.koupah.aue.gui.settings.language.Language;
@@ -46,6 +59,7 @@ import club.koupah.aue.gui.types.custom.CosmeticFilter;
 import club.koupah.aue.gui.types.custom.DiscordButton;
 import club.koupah.aue.gui.types.custom.InvisibleName;
 import club.koupah.aue.gui.types.custom.LookAndFeelChooser;
+import club.koupah.aue.gui.types.custom.SchemeChooser;
 import club.koupah.aue.gui.types.custom.UpdateChecker;
 import club.koupah.aue.utility.ImageUtil;
 import club.koupah.aue.utility.PopUp;
@@ -64,9 +78,9 @@ public class Editor extends JFrame {
 	private GUIPanel settingsPanel;
 	private GUIPanel preferencesPanel;
 
-	private JPanel panel;
+	public JPanel panel;
 
-	private GUITabbedPanel tabbedPanel;
+	public GUITabbedPanel tabbedPanel;
 
 	public ArrayList<GUIComponent> allGUIComponents = new ArrayList<GUIComponent>();
 
@@ -89,9 +103,6 @@ public class Editor extends JFrame {
 	public static int scale = 40;
 
 	public boolean windows = false;
-
-	// This really shouldn't start blank, but :shrug:
-	public String lookAndFeel;
 
 	// This config file is only for NON windows users
 	private File config = new File("AUEConfig");
@@ -118,6 +129,8 @@ public class Editor extends JFrame {
 	// Use this for persistent look and feel
 	public String currentLookAndFeel;
 
+	public GUIManager guiManager;
+
 	public Editor(double ver) {
 
 		// Made it like this to easily update version number from main class :p
@@ -141,6 +154,8 @@ public class Editor extends JFrame {
 	}
 
 	public void setupFiles() {
+
+		guiManager = new GUIManager(this);
 
 		configManager = new ConfigManager(config, this);
 		configManager.loadConfig();
@@ -176,26 +191,13 @@ public class Editor extends JFrame {
 			// search for it
 			new PopUp("This error shouldn't occur.\nError #1731\nMessage Koupah#5129 on discord.");
 		}
-		
-		//This really shouldn't be possible because the above should counter it, but **just** incase
+
+		// This really shouldn't be possible because the above should counter it, but
+		// **just** incase
 		if (!playerPrefs.exists()) {
 			new PopUp("The playerPrefs file doesn't exist!\nError #1932\nMessage Koupah#5129 on discord.");
 		}
 
-		if (configManager.getLookAndFeel() != null) {
-			try {
-				UIManager.setLookAndFeel(configManager.getLookAndFeel());
-				SwingUtilities.updateComponentTreeUI(Editor.getInstance());
-			} catch (Exception e) {
-				new PopUp("Error loading your saved Look & Feel preference!\nThe default will be used!", false);
-			}
-		} else {
-			//If the look and feel value doesn't exist, update it
-			configManager.setLookAndFeel(UIManager.getLookAndFeel().getClass().toString());
-		}
-		
-		//After everything, save the config
-		configManager.saveConfig();
 	}
 
 	// Made setupWindow function so we can set the layout then continue setting up
@@ -247,6 +249,7 @@ public class Editor extends JFrame {
 		tabbedPanel.addTab("Preferences", preferencesPanel.getIcon(), preferencesPanel,
 				preferencesPanel.getDescription());
 
+		tabbedPanel.getComponentAt(0).setBackground(Color.RED);
 		/*
 		 * 
 		 * COSMETIC SETTINGS!
@@ -302,6 +305,8 @@ public class Editor extends JFrame {
 		 */
 
 		add(new LookAndFeelChooser(new JLabel("Look & Feel: "), new JComboBox<String>()), PREFERENCES);
+		add(new SchemeChooser(new JLabel("GUI Mode: "), new JComboBox<String>()), PREFERENCES);
+
 		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), PREFERENCES);
 		add(new DiscordButton(new JLabel("Join the discord server, click the button!"), new JButton("Join Server")),
 				PREFERENCES);
@@ -342,6 +347,29 @@ public class Editor extends JFrame {
 				saveSettings();
 			}
 		});
+
+		/*
+		 * 
+		 * FINAL UI STUFF
+		 * 
+		 */
+		if (configManager.getLookAndFeel() != null) {
+			guiManager.updateLookAndFeel();
+		} else {
+			// If the look and feel value doesn't exist, update it
+			configManager.setLookAndFeel(UIManager.getLookAndFeel().getClass().toString());
+		}
+		
+		if (configManager.getScheme() != null) {
+			guiManager.updateColorScheme();
+		} else {
+			configManager.setScheme(GUIScheme.Light);
+			guiManager.updateColorScheme();
+		}
+		
+
+		// After everything, save the config
+		configManager.saveConfig();
 
 		refresh();
 	}

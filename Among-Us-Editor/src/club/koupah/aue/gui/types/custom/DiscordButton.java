@@ -12,8 +12,6 @@ import club.koupah.aue.utility.PopUp;
 
 public class DiscordButton extends GUIComponent {
 
-	LookAndFeelInfo[] allLookAndFeels;
-	
 	public DiscordButton(JLabel label, JButton component) {
 		super(label, component);
 

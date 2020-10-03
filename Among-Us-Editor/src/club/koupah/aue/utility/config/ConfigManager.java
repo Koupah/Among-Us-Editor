@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import club.koupah.aue.Editor;
+import club.koupah.aue.gui.settings.GUIScheme;
 import club.koupah.aue.utility.PopUp;
 
 public class ConfigManager {
@@ -22,13 +23,13 @@ public class ConfigManager {
 
 	String lookAndFeel;
 
-	// Light/dark mode, not yet implemented
-	String guiMode;
-
 	String[] profiles;
 
 	Editor instance;
-
+	
+	//Default scheme/look
+	GUIScheme scheme = GUIScheme.Light;
+	
 	public ConfigManager(File configFile, Editor instance) {
 		this.config = configFile;
 		this.configName = configFile.getName();
@@ -54,7 +55,16 @@ public class ConfigManager {
 				lookAndFeel = line;
 			else
 				return;
-
+			
+			//GUI Scheme should be third line
+			if ((line = bufferedReader.readLine()) != null) {
+				GUIScheme scheme = GUIScheme.findByName(line);
+				if (scheme != null) 
+					setScheme(scheme);
+			}
+			else
+				return;
+			
 			// Continuously loop to find profiles line, this ensures backwards & forwards
 			// compatibility
 			while ((line = bufferedReader.readLine()) != null) {
@@ -92,8 +102,14 @@ public class ConfigManager {
 			bufferedWriter.newLine();
 			
 			//We should only continue writing if the line that should exist next, exists. This is for 100% backwards/forwards compatibility
-			if (instance.currentLookAndFeel != null) {
-				bufferedWriter.write(instance.currentLookAndFeel);
+			if (lookAndFeel != null) {
+				bufferedWriter.write(lookAndFeel);
+				bufferedWriter.newLine();	
+				
+				
+				bufferedWriter.write(scheme.getName());
+			
+				
 				
 				//Write profiles here
 				/*bufferedWriter.newLine();
@@ -148,6 +164,14 @@ public class ConfigManager {
 
 	public String getLookAndFeel() {
 		return this.lookAndFeel;
+	}
+
+	public void setScheme(GUIScheme scheme) {
+		this.scheme = scheme;
+	}
+
+	public GUIScheme getScheme() {
+		return this.scheme;
 	}
 
 }
