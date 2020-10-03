@@ -2,7 +2,9 @@
 
 ### WINDOWS, MAC & LINUX NOW SUPPORTED (Not Android/IOS) ###  
 ### DISCORD: https://koupah.club/aueditor ###  
-
+  
+There were originally a bunch more commits (50+ lost) but I messed up and forced my whole workspace and it messed everything up
+  
 ## Download Instructions ##  
 ### Requires Java 7 or above https://www.java.com/ES/download/ ###  
 Download Link: https://github.com/Koupah/Among-Us-Editor/releases  
