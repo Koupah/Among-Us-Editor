@@ -158,7 +158,10 @@ public class Editor extends JFrame {
 		guiManager = new GUIManager(this);
 
 		configManager = new ConfigManager(config, this);
-		configManager.loadConfig();
+
+		//Can't load config if it doesnt exist
+		if (config.exists())
+			configManager.loadConfig();
 
 		prefsFinder = new PlayerPrefsFinder(this);
 		prefsManager = new PlayerPrefsManager(this);
@@ -359,14 +362,13 @@ public class Editor extends JFrame {
 			// If the look and feel value doesn't exist, update it
 			configManager.setLookAndFeel(UIManager.getLookAndFeel().getClass().toString());
 		}
-		
+
 		if (configManager.getScheme() != null) {
 			guiManager.updateColorScheme();
 		} else {
 			configManager.setScheme(GUIScheme.Light);
 			guiManager.updateColorScheme();
 		}
-		
 
 		// After everything, save the config
 		configManager.saveConfig();
