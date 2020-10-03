@@ -25,56 +25,23 @@ public class PlayerPrefsFinder {
 	boolean foundPrefs = false;
 
 	Editor instance;
-	
-	String configName;
-	
+
 	public PlayerPrefsFinder(Editor instance) {
 		this.instance = instance;
-		this.configName = instance.config.getName();
-	}
-
-	// Used by windows and other os's
-	public File loadConfig() {
-
-		try (BufferedReader bufferedReader = new BufferedReader(
-				new InputStreamReader(new FileInputStream(instance.config), "UTF-8"))) {
-			String line = bufferedReader.readLine();
-			if (line == null)
-				return null;
-
-			File toReturn = new File(line);
-			
-			if ((line = bufferedReader.readLine()) != null)
-				Editor.currentLookAndFeel = line;
-			
-			if (!toReturn.exists()) {
-				new PopUp(String.format("The file directory in the %s file points to a playerPrefs file that doesn't exist!\n"
-						+ "Please check the \"%s\" file or delete it to reobtain the playerPrefs directory!", configName));
-			} else {
-				return toReturn;
-			}
-		} catch (IOException e) {
-			new PopUp(String.format("Couldn't read the %s file! Exiting.",configName));
-		}
-		new PopUp(String.format("%s file wasn't read?\nFatal error, open an issue on GitHub or contact Koupah#5129 on discord!", configName));
-		return null;
 	}
 
 	// Only used by windows
 	public File getPlayerPrefs() {
 
 		// Check if the config exists
-		if (instance.config.exists()) {
-			File fromConfig = loadConfig();
-			// Can return null if the line 
-			if (fromConfig != null /*&& fromConfig.exists()*/) //Removed exists check as I want the user to know if it doesn't exist anymore
+		if (instance.configManager.configExists()) {
+			File fromConfig = instance.configManager.getPlayerPrefs();
+			// Can return null if the line
+			if (fromConfig != null /* && fromConfig.exists() */) // Removed exists check as I want the user to know if it
+																					// doesn't exist anymore
 				return fromConfig;
-		}
-
-		// Try and make the config file
-		try {
-			instance.config.createNewFile();
-		} catch (IOException e) {
+		} else {
+			instance.configManager.createConfigFile();
 		}
 
 		// Where my playerPrefs was
@@ -82,35 +49,38 @@ public class PlayerPrefsFinder {
 				System.getProperty("user.home") + "\\AppData\\LocalLow\\Innersloth\\Among Us\\playerPrefs");
 
 		if (standardLocation.exists()) {
-			saveToConfig(standardLocation.getAbsolutePath());
+			instance.configManager.setPlayerPrefs(standardLocation);
 			return standardLocation;
 		} else {
 			// Warn user we're going to scan their PC, don't have an option to deny it
 			// **yet**
-			new PopUp(String.format("Your playerPrefs file wasn't in the expected folder nor the %s file!\nPress \"OK\" to begin scanning for it!", configName),
+			new PopUp(String.format(
+					"Your playerPrefs file wasn't in the expected folder nor the %s file!\nPress \"OK\" to begin scanning for it!",
+					instance.configManager.configName()),
 					false);
 		}
 
 		// Doesn't return anything
-		searchForConfig();
+		searchForPlayerPrefs();
 
 		if (!foundPrefs || filePaths.size() < 1) {
 			new PopUp(
 					"Are you sure you have Among Us and have played it before?\nCouldn't seem to find your playerPrefs file anywhere!\nPlease open an issue on GitHub if this is incorrect!");
+			return null;
 		}
 
 		// Look man, just assume this is the correct file
-		saveToConfig(filePaths.get(0).toString());
-		return filePaths.get(0).toFile();
+		File fileFromSearch = filePaths.get(0).toFile(); // Can't be null, if it didnt exist, the user is notified above
+		instance.configManager.setPlayerPrefs(fileFromSearch);
+		return fileFromSearch;
 	}
 
-	public void searchForConfig() {
+	public void searchForPlayerPrefs() {
 		File[] paths = File.listRoots();
-
 		try {
 			search(new File(System.getProperty("user.home") + "\\AppData\\").toPath());
 		} catch (Exception e) {
-			// Do nothing, we basically already check here, but this is extra check :p
+			System.out.println("Error during searchForPlayerPrefs(): " + e.getMessage());
 		}
 		// for each pathname in pathname array
 		for (File drive : paths) {
@@ -124,7 +94,7 @@ public class PlayerPrefsFinder {
 
 	public void search(Path dir) throws IOException {
 		String cPath; // current path, I'm writing this code for all these classes at 3AM AEST, leave
-						// me alone
+							// me alone
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
 			for (Path path : stream) {
 
@@ -162,29 +132,14 @@ public class PlayerPrefsFinder {
 		}
 	}
 
-	public void saveToConfig(String settings) {
-		try (BufferedWriter bufferedWriter = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(instance.config), "UTF-8"))) {
-			bufferedWriter.write(settings);
-			if (Editor.currentLookAndFeel != null) {
-			bufferedWriter.newLine();
-			bufferedWriter.write(Editor.currentLookAndFeel);
-			}
-			bufferedWriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			new PopUp(String.format("Failed to save the playerPrefs file location to %s.\nContinuing but it'll have to be found again next launch!", configName),
-					false);
-			
-		}
-	}
-
 	public void choosePlayerPrefs() {
 		// I'll probably get around to looping through all files in a chosen directory
 		// to find the playerPrefs file,
 		// But I don't know
-		new PopUp("Please navigate to the playerPrefs file for Among Us\nThis will typically be in your Steam folder\n\nThis will save in a file named \""
-				+ instance.config.getName() + "\"", false);
+		new PopUp(
+				"Please navigate to the playerPrefs file for Among Us\nThis will typically be in your Steam folder\n\nThis will save in a file named \""
+						+ instance.configManager.configName() + "\"",
+				false);
 
 		JFileChooser chooser = new JFileChooser();
 		chooser.setSelectedFile(new File("playerPrefs"));
@@ -203,23 +158,14 @@ public class PlayerPrefsFinder {
 		switch (chooser.showOpenDialog(instance)) {
 
 		case JFileChooser.APPROVE_OPTION: {
-			instance.playerPrefs = chooser.getSelectedFile();
+			instance.configManager.setPlayerPrefs(chooser.getSelectedFile());
 
-			if (!instance.playerPrefs.exists()) {
+			if (!instance.configManager.getPlayerPrefs().exists()) {
 				new PopUp("The playerPrefs file you selected, doesn't exist? Exiting.", true);
 			}
 
-			try {
-				instance.config.createNewFile();
-			} catch (IOException e) {
-				new PopUp(
-						"Notice, couldn't create the config file.\nYou'll have to reselect the playerPrefs file next time you launch.",
-						false);
-				break;
-			}
-
-			// save config now
-			saveToConfig(instance.playerPrefs.getAbsolutePath());
+			if (!instance.configManager.configExists())
+				instance.configManager.createConfigFile();
 
 			break;
 		}

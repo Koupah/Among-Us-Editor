@@ -25,7 +25,7 @@ public class PopUp {
 
 		jf.setAlwaysOnTop(true);
 
-		JOptionPane.showMessageDialog(jf, message, Editor.name,
+		JOptionPane.showMessageDialog(jf, message, Editor.title,
 				exit ? JOptionPane.ERROR_MESSAGE : JOptionPane.WARNING_MESSAGE);
 
 		if (exit)

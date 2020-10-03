@@ -44,18 +44,14 @@ public class LookAndFeelChooser extends GUIComponent {
 		for (LookAndFeelInfo lnf : allLookAndFeels) {
 			if (lnf.getName().equals(name)) {
 				try {
+					Editor.getInstance().configManager.setLookAndFeel(lnf.getClassName());
 					UIManager.setLookAndFeel(lnf.getClassName());
-					Editor.currentLookAndFeel = lnf.getClassName();
+					SwingUtilities.updateComponentTreeUI(Editor.getInstance());
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 						| UnsupportedLookAndFeelException e) {
 					new PopUp("Look and Feel error?\n" + e.getMessage());
 					e.printStackTrace();
 				}
-				
-				SwingUtilities.updateComponentTreeUI(Editor.getInstance());
-				
-				//Hacky way to force the config file to store the current l&f preference
-				Editor.getInstance().prefsFinder.saveToConfig(Editor.getInstance().playerPrefs.getAbsolutePath());
 				
 				break;
 			}
