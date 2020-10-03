@@ -1,10 +1,9 @@
 package club.koupah;
-import java.awt.Color;
-
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.settings.GUIScheme;
@@ -13,8 +12,6 @@ import club.koupah.aue.gui.settings.cosmetics.Hats;
 import club.koupah.aue.gui.settings.cosmetics.Pets;
 import club.koupah.aue.gui.settings.cosmetics.Skins;
 import club.koupah.aue.utility.PopUp;
-
-import javax.swing.UnsupportedLookAndFeelException;
 
 public class AUEditorMain {
 
@@ -38,48 +35,40 @@ public class AUEditorMain {
 		//Local variable, I'm not going to use it again from outside this class
 		final Editor editor = new Editor(version);
 		
-		//Default look and feel
+		//Default look and feel, before checking config
 		String defaultLNF = UIManager.getSystemLookAndFeelClassName();
 		
 			// Run this first, before me do any GUI stuff
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if (info.getClassName().contains(desiredLookAndFeel)) {
 					defaultLNF = info.getClassName();
+					System.out.println(defaultLNF);
 					editor.windows = true;
 					break;
 				}
 			}
 		
-			if (editor.windows) {
+	
 				try {
 					UIManager.setLookAndFeel(defaultLNF);
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 						| UnsupportedLookAndFeelException e1) {
-					new PopUp("Your system reported itself as having the Windows Look & Feel but didn't work!\nResorting to basic java L&F\n"
-							+ e1.getMessage(), false);
+					new PopUp("Failed to apply a look and feel!", false);
 				}
 				
 				//Because JPanels in tabbed panels are fucked and don't let me change the background color,
 				//Set the panels to not be opaque that way we use the original background color
 				//UIManager.put("TabbedPane.contentOpaque", false);
 				
-			} else {
-				/*
-				 * 
-				 * Don't set any look & feel, Sorry non-windows users.
-				 * You'll have to deal with Java's ugly L&F until I write up my own.
-				 * (Unless someone wants to provide a nice Linux/Mac L&F :P)
-				 * 
-				 */
-					
-				
-				 //UIManager.put("ToolTip.background", Editor.background);
-				 //UIManager.put("ToolTip.border", new BorderUIResource(new LineBorder(Color.BLACK)));
-			}
+			
 			
 			//Setup the config and other stuff
 			editor.setupFiles();
-		   
+			
+			//Set the L&F to the one we set above if none specified in config
+			if (editor.configManager.getLookAndFeel() == null)
+			editor.configManager.setLookAndFeel(defaultLNF);
+			
 			//Finish setting the window up
 			editor.setupWindow();
 			

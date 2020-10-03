@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import javax.swing.UIManager;
+
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.settings.GUIScheme;
 import club.koupah.aue.utility.PopUp;

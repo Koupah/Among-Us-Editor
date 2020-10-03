@@ -23,8 +23,16 @@ public class LookAndFeelChooser extends GUIComponent {
 		for (LookAndFeelInfo lnf : allLookAndFeels) {
 			component.addItem(lnf.getName());
 		}
+		System.out.println("cfg: " + Editor.getInstance().configManager.getLookAndFeel());
+		String currentName = null;
+		for (LookAndFeelInfo lnf : allLookAndFeels) {
+			if (lnf.getClassName().equals(Editor.getInstance().configManager.getLookAndFeel())) {
+				currentName = lnf.getName();
+			}
+		}
 
-		component.setSelectedItem(Editor.getInstance().configManager.getLookAndFeel());
+		if (currentName != null)
+		component.setSelectedItem(currentName);
 		
 		label.setText(LookAndFeelChooser.this.labelText + component.getSelectedItem());
 		
