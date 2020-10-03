@@ -172,8 +172,10 @@ public class PlayerPrefsFinder {
 			}
 			bufferedWriter.close();
 		} catch (IOException e) {
+			e.printStackTrace();
 			new PopUp(String.format("Failed to save the playerPrefs file location to %s.\nContinuing but it'll have to be found again next launch!", configName),
 					false);
+			
 		}
 	}
 

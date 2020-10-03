@@ -44,18 +44,31 @@ public class PlayerPrefsManager {
 			// while(line != null) { line = bufferedReader.readLine(); }
 
 			bufferedReader.close();
-			if (line.contains(",") && line.split(",").length == 20)
+			
+			boolean save = false;
+			
+			if (line == null) {/*Forgot to check if this was null lol*/
+				//Default setting for people who for some reason have an empty playerPrefs file
+				//Red, no cosmetics on and mouse+keyboard movement
+				line = instance.defaultSettings;
+				new PopUp("It doesn't look like you played the game before...\nYour settings have now been set to some default ones!", false);
+				save = true;
+			}
+			
+			if (line != null && line.contains(",") && line.split(",").length == 20)
 				currentSettings = line.split(",");
 			else
-				new PopUp(
-						"Error loading settings (Potentially newer version?)\nScreenshot the following and send it to Koupah#5129 (Discord)\n"
-								+ line,
-						true);
+			new PopUp("Error loading settings (Potentially newer version?)\nScreenshot the following and send it to Koupah#5129 (Discord)\n"
+							+ line + "\n[" + instance.playerPrefs.exists() +"]", true);
 
 			newSettings = currentSettings;
 			
 			Setting.setCurrentSettings(currentSettings);
 			
+			//Save it so we don't have a "first time launching" message every launch until they save settings lol
+			if (save) {
+				savePlayerPrefs();
+			}
 		} catch (FileNotFoundException e) {
 			new PopUp(
 					"Error loading settings, file doesn't exist?\nAre you sure you have the game and have run it before?",

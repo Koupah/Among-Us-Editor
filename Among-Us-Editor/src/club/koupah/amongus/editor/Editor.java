@@ -118,6 +118,9 @@ public class Editor extends JFrame {
 	int languageIndex = 18;
 	int vsyncIndex = 19;
 	
+	//Default settings for when a user has no settings
+	public String defaultSettings = "Username,1,0,1,False,False,False,0,False,False,0,255,94,0.5,0,0,0,True,0,False";
+	
 	public static Color background;
 	
 	//Use this for persistent look and feel
