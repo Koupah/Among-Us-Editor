@@ -2,6 +2,7 @@ package club.koupah.aue.gui.types.impl.custom;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,7 +27,8 @@ public class CustomSchemeEditor extends GUIComponent {
 	
 	public CustomSchemeEditor(final JLabel label, JButton component) {
 		super(label, component);
-
+		
+		component.setToolTipText("Set the Background color for the Custom theme!");
 		component.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -43,6 +45,7 @@ public class CustomSchemeEditor extends GUIComponent {
 					});
 		        
 				JFrame jf = new JFrame("Background Color");
+				jf.setPreferredSize(new Dimension(300,300));
 				jf.setResizable(false);
 		  		jf.setLocationRelativeTo(Editor.getInstance());
 		  		jf.setAlwaysOnTop(true);
@@ -53,7 +56,7 @@ public class CustomSchemeEditor extends GUIComponent {
 		});
 		
 		foreground = new JButton("Foreground");
-		
+		foreground.setToolTipText("Set the Foreground color for the Custom theme!");
 		foreground.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -70,6 +73,7 @@ public class CustomSchemeEditor extends GUIComponent {
 					});
 		        
 		  		JFrame jf = new JFrame("Foreground Color");
+				jf.setPreferredSize(new Dimension(300,300));
 				jf.setResizable(false);
 		  		jf.setLocationRelativeTo(Editor.getInstance());
 		  		jf.setAlwaysOnTop(true);

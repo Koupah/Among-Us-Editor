@@ -35,9 +35,16 @@ public class ProfileSharer extends GUIComponent {
 				String config = showImport();
 				
 				if (config != null) {
+					String importName = config.split(",")[0];
+					if (Profile.profileExists(importName)) {
+						new PopUp("You already have a profile with the name \"" + importName + "\"\nDelete it in order to import this profile!", false);
+						return;
+					}
+					
 					Profile imported = new Profile(config);
 					Editor.getInstance().profileManager.updateProfiles(imported.getProfileName());
 					Editor.getInstance().configManager.saveConfig();
+					new PopUp("Successfully imported the profile \"" + imported.getProfileName() +"\"!", false);
 				}
 			}
 		});
@@ -112,12 +119,13 @@ public class ProfileSharer extends GUIComponent {
 				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
 				null, options, null);
 		
-		String input = shareText.getText();
+		String input = shareText.getText().replaceAll(" ","").replaceAll("\n", ""); //sanitize the string
 		
 		if (!input.startsWith("aue") || input.length() < 12) {
 			new PopUp("That isn't a valid share code!", false);
 			return null;
 		}
+		
 		input = new String(Base64.getDecoder().decode(input.split("aue")[1]));
 		System.out.println("Imported: " + input);
 		return input;
