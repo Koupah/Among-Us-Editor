@@ -36,7 +36,10 @@ public class ProfileManager extends GUIComponent {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
+				
+				if (!Editor.getInstance().isVisible())
+					return;
+				
 				String selected = (String) ((JComboBox<String>) ProfileManager.this.component).getSelectedItem();
 				if (selected != null && Profile.profileExists(selected)) {
 

@@ -157,6 +157,16 @@ public class Editor extends JFrame {
 
 		background = new Color(238, 238, 238);
 		panel.setBackground(background);
+		
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+	      public void uncaughtException(Thread t, Throwable e) {
+	      	//This is going to catch all the exceptions thrown by the themes, and ignore them lol   	
+	      	if(!e.toString().contains("ArrayIndexOutOfBoundsException")) {
+	      		System.out.println("Error from Thread: " + t.getName());
+	      		e.printStackTrace();
+	      	}
+	      }
+	    });
 	}
 
 	public void setupFiles() {
@@ -312,7 +322,7 @@ public class Editor extends JFrame {
 
 		add(new LookAndFeelChooser(new JLabel("Look & Feel: "), new JComboBox<String>()), PREFERENCES);
 		add(new SchemeChooser(new JLabel("GUI Mode: "), new JComboBox<String>()), PREFERENCES);
-		add(new CustomSchemeEditor(new JLabel("Custom Colors: "), new JButton("Custom Background")), PREFERENCES);
+		add(new CustomSchemeEditor(new JLabel("Custom Colors: "), new JButton("Background")), PREFERENCES);
 		
 		add(new ProfileCreator(new JLabel("Create Profile"), new JTextField()), PREFERENCES);
 		add(profileManager, PREFERENCES);
@@ -388,10 +398,10 @@ public class Editor extends JFrame {
 		}
 
 		if (configManager.getScheme() != null) {
-			guiManager.updateColorScheme();
+			guiManager.updateColorScheme(false); //dont need to save because we just read from save lol
 		} else {
 			configManager.setScheme(GUIScheme.Light);
-			guiManager.updateColorScheme();
+			guiManager.updateColorScheme(true);
 		}
 		
 		Profile current = Profile.getProfileByConfig(profileManager.makeProfileConfig("random"));

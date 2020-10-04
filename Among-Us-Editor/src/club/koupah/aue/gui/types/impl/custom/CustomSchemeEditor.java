@@ -38,7 +38,7 @@ public class CustomSchemeEditor extends GUIComponent {
 					@Override
 					public void stateChanged(ChangeEvent arg0) {
 						GUIScheme.Custom.setBackground(colorChooser.getColor());
-						Editor.getInstance().guiManager.updateColorScheme();
+						Editor.getInstance().guiManager.updateColorScheme(true);
 					}
 					});
 		        
@@ -49,11 +49,10 @@ public class CustomSchemeEditor extends GUIComponent {
 		  		jf.add(colorChooser);
 		  		jf.pack();
 		  		jf.setVisible(true);
-				Editor.getInstance().guiManager.updateColorScheme();
 			}
 		});
 		
-		foreground = new JButton("Custom Foreground");
+		foreground = new JButton("Foreground");
 		
 		foreground.addActionListener(new ActionListener() {
 			@Override
@@ -66,7 +65,7 @@ public class CustomSchemeEditor extends GUIComponent {
 					@Override
 					public void stateChanged(ChangeEvent arg0) {
 						GUIScheme.Custom.setForeground(colorChooser.getColor());
-						Editor.getInstance().guiManager.updateColorScheme();
+						Editor.getInstance().guiManager.updateColorScheme(true);
 					}
 					});
 		        
@@ -77,7 +76,6 @@ public class CustomSchemeEditor extends GUIComponent {
 		  		jf.add(colorChooser);
 		  		jf.pack();
 		  		jf.setVisible(true);
-				Editor.getInstance().guiManager.updateColorScheme();
 			}
 		});
 		

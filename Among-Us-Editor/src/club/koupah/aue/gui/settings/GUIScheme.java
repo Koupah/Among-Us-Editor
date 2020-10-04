@@ -10,22 +10,29 @@ public enum GUIScheme {
 	Hackerman(Color.GREEN,  Color.BLACK),
 	Candy_1(Color.CYAN, new Color(255,77,187)),
 	Candy_2(new Color(255,0,170), new Color(0,255,55)),
-	Dull_1(new Color(130, 120, 110), Color.white),
-	Dull_2(Color.white, new Color(173, 165, 171)),
+	Dull_1(new Color(130, 120, 110), Color.WHITE),
+	Dull_2(Color.WHITE, new Color(173, 165, 171)),
 	Neon(Color.CYAN, Color.BLACK),
+	RGB_Black(Color.RED, Color.BLACK, true),
+	RGB_White(Color.RED, Color.WHITE, true),
 	Custom(Color.WHITE, Color.BLACK);
 	
 	Color foreground;
 	Color background;
 	
 	String name;
-	
+	boolean rgb = false;
 	GUIScheme(Color fore, Color back) {
 		this.foreground = fore;
 		this.background = back;
 		this.name = name().replace("_", " ");
 	}
-	
+	GUIScheme(Color fore, Color back, boolean RGB) {
+		this.foreground = fore;
+		this.background = back;
+		this.name = name().replace("_", " ");
+		this.rgb = RGB;
+	}
 	public Color getForeground() {
 		return this.foreground;
 	}
@@ -60,5 +67,9 @@ public enum GUIScheme {
 	}
 	public void setBackground(Color newBackground) {
 		this.background = newBackground;
+	}
+
+	public boolean isRGB() {
+		return this.rgb;
 	}
 }

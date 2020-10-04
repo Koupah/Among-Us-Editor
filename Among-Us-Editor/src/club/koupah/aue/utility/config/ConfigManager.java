@@ -27,16 +27,17 @@ public class ConfigManager {
 	String[] profiles;
 
 	Editor instance;
-	
+
 	String customColors;
-	
-	//Default scheme/look
-	GUIScheme scheme = GUIScheme.Normal;
-	
+
+	String rgbSpeed = "20"; // Default
+
+	GUIScheme scheme = GUIScheme.Normal; // Default scheme/look
+
 	public ConfigManager(File configFile, Editor instance) {
 		this.config = configFile;
 		this.configName = configFile.getName();
-		this.instance = instance; 
+		this.instance = instance;
 	}
 
 	// Used by windows and other os's
@@ -58,24 +59,28 @@ public class ConfigManager {
 				lookAndFeel = line;
 			else
 				return;
-			
-			//GUI Scheme should be third line
+
+			// GUI Scheme should be third line
 			if ((line = bufferedReader.readLine()) != null) {
 				GUIScheme scheme = GUIScheme.findByName(line);
-				if (scheme != null) 
+				if (scheme != null)
 					setScheme(scheme);
-			}
-			else
+			} else
 				return;
-			
-			//Custom Color should be fourth line Example: aueCC:-3333:3333
-			if ((line = bufferedReader.readLine()) != null && line.contains("aueCC:")) {
-					customColors = line.split("aueCC:")[1];
-					GUIScheme.Custom.setForeground(new Color(Integer.parseInt(customColors.split(":")[0])));
-					GUIScheme.Custom.setBackground(new Color(Integer.parseInt(customColors.split(":")[1])));
+
+			// Custom Color should be fourth line Example: aueCC:-3333:3333
+			//If line contains what we want, or if the next line does
+			if (line.contains("aueCC:") || ((line = bufferedReader.readLine()) != null && line.contains("aueCC:"))) {
+				customColors = line.split("aueCC:")[1];
+				GUIScheme.Custom.setForeground(new Color(Integer.parseInt(customColors.split(":")[0])));
+				GUIScheme.Custom.setBackground(new Color(Integer.parseInt(customColors.split(":")[1])));
 			}
 			
-			
+			// Custom Color should be fifth line Example: aueCC:-3333:3333
+			if (line.contains("aueRGBS:") || ((line = bufferedReader.readLine()) != null && line.contains("aueRGBS:"))) {
+				rgbSpeed = line.split("aueRGBS:")[1];
+			}
+
 			// Continuously loop to find profiles line, this ensures backwards & forwards
 			// compatibility
 			while ((line = bufferedReader.readLine()) != null) {
@@ -100,38 +105,40 @@ public class ConfigManager {
 		return;
 	}
 
-	
 	public void saveConfig() {
 		try (BufferedWriter bufferedWriter = new BufferedWriter(
 				new OutputStreamWriter(new FileOutputStream(config), "UTF-8"))) {
-			
+
 			if (!playerPrefs.exists()) {
 				new PopUp("Can't save " + configName + " file because playerPrefs doesn't exist!");
 				return;
 			}
-			
+
 			bufferedWriter.write(playerPrefs.getAbsolutePath());
 			bufferedWriter.newLine();
-			
-			//We should only continue writing if the line that should exist next, exists. This is for 100% backwards/forwards compatibility
+
+			// We should only continue writing if the line that should exist next, exists.
+			// This is for 100% backwards/forwards compatibility
 			if (lookAndFeel != null) {
-				
+
 				bufferedWriter.write(lookAndFeel);
-				bufferedWriter.newLine();	
+				bufferedWriter.newLine();
 				bufferedWriter.write(scheme.getName());
 				bufferedWriter.newLine();
-				bufferedWriter.write("aueCC:" + (GUIScheme.Custom.getForeground().getRGB()) + ":" + (GUIScheme.Custom.getBackground().getRGB()));
+				bufferedWriter.write("aueCC:" + (GUIScheme.Custom.getForeground().getRGB()) + ":"
+						+ (GUIScheme.Custom.getBackground().getRGB()));
 				bufferedWriter.newLine();
-				
-				
-				//Write profiles here
-				  bufferedWriter.write("[profiles]");
-				  bufferedWriter.newLine();
-				  for (Profile profile : Profile.profiles) {
-				  	bufferedWriter.write(profile.getConfigLine());
-				  	bufferedWriter.newLine();
-				  }
-				
+				bufferedWriter.write("aueRGBS:" + rgbSpeed);
+				bufferedWriter.newLine();
+
+				// Write profiles here
+				bufferedWriter.write("[profiles]");
+				bufferedWriter.newLine();
+				for (Profile profile : Profile.profiles) {
+					bufferedWriter.write(profile.getConfigLine());
+					bufferedWriter.newLine();
+				}
+
 			}
 			bufferedWriter.close();
 		} catch (IOException e) {
@@ -143,7 +150,7 @@ public class ConfigManager {
 
 		}
 	}
-	
+
 	public boolean configExists() {
 		return this.config.exists();
 	}
@@ -184,6 +191,14 @@ public class ConfigManager {
 
 	public GUIScheme getScheme() {
 		return this.scheme;
+	}
+
+	public int getRGBSpeed() {
+		return Integer.valueOf(rgbSpeed);
+	}
+
+	public void setRGBSpeed(int value) {
+		rgbSpeed = String.valueOf(value);
 	}
 
 }

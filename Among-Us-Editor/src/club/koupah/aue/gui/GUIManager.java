@@ -33,7 +33,7 @@ public class GUIManager {
 		}
 
 		if (instance.tabbedPanel != null)
-			updateColorScheme();
+			updateColorScheme(true);
 
 		// We call update color scheme, so just put save in there
 		// saveConfig();
@@ -42,37 +42,36 @@ public class GUIManager {
 	void saveConfig() {
 		instance.configManager.saveConfig();
 	}
-	
+
 	Color noBlack(Color input) {
 		int red = input.getRed();
 		int green = input.getGreen();
 		int blue = input.getBlue();
-		
+
 		if (red + green + blue < 140) {
 			red = Math.max(red, 70);
 			green = Math.max(red, 70);
 			blue = Math.max(red, 70);
 		}
-		return new Color(red,green,blue);
+		return new Color(red, green, blue);
 	}
-	
-	public void updateColorScheme() {
+
+	public void updateColorScheme(final boolean save) {
 		final GUIScheme scheme = instance.configManager.getScheme();
 
 		instance.configManager.setScheme(scheme);
 		instance.panel.setForeground(scheme.getForeground());
 		instance.panel.setBackground(scheme.getBackground());
-		
+
 		Color noBlack = noBlack(scheme.getBackground());
-		
+
 		// Bunch of UI manager stuff
 		UIManager.put("TabbedPane.contentOpaque", true);
-		
-		UIManager.put("TabbedPane.selected", noBlack); //I just don't want this stuff to be pitch black
+
+		UIManager.put("TabbedPane.selected", noBlack); // I just don't want this stuff to be pitch black
 		UIManager.put("TabbedPane.selectedBackground", noBlack);
-		
+
 		UIManager.put("TabbedPane.unselectedForeground", scheme.getForeground());
-		
 
 		for (Component component : instance.panel.getComponents()) {
 			String lnfName = UIManager.getLookAndFeel().getName();
@@ -81,7 +80,8 @@ public class GUIManager {
 
 				if (component instanceof JComboBox) // Fixes windows Combo Box from having black background
 					component.setBackground(Color.WHITE);
-				else component.setBackground(scheme.getBackground());
+				else
+					component.setBackground(scheme.getBackground());
 
 			} else { // All other components
 				component.setForeground(scheme.getForeground());
@@ -95,7 +95,8 @@ public class GUIManager {
 		}
 
 		// Save before updating ui :p
-		saveConfig();
+		if (save)
+			saveConfig();
 
 		// Have to use invoke later to attempt to prevent a dumb exception that doesnt
 		// even break anything lmao (outofbounds exception for tabbedpaneui)
@@ -109,9 +110,10 @@ public class GUIManager {
 					instance.tabbedPanel.setBackgroundAt(i, scheme.getBackground());
 				}
 				// can probably add a custom border to the tabbedpanel
-
-				SwingUtilities.updateComponentTreeUI(instance);
+				if (save) //Only need to do this if we saving (basically NON RGB)
+					SwingUtilities.updateComponentTreeUI(instance);
 				// This needs to be set after the swing update
+
 				instance.tabbedPanel.updateUI(scheme.getForeground());
 			}
 		});
@@ -128,7 +130,8 @@ public class GUIManager {
 
 				if (c instanceof JComboBox) // Fixes windows Combo Box from having black background
 					c.setBackground(Color.WHITE);
-				else c.setBackground(scheme.getBackground());
+				else
+					c.setBackground(scheme.getBackground());
 
 			} else { // All other components
 				c.setForeground(scheme.getForeground());

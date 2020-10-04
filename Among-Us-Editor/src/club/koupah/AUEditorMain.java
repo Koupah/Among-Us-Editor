@@ -1,4 +1,5 @@
 package club.koupah;
+
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -18,29 +19,28 @@ public class AUEditorMain {
 
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
-	
-	static double version = 1.47;
+
+	static double version = 1.475;
 
 	public static String discordLink = "https://www.koupah.club/aueditor";
-	
+
 	public static void main(String[] args) {
-		
+
 		try {
-		// Idk how to get them to initialize their values cause am big noob
-		Hats.values();
-		Pets.values();
-		Skins.values();
-		Colors.values();
-		GUIScheme.values();
-		SettingType.values();
-		
-		
-		//Local variable, I'm not going to use it again from outside this class
-		final Editor editor = new Editor(version);
-		
-		//Default look and feel, before checking config
-		String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-		
+			// Idk how to get them to initialize their values cause am big noob
+			Hats.values();
+			Pets.values();
+			Skins.values();
+			Colors.values();
+			GUIScheme.values();
+			SettingType.values();
+
+			// Local variable, I'm not going to use it again from outside this class
+			final Editor editor = new Editor(version);
+
+			// Default look and feel, before checking config
+			String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+
 			// Run this first, before me do any GUI stuff
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if (info.getClassName().contains(desiredLookAndFeel)) {
@@ -49,49 +49,49 @@ public class AUEditorMain {
 					break;
 				}
 			}
-		
-	
-				try {
-					UIManager.setLookAndFeel(lookAndFeel);
-				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-						| UnsupportedLookAndFeelException e1) {
-					new PopUp("Failed to apply a look and feel!", false);
-				}
-				
-				//Because JPanels in tabbed panels are fucked and don't let me change the background color,
-				//Set the panels to not be opaque that way we use the original background color
-				//UIManager.put("TabbedPane.contentOpaque", false);
-				
-			
-			
-			//Setup the config and other stuff
+
+			try {
+				UIManager.setLookAndFeel(lookAndFeel);
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+					| UnsupportedLookAndFeelException e1) {
+				new PopUp("Failed to apply a look and feel!", false);
+			}
+
+			// Because JPanels in tabbed panels are fucked and don't let me change the
+			// background color,
+			// Set the panels to not be opaque that way we use the original background color
+			// UIManager.put("TabbedPane.contentOpaque", false);
+
+			// Setup the config and other stuff
 			editor.setupFiles();
-			
-			//Set the L&F to the one we set above if none specified in config
+
+			// Set the L&F to the one we set above if none specified in config
 			if (editor.configManager.getLookAndFeel() == null)
-			editor.configManager.setLookAndFeel(lookAndFeel);
-			
-			//Finish setting the window up
+				editor.configManager.setLookAndFeel(lookAndFeel);
+
+			// Finish setting the window up
 			editor.setupWindow();
-			
-			//Show the frame! Where the magic happens
+
+			// Show the frame! Where the magic happens
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					
+
 					editor.setVisible(true);
-					
+
 				}
 			});
-			
-			//Run update check, this is a seperate thread so it won't interrupt the main thread
+
+			// Run update check, this is a seperate thread so it won't interrupt the main
+			// thread
 			editor.runUpdateCheck(null);
-			
-			//Catch any exception that, for whatever reason wasn't already caught
+
+			// Catch any exception that, for whatever reason wasn't already caught
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Fatal error, send this to Koupah#5129 on discord!\nMessage: " + e.getMessage());
+			JOptionPane.showMessageDialog(null,
+					"Fatal error, send this to Koupah#5129 on discord!\nMessage: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
-	
+
 }
