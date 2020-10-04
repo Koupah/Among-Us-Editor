@@ -27,7 +27,7 @@ public class ProfileSharer extends GUIComponent {
 	// component
 	public ProfileSharer(final JLabel label, JButton component) {
 		super(label, component);
-		
+
 		component.setToolTipText("Let's you import and use other peoples profiles!");
 		// component is the import profile button
 		component.addActionListener(new ActionListener() {
@@ -35,7 +35,7 @@ public class ProfileSharer extends GUIComponent {
 			public void actionPerformed(ActionEvent arg0) {
 
 				String config = showImport();
-				
+
 				if (config != null) {
 					String importName = config.split(",")[0];
 					if (Profile.profileExists(importName)) {
@@ -91,7 +91,7 @@ public class ProfileSharer extends GUIComponent {
 
 	static void showShareCode(String share, String profileName) {
 
-		share = Base64.getEncoder().encodeToString(share.getBytes()).replaceAll("=","AUEQL");
+		share = Base64.getEncoder().encodeToString(share.getBytes()).replaceAll("=", "AUEQL").replaceAll("/", "AUESLASH");
 
 		Object[] options = { "Done" };
 
@@ -134,13 +134,25 @@ public class ProfileSharer extends GUIComponent {
 			return null;
 		}
 
+		String toDecode = input.split("aue")[1].replaceAll("AUEQL", "=").replaceAll("AUESLASH", "/");
+
 		try {
-			input = new String(Base64.getDecoder().decode(input.split("aue")[1].replaceAll("AUEQL", "=")));
+			input = new String(Base64.getDecoder().decode(toDecode));
 		} catch (Exception e) {
 			new PopUp("That isn't a valid share code!", false);
 			return null;
 		}
+
+		if (isCorrupted(toDecode)) {
+			new PopUp("That share code is corrupted!\nPlease make sure you copied it correctly.", false);
+			return null;
+		}
+
 		System.out.println("Imported: " + input);
 		return input;
+	}
+
+	private static boolean isCorrupted(String input) {
+		return !(input.replace(" ", "").length() % 4 == 0);
 	}
 }

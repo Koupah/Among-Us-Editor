@@ -21,10 +21,10 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	static double version = 1.48;
-	
+	static double version = 1.482;
+
 	public static String title = "Among Us Editor";
-	
+
 	public static String discordLink = "https://www.koupah.club/aueditor";
 
 	public static void main(String[] args) {
@@ -79,9 +79,7 @@ public class AUEditorMain {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-
 					editor.setVisible(true);
-
 				}
 			});
 
@@ -91,8 +89,21 @@ public class AUEditorMain {
 
 			// Catch any exception that, for whatever reason wasn't already caught
 		} catch (Exception e) {
+			StackTraceElement cause = e.getStackTrace()[0];
+			System.out.println(cause.getClass());
+			
+			StackTraceElement origin = null;
+			for (StackTraceElement ste : e.getStackTrace()) {
+				if (ste.getClassName().contains("koupah")) {
+					origin = ste;
+					break;
+				}
+			}
+			
 			JOptionPane.showMessageDialog(null,
-					"Fatal error, send this to Koupah#5129 on discord!\nMessage: " + e.getMessage());
+					"Fatal error #0001, send this to Koupah#5129 on discord or open an issue on the GitHub with the below!\nVersion: " + version + "\nMessage: " + e.getMessage()
+							+ "\nException Type: " + cause.getClassName() + "\nMethod: " + cause.getMethodName() + (origin == null ? "" : "\nOrigin Class: " + origin.getClassName() + "\nOrigin Method: " + origin.getMethodName() + "\nOrigin Line: " + origin.getLineNumber()) + "\n\nNote: There is a chance you can fix this error yourself by deleting your AUEConfig file\nand by also deleting your playerPrefs file (If you know where it is)");
+			
 			e.printStackTrace();
 		}
 	}

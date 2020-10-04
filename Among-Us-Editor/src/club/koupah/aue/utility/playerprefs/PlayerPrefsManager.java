@@ -47,7 +47,7 @@ public class PlayerPrefsManager {
 			
 			boolean save = false;
 			
-			if (line == null) {/*Forgot to check if this was null lol*/
+			if (line == null || line.replaceAll(" ", "").replaceAll("\n", "").length()<1 || line.length() < 20) {/*Forgot to check if this was null lol*/
 				//Default setting for people who for some reason have an empty playerPrefs file
 				//Red, no cosmetics on and mouse+keyboard movement
 				line = instance.defaultSettings;
