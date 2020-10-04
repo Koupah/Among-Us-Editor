@@ -11,6 +11,7 @@ import club.koupah.aue.gui.settings.cosmetics.Colors;
 import club.koupah.aue.gui.settings.cosmetics.Hats;
 import club.koupah.aue.gui.settings.cosmetics.Pets;
 import club.koupah.aue.gui.settings.cosmetics.Skins;
+import club.koupah.aue.gui.types.SettingType;
 import club.koupah.aue.utility.PopUp;
 
 public class AUEditorMain {
@@ -18,7 +19,7 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 	
-	static double version = 1.46;
+	static double version = 1.47;
 
 	public static String discordLink = "https://www.koupah.club/aueditor";
 	
@@ -31,6 +32,8 @@ public class AUEditorMain {
 		Skins.values();
 		Colors.values();
 		GUIScheme.values();
+		SettingType.values();
+		
 		
 		//Local variable, I'm not going to use it again from outside this class
 		final Editor editor = new Editor(version);

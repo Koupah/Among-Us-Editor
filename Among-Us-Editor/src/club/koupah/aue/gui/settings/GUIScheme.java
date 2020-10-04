@@ -11,8 +11,9 @@ public enum GUIScheme {
 	Candy_1(Color.CYAN, new Color(255,77,187)),
 	Candy_2(new Color(255,0,170), new Color(0,255,55)),
 	Dull_1(new Color(130, 120, 110), Color.white),
-	Dull_2(Color.white, new Color(173, 165, 171));
-	
+	Dull_2(Color.white, new Color(173, 165, 171)),
+	Neon(Color.CYAN, Color.BLACK),
+	Custom(Color.WHITE, Color.BLACK);
 	
 	Color foreground;
 	Color background;
@@ -53,5 +54,11 @@ public enum GUIScheme {
 	public String getName() {
 		return this.name;
 	}
-	
+
+	public void setForeground(Color newForeground) {
+		this.foreground = newForeground;
+	}
+	public void setBackground(Color newBackground) {
+		this.background = newBackground;
+	}
 }

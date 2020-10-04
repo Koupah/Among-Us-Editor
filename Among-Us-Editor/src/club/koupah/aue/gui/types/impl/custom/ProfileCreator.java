@@ -4,14 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.types.GUIComponent;
-import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.utility.PopUp;
 import club.koupah.aue.utility.config.Profile;
 
@@ -21,10 +19,9 @@ public class ProfileCreator extends GUIComponent {
 		
 	JButton create;
 	
-	//Going to use this to load and delete profiles, saving/sharing will be another component
+	//Going to use this to load and delete profiles, saving/sharing will be another class
 	public ProfileCreator(final JLabel label, JTextField component) {
 		super(label, component);
-		
 	}
 	
 	@Override
@@ -42,11 +39,16 @@ public class ProfileCreator extends GUIComponent {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String name = (String) ((JTextField) ProfileCreator.this.component).getText();
-				((JTextField) ProfileCreator.this.component).setText("");
 				if (Profile.profileExists(name)) {
+					((JTextField) ProfileCreator.this.component).setText("");
 					new PopUp("That profile already exists!", false);
 					return;
 				} else {
+					
+					if (name == null  || name.length() < 1) {
+						new PopUp("You need a name for the profile!", false);
+						return;
+					}
 					
 					if (name.length() > 20) {
 						new PopUp("That name is too long!", false);
@@ -63,6 +65,7 @@ public class ProfileCreator extends GUIComponent {
 						return;
 					}
 					
+					((JTextField) ProfileCreator.this.component).setText("");
 					String[] settings = Editor.getInstance().profileManager.makeProfileConfig(name);
 					new Profile(settings);
 					

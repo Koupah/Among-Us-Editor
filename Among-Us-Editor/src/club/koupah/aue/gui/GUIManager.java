@@ -42,21 +42,37 @@ public class GUIManager {
 	void saveConfig() {
 		instance.configManager.saveConfig();
 	}
-
+	
+	Color noBlack(Color input) {
+		int red = input.getRed();
+		int green = input.getGreen();
+		int blue = input.getBlue();
+		
+		if (red + green + blue < 140) {
+			red = Math.max(red, 70);
+			green = Math.max(red, 70);
+			blue = Math.max(red, 70);
+		}
+		return new Color(red,green,blue);
+	}
+	
 	public void updateColorScheme() {
 		final GUIScheme scheme = instance.configManager.getScheme();
 
 		instance.configManager.setScheme(scheme);
 		instance.panel.setForeground(scheme.getForeground());
 		instance.panel.setBackground(scheme.getBackground());
-
+		
+		Color noBlack = noBlack(scheme.getBackground());
+		
 		// Bunch of UI manager stuff
 		UIManager.put("TabbedPane.contentOpaque", true);
-		UIManager.put("TabbedPane.selected",
-				scheme.getBackground().equals(Color.BLACK) ? Color.GRAY : scheme.getBackground());
-		UIManager.put("TabbedPane.selectedBackground",
-				scheme.getBackground().equals(Color.BLACK) ? Color.GRAY : scheme.getBackground());
+		
+		UIManager.put("TabbedPane.selected", noBlack); //I just don't want this stuff to be pitch black
+		UIManager.put("TabbedPane.selectedBackground", noBlack);
+		
 		UIManager.put("TabbedPane.unselectedForeground", scheme.getForeground());
+		
 
 		for (Component component : instance.panel.getComponents()) {
 			String lnfName = UIManager.getLookAndFeel().getName();

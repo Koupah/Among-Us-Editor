@@ -1,5 +1,6 @@
 package club.koupah.aue.utility.config;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,8 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-
-import javax.swing.UIManager;
 
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.settings.GUIScheme;
@@ -28,6 +27,8 @@ public class ConfigManager {
 	String[] profiles;
 
 	Editor instance;
+	
+	String customColors;
 	
 	//Default scheme/look
 	GUIScheme scheme = GUIScheme.Normal;
@@ -67,6 +68,14 @@ public class ConfigManager {
 			else
 				return;
 			
+			//Custom Color should be fourth line Example: aueCC:-3333:3333
+			if ((line = bufferedReader.readLine()) != null && line.contains("aueCC:")) {
+					customColors = line.split("aueCC:")[1];
+					GUIScheme.Custom.setForeground(new Color(Integer.parseInt(customColors.split(":")[0])));
+					GUIScheme.Custom.setBackground(new Color(Integer.parseInt(customColors.split(":")[1])));
+			}
+			
+			
 			// Continuously loop to find profiles line, this ensures backwards & forwards
 			// compatibility
 			while ((line = bufferedReader.readLine()) != null) {
@@ -90,6 +99,7 @@ public class ConfigManager {
 				configName));
 		return;
 	}
+
 	
 	public void saveConfig() {
 		try (BufferedWriter bufferedWriter = new BufferedWriter(
@@ -109,6 +119,8 @@ public class ConfigManager {
 				bufferedWriter.write(lookAndFeel);
 				bufferedWriter.newLine();	
 				bufferedWriter.write(scheme.getName());
+				bufferedWriter.newLine();
+				bufferedWriter.write("aueCC:" + (GUIScheme.Custom.getForeground().getRGB()) + ":" + (GUIScheme.Custom.getBackground().getRGB()));
 				bufferedWriter.newLine();
 				
 				

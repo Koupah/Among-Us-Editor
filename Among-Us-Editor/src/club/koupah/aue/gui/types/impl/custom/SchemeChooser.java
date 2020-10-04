@@ -17,6 +17,8 @@ public class SchemeChooser extends GUIComponent {
 	public SchemeChooser(final JLabel label, JComboBox<String> component) {
 		super(label, component);
 		
+		component.setMaximumRowCount(14);
+		
 		allSchemes = GUIScheme.getNames();
 		
 		for (String scheme : allSchemes) {

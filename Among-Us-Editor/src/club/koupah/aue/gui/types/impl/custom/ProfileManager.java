@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.GUIPanel;
-import club.koupah.aue.gui.settings.GUIScheme;
 import club.koupah.aue.gui.types.GUIComponent;
 import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.utility.PopUp;
@@ -34,6 +33,7 @@ public class ProfileManager extends GUIComponent {
 
 		// Whenever you change item in this, it sets it as the new profile
 		component.addActionListener(new ActionListener() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -96,7 +96,7 @@ public class ProfileManager extends GUIComponent {
 					String newSettings[] = makeProfileConfig(selected);
 
 					profile.updateSettings(newSettings);
-
+					
 					updateProfiles(selected);
 					Editor.getInstance().configManager.saveConfig();
 				} else {
@@ -110,6 +110,7 @@ public class ProfileManager extends GUIComponent {
 
 		delete.setBounds(180, 20 + (index * Editor.scale), 70, 20);
 		delete.addActionListener(new ActionListener() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String selected = (String) ((JComboBox<String>) ProfileManager.this.component).getSelectedItem();

@@ -60,7 +60,9 @@ public class GUIPanel extends JLayeredPane {
 		return settingCount;
 	}
 	
-
+	public String getName() {
+		return this.name;
+	}
 
 	
 	

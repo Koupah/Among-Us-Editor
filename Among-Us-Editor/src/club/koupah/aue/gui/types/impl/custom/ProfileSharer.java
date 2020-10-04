@@ -6,7 +6,6 @@ import java.util.Base64;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,9 +13,7 @@ import javax.swing.JTextField;
 
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.GUIPanel;
-import club.koupah.aue.gui.settings.GUIScheme;
 import club.koupah.aue.gui.types.GUIComponent;
-import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.utility.PopUp;
 import club.koupah.aue.utility.config.Profile;
 
@@ -38,9 +35,9 @@ public class ProfileSharer extends GUIComponent {
 				String config = showImport();
 				
 				if (config != null) {
-					
 					Profile imported = new Profile(config);
 					Editor.getInstance().profileManager.updateProfiles(imported.getProfileName());
+					Editor.getInstance().configManager.saveConfig();
 				}
 			}
 		});
@@ -82,7 +79,7 @@ public class ProfileSharer extends GUIComponent {
 		
 		share = Base64.getEncoder().encodeToString(share.getBytes());
 		
-		Object[] options = { "Done!" };
+		Object[] options = { "Done" };
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -100,7 +97,7 @@ public class ProfileSharer extends GUIComponent {
 	}
 	static String showImport() {
 
-		Object[] options = { "Done!" };
+		Object[] options = { "Done" };
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));

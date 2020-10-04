@@ -3,6 +3,8 @@ package club.koupah.aue;
 import static club.koupah.aue.gui.types.SettingType.COSMETIC;
 import static club.koupah.aue.gui.types.SettingType.PREFERENCES;
 import static club.koupah.aue.gui.types.SettingType.SETTING;
+import static club.koupah.aue.gui.types.SettingType.OTHER;
+
 import static club.koupah.aue.utility.playerprefs.Indexes.censorChat;
 import static club.koupah.aue.utility.playerprefs.Indexes.color;
 import static club.koupah.aue.utility.playerprefs.Indexes.control;
@@ -56,6 +58,7 @@ import club.koupah.aue.gui.types.impl.MultiSetting;
 import club.koupah.aue.gui.types.impl.SliderSetting;
 import club.koupah.aue.gui.types.impl.TextSetting;
 import club.koupah.aue.gui.types.impl.custom.CosmeticFilter;
+import club.koupah.aue.gui.types.impl.custom.CustomSchemeEditor;
 import club.koupah.aue.gui.types.impl.custom.DiscordButton;
 import club.koupah.aue.gui.types.impl.custom.InvisibleName;
 import club.koupah.aue.gui.types.impl.custom.LookAndFeelChooser;
@@ -67,6 +70,7 @@ import club.koupah.aue.gui.types.impl.custom.UpdateChecker;
 import club.koupah.aue.utility.ImageUtil;
 import club.koupah.aue.utility.PopUp;
 import club.koupah.aue.utility.config.ConfigManager;
+import club.koupah.aue.utility.config.Profile;
 import club.koupah.aue.utility.playerprefs.PlayerPrefsFinder;
 import club.koupah.aue.utility.playerprefs.PlayerPrefsManager;
 
@@ -76,10 +80,6 @@ public class Editor extends JFrame {
 	 * Eclipse be like br0 make this
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private GUIPanel cosmeticPanel;
-	private GUIPanel settingsPanel;
-	private GUIPanel preferencesPanel;
 
 	public JPanel panel;
 
@@ -246,22 +246,16 @@ public class Editor extends JFrame {
 
 		panel.add(tabbedPanel);
 
-		cosmeticPanel = new GUIPanel("Cosmetics", "cosmetics.png");
-
-		settingsPanel = new GUIPanel("Settings", "settings.png");
-
-		preferencesPanel = new GUIPanel("Preferences", "preferences.png");
 
 		// TODO remove these 3 lines, have some sort of for loop
+		
+		GUIPanel category;
+		for (SettingType setting : SettingType.values()) {
+			category = setting.getPanel();
+			tabbedPanel.addTab(category.getName(), category.getIcon(), category, category.getDescription());
+		}
+		
 
-		tabbedPanel.addTab("Cosmetics", cosmeticPanel.getIcon(), cosmeticPanel, cosmeticPanel.getDescription());
-
-		tabbedPanel.addTab("Settings", settingsPanel.getIcon(), settingsPanel, settingsPanel.getDescription());
-
-		tabbedPanel.addTab("Preferences", preferencesPanel.getIcon(), preferencesPanel,
-				preferencesPanel.getDescription());
-
-		tabbedPanel.getComponentAt(0).setBackground(Color.RED);
 		/*
 		 * 
 		 * COSMETIC SETTINGS!
@@ -318,15 +312,22 @@ public class Editor extends JFrame {
 
 		add(new LookAndFeelChooser(new JLabel("Look & Feel: "), new JComboBox<String>()), PREFERENCES);
 		add(new SchemeChooser(new JLabel("GUI Mode: "), new JComboBox<String>()), PREFERENCES);
-
-		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), PREFERENCES);
-		add(new DiscordButton(new JLabel("Join the discord server, click the button!"), new JButton("Join Server")),
-				PREFERENCES);
-
+		add(new CustomSchemeEditor(new JLabel("Custom Colors: "), new JButton("Custom Background")), PREFERENCES);
+		
 		add(new ProfileCreator(new JLabel("Create Profile"), new JTextField()), PREFERENCES);
 		add(profileManager, PREFERENCES);
 		add(new ProfileSharer(new JLabel("Profile Sharer"), new JButton("Import Profile")), PREFERENCES);
-
+		
+		/*
+		 * 
+		 * OTHER SETTINGS!
+		 * 
+		 */
+		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), OTHER);
+		add(new DiscordButton(new JLabel("Join the discord server, click the button!"), new JButton("Join Server")),
+				OTHER);
+		
+		
 		for (int i = 0; i < tabbedPanel.getTabCount(); i++) {
 			GUIPanel panel = (GUIPanel) tabbedPanel.getComponentAt(i);
 
@@ -336,8 +337,16 @@ public class Editor extends JFrame {
 			}
 
 		}
-
-		int maxHeight = Math.max(cosmeticPanel.getMaxHeight(), settingsPanel.getMaxHeight());
+		
+		int maxHeight = 100;
+		
+		for (SettingType setting : SettingType.values()) {
+			//Reuse the category variable
+			category = setting.getPanel();
+			if (category.getMaxHeight() > maxHeight)
+				maxHeight = category.getMaxHeight();
+		}
+		
 
 		// Just cause bro, don't @ me
 		height = 75 + maxHeight + 80;
@@ -384,7 +393,12 @@ public class Editor extends JFrame {
 			configManager.setScheme(GUIScheme.Light);
 			guiManager.updateColorScheme();
 		}
-
+		
+		Profile current = Profile.getProfileByConfig(profileManager.makeProfileConfig("random"));
+		if (current != null) {
+			profileManager.updateProfiles(current.getProfileName());;
+		}
+		
 		// After everything, save the config
 		configManager.saveConfig();
 	}
@@ -407,23 +421,7 @@ public class Editor extends JFrame {
 	// Made this cause it's smaller than writing allGUISettings.add()
 	public void add(GUIComponent setting, SettingType type) {
 		allGUIComponents.add(setting);
-
-		switch (type) {
-		case COSMETIC: {
-			setting.addToPane(cosmeticPanel);
-			break;
-		}
-		case SETTING: {
-			setting.addToPane(settingsPanel);
-			break;
-		}
-		case PREFERENCES: {
-			setting.addToPane(preferencesPanel);
-			break;
-		}
-		default:
-			break;
-		}
+		setting.addToPane(type.getPanel());
 	}
 
 	public void refresh() {

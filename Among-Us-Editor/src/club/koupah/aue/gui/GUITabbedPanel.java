@@ -3,8 +3,6 @@ package club.koupah.aue.gui;
 import java.awt.Color;
 
 import javax.swing.JTabbedPane;
-import javax.swing.LookAndFeel;
-import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 public class GUITabbedPanel extends JTabbedPane {
