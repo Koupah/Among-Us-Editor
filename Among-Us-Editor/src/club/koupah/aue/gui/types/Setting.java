@@ -1,4 +1,4 @@
-package club.koupah.aue.gui;
+package club.koupah.aue.gui.types;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -143,7 +143,7 @@ public class Setting extends GUIComponent {
 
 		}
 		return "No case";
-	}
+	} 
 
 	public int getSettingIndex() {
 		return this.settingIndex;

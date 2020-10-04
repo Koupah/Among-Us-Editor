@@ -4,12 +4,13 @@ import java.awt.Color;
 
 public enum GUIScheme {
 	
-	Light(Color.BLACK,  new Color(238, 238, 238)),
+	Normal(Color.BLACK,  new Color(238, 238, 238)),
+	Light(Color.BLACK,  Color.WHITE),
 	Dark(Color.WHITE,  Color.BLACK),
 	Hackerman(Color.GREEN,  Color.BLACK),
 	Candy_1(Color.CYAN, new Color(255,77,187)),
 	Candy_2(new Color(255,0,170), new Color(0,255,55)),
-	Dull_1(new Color(173, 165, 171), Color.white),
+	Dull_1(new Color(130, 120, 110), Color.white),
 	Dull_2(Color.white, new Color(173, 165, 171));
 	
 	

@@ -41,26 +41,29 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import club.koupah.aue.gui.GUIComponent;
 import club.koupah.aue.gui.GUIManager;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.GUITabbedPanel;
-import club.koupah.aue.gui.Setting;
 import club.koupah.aue.gui.settings.GUIScheme;
 import club.koupah.aue.gui.settings.cosmetics.Cosmetic;
 import club.koupah.aue.gui.settings.cosmetics.Cosmetic.CosmeticType;
 import club.koupah.aue.gui.settings.language.Language;
-import club.koupah.aue.gui.types.CheckboxSetting;
-import club.koupah.aue.gui.types.MultiSetting;
+import club.koupah.aue.gui.types.impl.CheckboxSetting;
+import club.koupah.aue.gui.types.GUIComponent;
+import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.gui.types.SettingType;
-import club.koupah.aue.gui.types.SliderSetting;
-import club.koupah.aue.gui.types.TextSetting;
-import club.koupah.aue.gui.types.custom.CosmeticFilter;
-import club.koupah.aue.gui.types.custom.DiscordButton;
-import club.koupah.aue.gui.types.custom.InvisibleName;
-import club.koupah.aue.gui.types.custom.LookAndFeelChooser;
-import club.koupah.aue.gui.types.custom.SchemeChooser;
-import club.koupah.aue.gui.types.custom.UpdateChecker;
+import club.koupah.aue.gui.types.impl.MultiSetting;
+import club.koupah.aue.gui.types.impl.SliderSetting;
+import club.koupah.aue.gui.types.impl.TextSetting;
+import club.koupah.aue.gui.types.impl.custom.CosmeticFilter;
+import club.koupah.aue.gui.types.impl.custom.DiscordButton;
+import club.koupah.aue.gui.types.impl.custom.InvisibleName;
+import club.koupah.aue.gui.types.impl.custom.LookAndFeelChooser;
+import club.koupah.aue.gui.types.impl.custom.ProfileCreator;
+import club.koupah.aue.gui.types.impl.custom.ProfileManager;
+import club.koupah.aue.gui.types.impl.custom.ProfileSharer;
+import club.koupah.aue.gui.types.impl.custom.SchemeChooser;
+import club.koupah.aue.gui.types.impl.custom.UpdateChecker;
 import club.koupah.aue.utility.ImageUtil;
 import club.koupah.aue.utility.PopUp;
 import club.koupah.aue.utility.config.ConfigManager;
@@ -109,7 +112,8 @@ public class Editor extends JFrame {
 
 	// Made these in order to dump my code into them instead of this main class
 	public PlayerPrefsFinder prefsFinder; // public so i can save config
-	PlayerPrefsManager prefsManager;
+
+	public PlayerPrefsManager prefsManager;
 
 	static Editor editor;
 
@@ -130,6 +134,8 @@ public class Editor extends JFrame {
 	public String currentLookAndFeel;
 
 	public GUIManager guiManager;
+
+	public ProfileManager profileManager;
 
 	public Editor(double ver) {
 
@@ -157,9 +163,11 @@ public class Editor extends JFrame {
 
 		guiManager = new GUIManager(this);
 
+		profileManager = new ProfileManager(new JLabel("Manage Profile"), new JComboBox<String>());
+
 		configManager = new ConfigManager(config, this);
 
-		//Can't load config if it doesnt exist
+		// Can't load config if it doesnt exist
 		if (config.exists())
 			configManager.loadConfig();
 
@@ -201,12 +209,13 @@ public class Editor extends JFrame {
 			new PopUp("The playerPrefs file doesn't exist!\nError #1932\nMessage Koupah#5129 on discord.");
 		}
 
+		prefsManager.loadSettings();
 	}
 
 	// Made setupWindow function so we can set the layout then continue setting up
 	// the window
 	public void setupWindow() {
-		Font font = new Font("Tahoma", Font.PLAIN, 30);
+		Font font = new Font("Tahoma", Font.BOLD, 30);
 		JLabel topText = new JLabel(title);
 		topText.setFont(font);
 		topText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -314,6 +323,10 @@ public class Editor extends JFrame {
 		add(new DiscordButton(new JLabel("Join the discord server, click the button!"), new JButton("Join Server")),
 				PREFERENCES);
 
+		add(new ProfileCreator(new JLabel("Create Profile"), new JTextField()), PREFERENCES);
+		add(profileManager, PREFERENCES);
+		add(new ProfileSharer(new JLabel("Profile Sharer"), new JButton("Import Profile")), PREFERENCES);
+
 		for (int i = 0; i < tabbedPanel.getTabCount(); i++) {
 			GUIPanel panel = (GUIPanel) tabbedPanel.getComponentAt(i);
 
@@ -351,6 +364,8 @@ public class Editor extends JFrame {
 			}
 		});
 
+		refresh();
+
 		/*
 		 * 
 		 * FINAL UI STUFF
@@ -372,8 +387,6 @@ public class Editor extends JFrame {
 
 		// After everything, save the config
 		configManager.saveConfig();
-
-		refresh();
 	}
 
 	public void saveSettings() {
@@ -421,7 +434,6 @@ public class Editor extends JFrame {
 				Setting setting = (Setting) guicomponent;
 				setting.updateLabel();
 				setting.updateComponent();
-
 			}
 		}
 	}
@@ -488,8 +500,8 @@ public class Editor extends JFrame {
 					}
 					in.close();
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
-					new PopUp("Couldn't check if this is the latest version\nFeel free to close this message!", false);
+					new PopUp("Couldn't check if this is the latest version\nFeel free to close this message!\n\nReason: "
+							+ e.getMessage(), false);
 				}
 
 				while (editor == null) {

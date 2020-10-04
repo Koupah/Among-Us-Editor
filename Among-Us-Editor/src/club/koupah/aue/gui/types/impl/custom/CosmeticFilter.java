@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.custom;
+package club.koupah.aue.gui.types.impl.custom;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,11 +7,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import club.koupah.aue.Editor;
-import club.koupah.aue.gui.GUIComponent;
 import club.koupah.aue.gui.settings.cosmetics.Cosmetic;
 import club.koupah.aue.gui.settings.cosmetics.Cosmetic.CosmeticCategory;
 import club.koupah.aue.gui.settings.cosmetics.Cosmetic.CosmeticType;
-import club.koupah.aue.gui.types.MultiSetting;
+import club.koupah.aue.gui.types.GUIComponent;
+import club.koupah.aue.gui.types.impl.MultiSetting;
 
 public class CosmeticFilter extends GUIComponent {
 

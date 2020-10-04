@@ -32,8 +32,8 @@ public class GUIPanel extends JLayeredPane {
 	
 	public Component addLabel(JLabel comp) {
 		
-		settingCount++;
-		maxHeight = 60 + (settingCount * Editor.scale);
+		settingCount = getSettingCount() + 1;
+		maxHeight = 60 + (getSettingCount() * Editor.scale);
 		
 		return super.add(comp);
 	}
@@ -54,6 +54,10 @@ public class GUIPanel extends JLayeredPane {
 
 	public int getMaxHeight() {
 		return this.maxHeight;
+	}
+
+	public int getSettingCount() {
+		return settingCount;
 	}
 	
 

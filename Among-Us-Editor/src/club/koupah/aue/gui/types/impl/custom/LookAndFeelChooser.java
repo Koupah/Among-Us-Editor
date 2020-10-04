@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.custom;
+package club.koupah.aue.gui.types.impl.custom;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +9,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import club.koupah.aue.Editor;
-import club.koupah.aue.gui.GUIComponent;
+import club.koupah.aue.gui.types.GUIComponent;
 
 public class LookAndFeelChooser extends GUIComponent {
 
@@ -23,7 +23,7 @@ public class LookAndFeelChooser extends GUIComponent {
 		for (LookAndFeelInfo lnf : allLookAndFeels) {
 			component.addItem(lnf.getName());
 		}
-		System.out.println("cfg: " + Editor.getInstance().configManager.getLookAndFeel());
+		
 		String currentName = null;
 		for (LookAndFeelInfo lnf : allLookAndFeels) {
 			if (lnf.getClassName().equals(Editor.getInstance().configManager.getLookAndFeel())) {

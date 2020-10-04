@@ -30,12 +30,12 @@ public class ConfigManager {
 	Editor instance;
 	
 	//Default scheme/look
-	GUIScheme scheme = GUIScheme.Light;
+	GUIScheme scheme = GUIScheme.Normal;
 	
 	public ConfigManager(File configFile, Editor instance) {
 		this.config = configFile;
 		this.configName = configFile.getName();
-		this.instance = instance;
+		this.instance = instance; 
 	}
 
 	// Used by windows and other os's
@@ -73,7 +73,7 @@ public class ConfigManager {
 				if (line.toLowerCase().contains("[profiles]")) {
 					// Loop through all profiles
 					while ((line = bufferedReader.readLine()) != null) {
-						// new Profile(line);
+						new Profile(line);
 					}
 					break;
 				}
@@ -105,23 +105,21 @@ public class ConfigManager {
 			
 			//We should only continue writing if the line that should exist next, exists. This is for 100% backwards/forwards compatibility
 			if (lookAndFeel != null) {
+				
 				bufferedWriter.write(lookAndFeel);
 				bufferedWriter.newLine();	
-				
-				
 				bufferedWriter.write(scheme.getName());
-			
+				bufferedWriter.newLine();
 				
 				
 				//Write profiles here
-				/*bufferedWriter.newLine();
-				 * bufferedWriter.write("[profiles]");
-				 * for (Profile profile : instance.getProfiles()) {
-				 * 	bufferedWriter.write(profile.getConfigLine());
-				 * 	bufferedWriter.newLine();
-				 * }
-				 * 
-				 */
+				  bufferedWriter.write("[profiles]");
+				  bufferedWriter.newLine();
+				  for (Profile profile : Profile.profiles) {
+				  	bufferedWriter.write(profile.getConfigLine());
+				  	bufferedWriter.newLine();
+				  }
+				
 			}
 			bufferedWriter.close();
 		} catch (IOException e) {

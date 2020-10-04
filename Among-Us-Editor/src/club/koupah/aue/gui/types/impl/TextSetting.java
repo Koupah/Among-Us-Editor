@@ -1,9 +1,9 @@
-package club.koupah.aue.gui.types;
+package club.koupah.aue.gui.types.impl;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import club.koupah.aue.gui.Setting;
+import club.koupah.aue.gui.types.Setting;
 
 public class TextSetting extends Setting {
 	

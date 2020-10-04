@@ -43,7 +43,6 @@ public class ImageUtil {
 	}
 	public static Icon getIcon(Class<?> relative, String imagePath) {
 		try {
-			System.out.println(imagePath);
 			final BufferedImage image = ImageIO.read(relative.getResource(imagePath));
 			
 			ImageIcon icon = new ImageIcon(image);

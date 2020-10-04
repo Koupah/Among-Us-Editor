@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types;
+package club.koupah.aue.gui.types.impl;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,9 +8,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import club.koupah.aue.gui.GUIPanel;
-import club.koupah.aue.gui.Setting;
 import club.koupah.aue.gui.settings.cosmetics.Cosmetic;
 import club.koupah.aue.gui.settings.cosmetics.Hats;
+import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.utility.ImageUtil;
 import club.koupah.aue.utility.PopUp;
 
@@ -106,12 +106,12 @@ public class MultiSetting extends Setting {
 				cosmeticOffset = Hats.getOffsetByID(this.getComponentValue(false));
 				this.currentBounds = this.bounds.clone();
 			}
-			
+
 			this.imageLabel.setBounds(currentBounds[0] + cosmeticOffset[0], currentBounds[1] + cosmeticOffset[1], currentBounds[2] + cosmeticOffset[2], currentBounds[3] + cosmeticOffset[3]);
 			
 			this.imageLabel.setIcon(ImageUtil.getIcon(Cosmetic.class, getCosmeticImagePath(this.getComponentValue(false)), 50 + imageSettings[2] + cosmeticOffset[2], 40 + imageSettings[3] + cosmeticOffset[3]));
 
-		}
+		} 
 	}
 
 	@SuppressWarnings("unchecked")
@@ -163,7 +163,7 @@ public class MultiSetting extends Setting {
 
 	@SuppressWarnings("unchecked")
 	public void originalValues() {
-		// Remove all current
+		// Remove all current 
 		((JComboBox<String>) component).removeAllItems();
 
 		// Add all original

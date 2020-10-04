@@ -18,7 +18,7 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 	
-	static double version = 1.455;
+	static double version = 1.46;
 
 	public static String discordLink = "https://www.koupah.club/aueditor";
 	
@@ -36,13 +36,12 @@ public class AUEditorMain {
 		final Editor editor = new Editor(version);
 		
 		//Default look and feel, before checking config
-		String defaultLNF = UIManager.getSystemLookAndFeelClassName();
+		String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
 		
 			// Run this first, before me do any GUI stuff
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if (info.getClassName().contains(desiredLookAndFeel)) {
-					defaultLNF = info.getClassName();
-					System.out.println(defaultLNF);
+					lookAndFeel = info.getClassName();
 					editor.windows = true;
 					break;
 				}
@@ -50,7 +49,7 @@ public class AUEditorMain {
 		
 	
 				try {
-					UIManager.setLookAndFeel(defaultLNF);
+					UIManager.setLookAndFeel(lookAndFeel);
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 						| UnsupportedLookAndFeelException e1) {
 					new PopUp("Failed to apply a look and feel!", false);
@@ -67,7 +66,7 @@ public class AUEditorMain {
 			
 			//Set the L&F to the one we set above if none specified in config
 			if (editor.configManager.getLookAndFeel() == null)
-			editor.configManager.setLookAndFeel(defaultLNF);
+			editor.configManager.setLookAndFeel(lookAndFeel);
 			
 			//Finish setting the window up
 			editor.setupWindow();

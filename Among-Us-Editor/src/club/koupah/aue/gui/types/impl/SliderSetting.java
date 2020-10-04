@@ -1,11 +1,11 @@
-package club.koupah.aue.gui.types;
+package club.koupah.aue.gui.types.impl;
 
 import java.text.DecimalFormat;
 
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 
-import club.koupah.aue.gui.Setting;
+import club.koupah.aue.gui.types.Setting;
 
 public class SliderSetting extends Setting {
 	

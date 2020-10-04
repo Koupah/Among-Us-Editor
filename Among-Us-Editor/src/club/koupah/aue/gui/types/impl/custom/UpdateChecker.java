@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.custom;
+package club.koupah.aue.gui.types.impl.custom;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import club.koupah.aue.Editor;
-import club.koupah.aue.gui.GUIComponent;
+import club.koupah.aue.gui.types.GUIComponent;
 
 public class UpdateChecker extends GUIComponent {
 

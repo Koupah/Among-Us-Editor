@@ -1,9 +1,9 @@
-package club.koupah.aue.gui.types.custom;
+package club.koupah.aue.gui.types.impl.custom;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
-import club.koupah.aue.gui.types.CheckboxSetting;
+import club.koupah.aue.gui.types.impl.CheckboxSetting;
 
 public class InvisibleName extends CheckboxSetting {
 	

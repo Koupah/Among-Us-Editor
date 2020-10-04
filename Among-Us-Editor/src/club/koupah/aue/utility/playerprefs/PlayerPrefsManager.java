@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import club.koupah.aue.Editor;
-import club.koupah.aue.gui.Setting;
+import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.utility.PopUp;
 
 public class PlayerPrefsManager {
@@ -30,7 +30,7 @@ public class PlayerPrefsManager {
 			bufferedWriter.close();
 		} catch (IOException e) {
 			new PopUp("Error writing to file!\n" + e.getMessage(), true);
-		}
+		} 
 	}
 
 	public void loadSettings() {

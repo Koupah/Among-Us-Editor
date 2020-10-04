@@ -1,9 +1,10 @@
-package club.koupah.aue.gui;
+package club.koupah.aue.gui.types;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 import club.koupah.aue.Editor;
+import club.koupah.aue.gui.GUIPanel;
 
 public class GUIComponent {
 
@@ -21,7 +22,7 @@ public class GUIComponent {
 	}
 	
 	public void addToPane(GUIPanel contentPane) {
-		index = contentPane.settingCount;
+		index = contentPane.getSettingCount();
 		
 		label.setBounds(10, 15 + (index * Editor.scale), 250, 30);
 		component.setBounds(260, 20 + (index * Editor.scale), 160, 20);
