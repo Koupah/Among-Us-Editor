@@ -68,14 +68,19 @@ public class ConfigManager {
 			} else
 				return;
 
+			/*
+			 * The reason the following lines have a different line check is because they
+			 * were added AFTER profiles, not before, but use a line from before profiles
+			 */
+
 			// Custom Color should be fourth line Example: aueCC:-3333:3333
-			//If line contains what we want, or if the next line does
+			// If line contains what we want, or if the next line does
 			if (line.contains("aueCC:") || ((line = bufferedReader.readLine()) != null && line.contains("aueCC:"))) {
 				customColors = line.split("aueCC:")[1];
 				GUIScheme.Custom.setForeground(new Color(Integer.parseInt(customColors.split(":")[0])));
 				GUIScheme.Custom.setBackground(new Color(Integer.parseInt(customColors.split(":")[1])));
 			}
-			
+
 			// Custom Color should be fifth line Example: aueCC:-3333:3333
 			if (line.contains("aueRGBS:") || ((line = bufferedReader.readLine()) != null && line.contains("aueRGBS:"))) {
 				rgbSpeed = line.split("aueRGBS:")[1];

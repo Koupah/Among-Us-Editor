@@ -34,6 +34,10 @@ public class CosmeticFilter extends GUIComponent {
 			public void actionPerformed(ActionEvent arg0) {
 				String selected = (String) ((JComboBox<String>) CosmeticFilter.this.component).getSelectedItem();
 				CosmeticFilter.this.label.setText(getLabelText() + selected);
+				
+				//Save current settings
+				Editor.getInstance().saveSettings();
+				
 				for (GUIComponent guicomp : Editor.getInstance().allGUIComponents) 
 					if (guicomp instanceof MultiSetting) {
 						MultiSetting multi = (MultiSetting) guicomp;

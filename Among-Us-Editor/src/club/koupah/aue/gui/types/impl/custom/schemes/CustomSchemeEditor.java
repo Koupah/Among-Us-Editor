@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.impl.custom;
+package club.koupah.aue.gui.types.impl.custom.schemes;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -88,7 +88,7 @@ public class CustomSchemeEditor extends GUIComponent {
 	public void addToPane(GUIPanel contentPane) {
 		super.addToPane(contentPane);
 
-		foreground.setBounds(110, 20 + (index * Editor.scale), 140, 20);
+		foreground.setBounds(110, 20 + (index * Editor.guiSpacing), 140, 20);
 		contentPane.add(foreground);
 	}
 	

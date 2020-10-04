@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.impl.custom;
+package club.koupah.aue.gui.types.impl.custom.profiles;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -61,8 +61,11 @@ public class ProfileManager extends GUIComponent {
 							}
 						}
 					}
+					
 					current = profile;
 					updateProfiles(selected);
+					
+					//We do this to circumvent the normal saveSettings() which changes our current settings array
 					Editor.getInstance().prefsManager.savePlayerPrefs();
 					Editor.getInstance().refresh();
 				} else {
@@ -83,10 +86,10 @@ public class ProfileManager extends GUIComponent {
 		save = new JButton("Save");
 		delete = new JButton("Delete");
 
-		label.setBounds(10, 15 + (index * Editor.scale), 100, 30);
-		component.setBounds(260, 20 + (index * Editor.scale), 160, 20);
-
-		save.setBounds(110, 20 + (index * Editor.scale), 70, 20);
+		label.setBounds(10, 15 + (index * Editor.guiSpacing), 100, 30);
+		component.setBounds(260, 20 + (index * Editor.guiSpacing), 160, 20);
+		save.setToolTipText("Save the current selected profile!");
+		save.setBounds(110, 20 + (index * Editor.guiSpacing), 70, 20);
 		save.addActionListener(new ActionListener() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -110,8 +113,9 @@ public class ProfileManager extends GUIComponent {
 				}
 			}
 		});
-
-		delete.setBounds(180, 20 + (index * Editor.scale), 70, 20);
+		
+		delete.setToolTipText("Delete the current selected profile!");
+		delete.setBounds(180, 20 + (index * Editor.guiSpacing), 70, 20);
 		delete.addActionListener(new ActionListener() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -157,6 +161,8 @@ public class ProfileManager extends GUIComponent {
 
 		if (current != null) {
 			((JComboBox<String>) component).setSelectedItem(current);
+			if (Profile.getProfile(current) != null)
+				this.current = Profile.getProfile(current);
 		}
 	}
 

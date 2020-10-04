@@ -42,7 +42,8 @@ public class GUIManager {
 	void saveConfig() {
 		instance.configManager.saveConfig();
 	}
-
+	
+	//Method for turning dark colors into gray
 	Color noBlack(Color input) {
 		int red = input.getRed();
 		int green = input.getGreen();
@@ -60,8 +61,8 @@ public class GUIManager {
 		final GUIScheme scheme = instance.configManager.getScheme();
 
 		instance.configManager.setScheme(scheme);
-		instance.panel.setForeground(scheme.getForeground());
-		instance.panel.setBackground(scheme.getBackground());
+		instance.contentPanel.setForeground(scheme.getForeground());
+		instance.contentPanel.setBackground(scheme.getBackground());
 
 		Color noBlack = noBlack(scheme.getBackground());
 
@@ -73,7 +74,7 @@ public class GUIManager {
 
 		UIManager.put("TabbedPane.unselectedForeground", scheme.getForeground());
 
-		for (Component component : instance.panel.getComponents()) {
+		for (Component component : instance.contentPanel.getComponents()) {
 			String lnfName = UIManager.getLookAndFeel().getName();
 			if ((component instanceof JButton || component instanceof JComboBox) && lnfName.equals("Windows")) {
 				component.setForeground(Color.BLACK);

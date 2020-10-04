@@ -14,14 +14,17 @@ import club.koupah.aue.gui.settings.cosmetics.Pets;
 import club.koupah.aue.gui.settings.cosmetics.Skins;
 import club.koupah.aue.gui.types.SettingType;
 import club.koupah.aue.utility.PopUp;
+import club.koupah.aue.utility.Utility;
 
 public class AUEditorMain {
 
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	static double version = 1.476;
-
+	static double version = 1.48;
+	
+	public static String title = "Among Us Editor";
+	
 	public static String discordLink = "https://www.koupah.club/aueditor";
 
 	public static void main(String[] args) {
@@ -45,7 +48,7 @@ public class AUEditorMain {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if (info.getClassName().contains(desiredLookAndFeel)) {
 					lookAndFeel = info.getClassName();
-					editor.windows = true;
+					editor.windowsOS = true;
 					break;
 				}
 			}
@@ -63,7 +66,7 @@ public class AUEditorMain {
 			// UIManager.put("TabbedPane.contentOpaque", false);
 
 			// Setup the config and other stuff
-			editor.setupFiles();
+			editor.setupManagers();
 
 			// Set the L&F to the one we set above if none specified in config
 			if (editor.configManager.getLookAndFeel() == null)
@@ -84,7 +87,7 @@ public class AUEditorMain {
 
 			// Run update check, this is a seperate thread so it won't interrupt the main
 			// thread
-			editor.runUpdateCheck(null);
+			Utility.runUpdateCheck(null);
 
 			// Catch any exception that, for whatever reason wasn't already caught
 		} catch (Exception e) {

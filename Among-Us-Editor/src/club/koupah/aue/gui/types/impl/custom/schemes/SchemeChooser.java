@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.impl.custom;
+package club.koupah.aue.gui.types.impl.custom.schemes;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -117,7 +117,7 @@ public class SchemeChooser extends GUIComponent {
 		rgbSpeed.setMinimum(1);
 		rgbSpeed.setMaximum(50);
 		rgbSpeed.setValue(Editor.getInstance().configManager.getRGBSpeed());
-		rgbSpeed.setBounds(130, 20 + (index * Editor.scale), 120, 20);
+		rgbSpeed.setBounds(130, 20 + (index * Editor.guiSpacing), 120, 20);
 		rgbSpeed.setToolTipText("RGB Speed");
 		rgbSpeed.addChangeListener(new ChangeListener() {
 			@Override

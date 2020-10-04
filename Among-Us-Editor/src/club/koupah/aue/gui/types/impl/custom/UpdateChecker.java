@@ -9,6 +9,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.types.GUIComponent;
+import club.koupah.aue.utility.Utility;
 
 public class UpdateChecker extends GUIComponent {
 
@@ -18,12 +19,10 @@ public class UpdateChecker extends GUIComponent {
 		super(label, component);
 		label.setText(this.labelText + Editor.version);
 		component.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Editor.getInstance().runUpdateCheck((JButton) UpdateChecker.this.component);
+				Utility.runUpdateCheck((JButton) UpdateChecker.this.component);
 			}
-			
 		});
 	}
 

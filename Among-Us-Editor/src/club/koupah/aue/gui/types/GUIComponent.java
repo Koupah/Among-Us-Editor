@@ -24,8 +24,8 @@ public class GUIComponent {
 	public void addToPane(GUIPanel contentPane) {
 		index = contentPane.getSettingCount();
 		
-		label.setBounds(10, 15 + (index * Editor.scale), 250, 30);
-		component.setBounds(260, 20 + (index * Editor.scale), 160, 20);
+		label.setBounds(10, 15 + (index * Editor.guiSpacing), 250, 30);
+		component.setBounds(260, 20 + (index * Editor.guiSpacing), 160, 20);
 		
 		//I use a seperate method so I can then increment the settingCount value
 		contentPane.addLabel(this.label);

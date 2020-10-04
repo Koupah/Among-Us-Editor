@@ -25,7 +25,7 @@ public class PlayerPrefsManager {
 	
 	public void savePlayerPrefs() {
 		try (BufferedWriter bufferedWriter = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(instance.playerPrefs), "UTF-8"))) {
+				new OutputStreamWriter(new FileOutputStream(instance.configManager.getPlayerPrefs()), "UTF-8"))) {
 			bufferedWriter.write(String.join(",", newSettings));
 			bufferedWriter.close();
 		} catch (IOException e) {
@@ -35,7 +35,7 @@ public class PlayerPrefsManager {
 
 	public void loadSettings() {
 		try (BufferedReader bufferedReader = new BufferedReader(
-				new InputStreamReader(new FileInputStream(instance.playerPrefs), "UTF-8"))) {
+				new InputStreamReader(new FileInputStream(instance.configManager.getPlayerPrefs()), "UTF-8"))) {
 
 			String line = bufferedReader.readLine();
 			System.out.println("Read following line from settings file: \n" + line);
@@ -59,7 +59,7 @@ public class PlayerPrefsManager {
 				currentSettings = line.split(",");
 			else
 			new PopUp("Error loading settings (Potentially newer version?)\nScreenshot the following and send it to Koupah#5129 (Discord)\n"
-							+ line + "\n[" + instance.playerPrefs.exists() +"]", true);
+							+ line + "\n[" + instance.configManager.getPlayerPrefs().exists() +"]", true);
 
 			newSettings = currentSettings;
 			

@@ -1,10 +1,9 @@
 package club.koupah.aue;
 
 import static club.koupah.aue.gui.types.SettingType.COSMETIC;
+import static club.koupah.aue.gui.types.SettingType.OTHER;
 import static club.koupah.aue.gui.types.SettingType.PREFERENCES;
 import static club.koupah.aue.gui.types.SettingType.SETTING;
-import static club.koupah.aue.gui.types.SettingType.OTHER;
-
 import static club.koupah.aue.utility.playerprefs.Indexes.censorChat;
 import static club.koupah.aue.utility.playerprefs.Indexes.color;
 import static club.koupah.aue.utility.playerprefs.Indexes.control;
@@ -17,18 +16,11 @@ import static club.koupah.aue.utility.playerprefs.Indexes.sfx;
 import static club.koupah.aue.utility.playerprefs.Indexes.skin;
 import static club.koupah.aue.utility.playerprefs.Indexes.vsync;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -46,29 +38,29 @@ import javax.swing.UIManager;
 import club.koupah.aue.gui.GUIManager;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.GUITabbedPanel;
-import club.koupah.aue.gui.settings.GUIScheme;
 import club.koupah.aue.gui.settings.cosmetics.Cosmetic;
 import club.koupah.aue.gui.settings.cosmetics.Cosmetic.CosmeticType;
 import club.koupah.aue.gui.settings.language.Language;
-import club.koupah.aue.gui.types.impl.CheckboxSetting;
 import club.koupah.aue.gui.types.GUIComponent;
 import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.gui.types.SettingType;
+import club.koupah.aue.gui.types.impl.CheckboxSetting;
 import club.koupah.aue.gui.types.impl.MultiSetting;
 import club.koupah.aue.gui.types.impl.SliderSetting;
 import club.koupah.aue.gui.types.impl.TextSetting;
 import club.koupah.aue.gui.types.impl.custom.CosmeticFilter;
-import club.koupah.aue.gui.types.impl.custom.CustomSchemeEditor;
 import club.koupah.aue.gui.types.impl.custom.DiscordButton;
 import club.koupah.aue.gui.types.impl.custom.InvisibleName;
 import club.koupah.aue.gui.types.impl.custom.LookAndFeelChooser;
-import club.koupah.aue.gui.types.impl.custom.ProfileCreator;
-import club.koupah.aue.gui.types.impl.custom.ProfileManager;
-import club.koupah.aue.gui.types.impl.custom.ProfileSharer;
-import club.koupah.aue.gui.types.impl.custom.SchemeChooser;
 import club.koupah.aue.gui.types.impl.custom.UpdateChecker;
+import club.koupah.aue.gui.types.impl.custom.profiles.ProfileCreator;
+import club.koupah.aue.gui.types.impl.custom.profiles.ProfileManager;
+import club.koupah.aue.gui.types.impl.custom.profiles.ProfileSharer;
+import club.koupah.aue.gui.types.impl.custom.schemes.CustomSchemeEditor;
+import club.koupah.aue.gui.types.impl.custom.schemes.SchemeChooser;
 import club.koupah.aue.utility.ImageUtil;
 import club.koupah.aue.utility.PopUp;
+import club.koupah.aue.utility.Utility;
 import club.koupah.aue.utility.config.ConfigManager;
 import club.koupah.aue.utility.config.Profile;
 import club.koupah.aue.utility.playerprefs.PlayerPrefsFinder;
@@ -81,59 +73,52 @@ public class Editor extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public JPanel panel;
+	/*
+	 * Global
+	 */
+	static Editor editor;
+
+	// Should I make this a double? That way with the version check I can check if
+	// their version is less than rather than equal to
+	// I still don't know, 26/09/2020
+	// Update: Made it a double
+	public static double version;
+	public boolean windowsOS = false;
+
+	/*
+	 * GUI Related
+	 */
+	int width = 445;
+
+	int height;
+
+	public JPanel contentPanel;
 
 	public GUITabbedPanel tabbedPanel;
 
 	public ArrayList<GUIComponent> allGUIComponents = new ArrayList<GUIComponent>();
 
-	public File playerPrefs;
+	JButton applySettings;
 
-	// Should I make this a double? That way with the version check I can check if
-	// their version is less than rather than equal to
-	// I still don't know, 26/09/2020
+	/*
+	 * Managers (and Finder)
+	 */
+	public ConfigManager configManager;
 
-	// Update: Made it a double
-	public static double version;
-	static boolean preRelease;
-	static boolean outdated;
+	// This config file is only used to create the config manager
+	private File configFile = new File("AUEConfig");
 
-	public static String title = "Among Us Editor";
-
-	static Thread updateCheck;
-
-	// Spacing between gui components
-	public static int scale = 40;
-
-	public boolean windows = false;
-
-	// This config file is only for NON windows users
-	private File config = new File("AUEConfig");
+	// Default settings for when a user has no settings
+	public String defaultSettings = "Username,1,0,1,False,False,False,0,False,False,0,255,94,0.5,0,0,0,True,0,False";
 
 	// Made these in order to dump my code into them instead of this main class
 	public PlayerPrefsFinder prefsFinder; // public so i can save config
 
 	public PlayerPrefsManager prefsManager;
 
-	static Editor editor;
-
-	JButton applySettings;
-
-	int width = 445;
-
-	int height = 0;
-
-	public ConfigManager configManager;
-
-	// Default settings for when a user has no settings
-	public String defaultSettings = "Username,1,0,1,False,False,False,0,False,False,0,255,94,0.5,0,0,0,True,0,False";
-
-	public static Color background;
-
-	// Use this for persistent look and feel
-	public String currentLookAndFeel;
-
 	public GUIManager guiManager;
+	// Vertical spacing between gui components
+	public static int guiSpacing = 40;
 
 	public ProfileManager profileManager;
 
@@ -141,67 +126,71 @@ public class Editor extends JFrame {
 
 		// Made it like this to easily update version number from main class :p
 		version = ver;
-
+		// The instance
 		editor = this;
 
 		this.setIconImage(ImageUtil.getImage(GUIPanel.class, "tabicons/cosmetics.png"));
 
-		setTitle(title + " (v" + version + ") - By Koupah");
+		setTitle(Utility.editorName() + " (v" + version + ") - By Koupah");
 
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		panel = new JPanel();
-		panel.setLayout(null);
-		setContentPane(panel);
+		contentPanel = new JPanel();
+		contentPanel.setLayout(null);
+		setContentPane(contentPanel);
 
-		background = new Color(238, 238, 238);
-		panel.setBackground(background);
-		
+		// GUIScheme's eradicate the need for hti
+		// background = new Color(238, 238, 238);
+		// mainPanel.setBackground(background);
+
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-	      public void uncaughtException(Thread t, Throwable e) {
-	      	//This is going to catch all the exceptions thrown by the themes, and ignore them lol   	
-	      	if(!e.toString().contains("ArrayIndexOutOfBoundsException")) {
-	      		System.out.println("Error from Thread: " + t.getName());
-	      		e.printStackTrace();
-	      	}
-	      }
-	    });
+			public void uncaughtException(Thread t, Throwable e) {
+				// This is going to catch all the exceptions thrown by the themes, and ignore
+				// them lol
+				if (!e.toString().contains("ArrayIndexOutOfBoundsException")) {
+					System.out.println("Error from Thread: " + t.getName());
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
-	public void setupFiles() {
+	public void setupManagers() {
 
 		guiManager = new GUIManager(this);
 
 		profileManager = new ProfileManager(new JLabel("Manage Profile"), new JComboBox<String>());
 
-		configManager = new ConfigManager(config, this);
+		configManager = new ConfigManager(configFile, this);
 
 		// Can't load config if it doesnt exist
-		if (config.exists())
+		if (configFile.exists())
 			configManager.loadConfig();
+		// else configManager.createConfigFile(); Don't create a new config here, we
+		// need it to not exist below
 
 		prefsFinder = new PlayerPrefsFinder(this);
 		prefsManager = new PlayerPrefsManager(this);
 
 		// Big handler to decide where the playerPrefs file is or what to do if it isn't
 		// saved in a config
-
 		// Edit: *small handler, everything has been moved
-		if (windows) {
+		if (windowsOS) {
 
-			playerPrefs = prefsFinder.getPlayerPrefs();
+			prefsFinder.getPlayerPrefs();
 
+			// If not on windows but a config exists
 		} else if (configManager.configExists()) {
 			// Just get the one from config if we're on mac/linux
-			playerPrefs = configManager.getPlayerPrefs();
+			File playerPrefs = configManager.getPlayerPrefs();
 
 			if (!playerPrefs.exists()) {
 				new PopUp("The playerPrefs file in your config doesn't exist!\nPlease choose it again!");
 				// Function for non-windows users
 				prefsFinder.choosePlayerPrefs();
 			}
-
+			// Else if not on windows and no config exists
 		} else if (!configManager.configExists()) {
 
 			// Function for non-windows users
@@ -215,61 +204,59 @@ public class Editor extends JFrame {
 
 		// This really shouldn't be possible because the above should counter it, but
 		// **just** incase
-		if (!playerPrefs.exists()) {
+		if (!configManager.getPlayerPrefs().exists()) {
 			new PopUp("The playerPrefs file doesn't exist!\nError #1932\nMessage Koupah#5129 on discord.");
 		}
 
-		prefsManager.loadSettings();
+		// load playerPrefs settings (Commented out, we don't need to read twice on launch (We read it below))
+		//prefsManager.loadSettings();
 	}
 
 	// Made setupWindow function so we can set the layout then continue setting up
 	// the window
 	public void setupWindow() {
 		Font font = new Font("Tahoma", Font.BOLD, 30);
-		JLabel topText = new JLabel(title);
+		JLabel topText = new JLabel(Utility.editorName());
 		topText.setFont(font);
 		topText.setHorizontalAlignment(SwingConstants.CENTER);
 
-		AffineTransform affinetransform = new AffineTransform();
-		FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+		int titleWidth = Utility.getWidth(topText.getText(), font);
 
-		int titleWidth = (int) (font.getStringBounds(title, frc).getWidth());
-
+		// Set the title to the middle
 		topText.setBounds(width / 2 - (titleWidth / 2) - 10, 5, titleWidth + 20, 42);
-		panel.add(topText);
+		contentPanel.add(topText);
 
+		// Reuse the font
 		font = new Font("Tahoma", Font.PLAIN, 12);
-		String verString = "v" + version;
-		int verwidth = (int) (font.getStringBounds(verString, frc).getWidth());
+		String versionString = "v" + version;
+		int versionWidth = Utility.getWidth(versionString, font);
 
-		JLabel versionText = new JLabel(verString);
+		JLabel versionText = new JLabel(versionString);
 		versionText.setFont(font);
 		versionText.setHorizontalAlignment(SwingConstants.RIGHT);
-		versionText.setBounds(width / 2 + (titleWidth / 2) - 10, 25, verwidth + 20, 20);
+		versionText.setBounds(width / 2 + (titleWidth / 2) - 10, 25, versionWidth + 20, 20);
+		contentPanel.add(versionText);
 
-		panel.add(versionText);
-
+		// Create the tabbed panel
 		tabbedPanel = new GUITabbedPanel();
 		tabbedPanel.setBounds(1, 54, width, 400);
-		tabbedPanel.setBackground(background);
-		tabbedPanel.setForeground(Color.BLACK);
-
-		panel.add(tabbedPanel);
-
+		// With the GUISchemes, this isn't needed
+		// tabbedPanel.setBackground(background);
+		// tabbedPanel.setForeground(Color.BLACK);
+		contentPanel.add(tabbedPanel);
 
 		// TODO remove these 3 lines, have some sort of for loop
-		
-		GUIPanel category;
+
+		// Add a tab for each category
+		GUIPanel categoryPanel;
 		for (SettingType setting : SettingType.values()) {
-			category = setting.getPanel();
-			tabbedPanel.addTab(category.getName(), category.getIcon(), category, category.getDescription());
+			categoryPanel = setting.getPanel();
+			tabbedPanel.addTab(categoryPanel.getName(), categoryPanel.getIcon(), categoryPanel,
+					categoryPanel.getDescription());
 		}
-		
 
 		/*
-		 * 
 		 * COSMETIC SETTINGS!
-		 * 
 		 */
 
 		// Not using allGUISettings.addAll(Arrays.asList(Setting,Setting,Setting));
@@ -295,9 +282,7 @@ public class Editor extends JFrame {
 		add(new CosmeticFilter(new JLabel("Filter Cosmetics: "), new JComboBox<String>()), COSMETIC);
 
 		/*
-		 * 
 		 * SETTING SETTINGS!
-		 * 
 		 */
 
 		add(new MultiSetting(new JLabel("Language: "), new JComboBox<String>(), Language.getAllLanguagesString(), false,
@@ -315,66 +300,49 @@ public class Editor extends JFrame {
 		add(new SliderSetting(new JLabel("Music Volume: "), new JSlider(), 0, 255, music.index()), SETTING);
 
 		/*
-		 * 
 		 * PREFERENCES SETTINGS!
-		 * 
 		 */
 
 		add(new LookAndFeelChooser(new JLabel("Look & Feel: "), new JComboBox<String>()), PREFERENCES);
 		add(new SchemeChooser(new JLabel("GUI Mode: "), new JComboBox<String>()), PREFERENCES);
 		add(new CustomSchemeEditor(new JLabel("Custom Colors: "), new JButton("Background")), PREFERENCES);
-		
+
 		add(new ProfileCreator(new JLabel("Create Profile"), new JTextField()), PREFERENCES);
 		add(profileManager, PREFERENCES);
 		add(new ProfileSharer(new JLabel("Profile Sharer"), new JButton("Import Profile")), PREFERENCES);
-		
+
 		/*
-		 * 
 		 * OTHER SETTINGS!
-		 * 
 		 */
 		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), OTHER);
 		add(new DiscordButton(new JLabel("Join the discord server, click the button!"), new JButton("Join Server")),
 				OTHER);
-		
-		
+
+		// Make all the components not focusable (Except textfields)
 		for (int i = 0; i < tabbedPanel.getTabCount(); i++) {
 			GUIPanel panel = (GUIPanel) tabbedPanel.getComponentAt(i);
-
 			for (Component comp : panel.getComponents()) {
 				if (!(comp instanceof JTextField))
 					comp.setFocusable(false);
 			}
-
 		}
-		
+
+		// Essentially, find the height of the biggest panel
 		int maxHeight = 100;
-		
 		for (SettingType setting : SettingType.values()) {
-			//Reuse the category variable
-			category = setting.getPanel();
-			if (category.getMaxHeight() > maxHeight)
-				maxHeight = category.getMaxHeight();
+			// Reuse the category variable
+			categoryPanel = setting.getPanel();
+			if (categoryPanel.getMaxHeight() > maxHeight)
+				maxHeight = categoryPanel.getMaxHeight();
 		}
-		
 
-		// Just cause bro, don't @ me
+		// Window height
 		height = 75 + maxHeight + 80;
 
-		tabbedPanel.setBounds(tabbedPanel.getX(), tabbedPanel.getY(), width - 18, maxHeight);
+		// Apply settings button
 		applySettings = new JButton("Apply Settings");
 		applySettings.setBounds(147, height - 85, 151, 24);
-		panel.add(applySettings);
-
-		// Set window bounds too
-		setBounds(100, 100, width, height);
-
-		for (Component comp : panel.getComponents()) {
-			if (!(comp instanceof JTextField))
-				comp.setFocusable(false);
-		}
-
-		getRootPane().requestFocus();
+		contentPanel.add(applySettings);
 
 		applySettings.addActionListener(new ActionListener() {
 			@Override
@@ -383,12 +351,25 @@ public class Editor extends JFrame {
 			}
 		});
 
+		// Set the bounds of the tabbed panel
+		tabbedPanel.setBounds(tabbedPanel.getX(), tabbedPanel.getY(), width - 18, maxHeight);
+
+		// Set frame bounds too
+		setBounds(100, 100, width, height);
+
+		for (Component comp : contentPanel.getComponents()) {
+			if (!(comp instanceof JTextField))
+				comp.setFocusable(false);
+		}
+
+		// Request focus
+		requestFocus();
+
+		// Load playerPrefs, set all the settings to their values
 		refresh();
 
 		/*
-		 * 
 		 * FINAL UI STUFF
-		 * 
 		 */
 		if (configManager.getLookAndFeel() != null) {
 			guiManager.updateLookAndFeel();
@@ -397,18 +378,14 @@ public class Editor extends JFrame {
 			configManager.setLookAndFeel(UIManager.getLookAndFeel().getClass().toString());
 		}
 
-		if (configManager.getScheme() != null) {
-			guiManager.updateColorScheme(false); //dont need to save because we just read from save lol
-		} else {
-			configManager.setScheme(GUIScheme.Light);
-			guiManager.updateColorScheme(true);
-		}
-		
+		// No checking if it's null, because there's a default value it can never be null
+		guiManager.updateColorScheme(false); // false because we dont need to save because we just read from save lol
+
 		Profile current = Profile.getProfileByConfig(profileManager.makeProfileConfig("random"));
 		if (current != null) {
-			profileManager.updateProfiles(current.getProfileName());;
+			profileManager.updateProfiles(current.getProfileName());
 		}
-		
+
 		// After everything, save the config
 		configManager.saveConfig();
 	}
@@ -448,87 +425,6 @@ public class Editor extends JFrame {
 
 	public static Editor getInstance() {
 		return editor;
-	}
-
-	// Moved update check to bottom of class (Button is for manual update check)
-	public void runUpdateCheck(final JButton button) {
-
-		if (button != null)
-			button.setEnabled(false);
-
-		/*
-		 * 
-		 * VERSION CHECK FOR PEOPLE WHO DOWNLOAD STRAIGHT FROM A YOUTUBE VIDEO ETC Feel
-		 * free to remove this if you're compiling yourself!
-		 * 
-		 */
-		updateCheck = new Thread() {
-			public void run() {
-				try {
-					URLConnection connection = new URL(
-							"https://raw.githubusercontent.com/Koupah/Among-Us-Editor/master/version").openConnection();
-					BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-					// The string value of the latest version
-					String latestVersionString = in.readLine();
-					// The double value of the latest version
-					double latestVersion = Double.parseDouble(latestVersionString);
-
-					// Check if the latest version is greater than our version
-					outdated = latestVersion > version;
-
-					// If the current version is ahead of the 'latest' then we're on a prerelease
-					preRelease = latestVersion < version;
-
-					if (outdated) {
-						String info = "";
-						String read;
-						while ((read = in.readLine()) != null) {
-							info += read + "\n";
-						}
-
-						String message = "You're on version " + version + " and " + latestVersionString
-								+ " is the latest!"
-						// If there is info (not just like a space or whatever) then show the message
-								+ (info.length() > 2 ? "\n\nVersion " + latestVersionString + ":\n" + info : "");
-
-						// Create a new pop up with the message and allows for opening the new version
-						// in browser
-						PopUp.downloadPopUp(message, latestVersionString);
-					} else {
-						if (button != null) {
-							if (preRelease) {
-								new PopUp("You are using a PRE release version!\nThe latest version is " + latestVersionString
-										+ " but you're on " + version, false);
-							} else {
-								new PopUp("No updates available!\n\nYou are using the latest version,\nVersion: "
-										+ latestVersionString, false);
-							}
-						}
-					}
-					in.close();
-				} catch (Exception e) {
-					new PopUp("Couldn't check if this is the latest version\nFeel free to close this message!\n\nReason: "
-							+ e.getMessage(), false);
-				}
-
-				while (editor == null) {
-					try {
-						Thread.sleep(50);
-					} catch (InterruptedException e) {
-					}
-				}
-
-				// Update the title based on version
-				editor.setTitle(title + " (v" + version + (outdated ? " outdated" : (preRelease ? " prerelease" : ""))
-						+ ") - By Koupah");
-
-				if (button != null)
-					button.setEnabled(true);
-			}
-		};
-
-		updateCheck.start();
 	}
 
 }
