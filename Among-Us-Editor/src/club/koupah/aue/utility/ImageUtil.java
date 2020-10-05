@@ -75,7 +75,10 @@ public class ImageUtil {
 		return null;
 	}
 	
-
+	public static Icon makeIcon(BufferedImage image) {
+		return new ImageIcon(image);
+	}
+	
 	// Resize image to match new width and height
 	public static BufferedImage resize(BufferedImage img, int width, int height) {
 		final Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);

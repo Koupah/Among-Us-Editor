@@ -23,6 +23,7 @@ public class InvisibleName extends CheckboxSetting {
 	@Override
 	public void updateComponent() {
 		((JCheckBox)component).setSelected(this.getCurrentSettingValue().equals(invisibleName));
+		((JCheckBox)component).setText(((JCheckBox)component).isSelected() ? "On" : "Off");
 	}
 
 	@Override

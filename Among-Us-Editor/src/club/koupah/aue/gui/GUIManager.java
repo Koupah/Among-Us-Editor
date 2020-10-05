@@ -3,15 +3,16 @@ package club.koupah.aue.gui;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.settings.GUIScheme;
+import club.koupah.aue.gui.types.GUIComponent;
 import club.koupah.aue.utility.PopUp;
 
 public class GUIManager {
@@ -42,8 +43,8 @@ public class GUIManager {
 	void saveConfig() {
 		instance.configManager.saveConfig();
 	}
-	
-	//Method for turning dark colors into gray
+
+	// Method for turning dark colors into gray
 	Color noBlack(Color input) {
 		int red = input.getRed();
 		int green = input.getGreen();
@@ -76,20 +77,11 @@ public class GUIManager {
 
 		for (Component component : instance.contentPanel.getComponents()) {
 			String lnfName = UIManager.getLookAndFeel().getName();
-			if ((component instanceof JButton || component instanceof JComboBox) && lnfName.equals("Windows")) {
-				component.setForeground(Color.BLACK);
 
-				if (component instanceof JComboBox) // Fixes windows Combo Box from having black background
-					component.setBackground(Color.WHITE);
-				else
-					component.setBackground(scheme.getBackground());
+			fixComponent(component, lnfName, scheme); // fix windows components
 
-			} else { // All other components
-				component.setForeground(scheme.getForeground());
-				component.setBackground(scheme.getBackground());
-			}
 			if (component instanceof Container) {
-				loop((Container) component, scheme);
+				loop((Container) component, scheme, lnfName);
 			} else if (component instanceof JButton) {
 				((JButton) component).setOpaque(true);
 			}
@@ -111,7 +103,8 @@ public class GUIManager {
 					instance.tabbedPanel.setBackgroundAt(i, scheme.getBackground());
 				}
 				// can probably add a custom border to the tabbedpanel
-				if (save) //Only need to do this if we saving (basically NON RGB)
+				if (save) // Only need to do this if we saving (basically NON RGB) as it causes the UI to
+								// reset basically
 					SwingUtilities.updateComponentTreeUI(instance);
 				// This needs to be set after the swing update
 
@@ -120,29 +113,44 @@ public class GUIManager {
 		});
 	}
 
-	void loop(Container container, GUIScheme scheme) {
-		String lnfName = UIManager.getLookAndFeel().getName();
+	void loop(Container container, GUIScheme scheme, String lnfName) {
 		for (Component c : container.getComponents()) {
 
-			// The windows Look & Feel doesn't work with background colors on
-			// JButton/JComboBox so set the text to black
-			if ((c instanceof JButton || c instanceof JComboBox) && lnfName.equals("Windows")) {
-				c.setForeground(Color.BLACK);
+			fixComponent(c, lnfName, scheme);
 
-				if (c instanceof JComboBox) // Fixes windows Combo Box from having black background
-					c.setBackground(Color.WHITE);
-				else
-					c.setBackground(scheme.getBackground());
-
-			} else { // All other components
-				c.setForeground(scheme.getForeground());
-				c.setBackground(scheme.getBackground());
-			}
 			if (c instanceof Container) {
-				loop((Container) c, scheme);
+				loop((Container) c, scheme, lnfName);
 			} else if (c instanceof JButton) {
 				((JButton) c).setOpaque(true);
 			}
 		}
 	}
+
+	void fixComponent(Component c, String lnfName, GUIScheme scheme) {
+		c.setForeground(scheme.getForeground());
+		c.setBackground(scheme.getBackground());
+		if ((c instanceof JButton || c instanceof JComboBox)
+				&& (lnfName.equals("Windows") || lnfName.equals("Mac OS X"))) {
+			c.setForeground(Color.BLACK);
+
+			if (c instanceof JComboBox) // Fixes windows Combo Box from having black background
+				c.setBackground(Color.WHITE);
+			else c.setBackground(scheme.getBackground());
+
+		} else if (c instanceof JTextField) {
+			if (lnfName.equals("Nimbus")) // Fixes nimbus text fields
+				c.setBounds(c.getX(), c.getY(), c.getWidth(), GUIComponent.componentHeight + 4);
+			else if (c.getHeight() != GUIComponent.componentHeight)
+				c.setBounds(c.getX(), c.getY(), c.getWidth(), GUIComponent.componentHeight);
+		}
+
+		// Don't use else if as this needs to apply to the windows buttons too
+		if (c instanceof JButton) {
+			if (lnfName.equals("CDE/Motif"))
+				c.setBounds(c.getX(), c.getY(), c.getWidth(), GUIComponent.componentHeight + 13);
+			else if (c.getHeight() != GUIComponent.componentHeight)
+				c.setBounds(c.getX(), c.getY(), c.getWidth(), GUIComponent.componentHeight);
+		}
+	}
+
 }

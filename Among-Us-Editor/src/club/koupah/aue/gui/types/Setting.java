@@ -142,7 +142,7 @@ public class Setting extends GUIComponent {
 		}
 
 		}
-		return "No case";
+		return "Doesn't Exist";
 	} 
 
 	public int getSettingIndex() {

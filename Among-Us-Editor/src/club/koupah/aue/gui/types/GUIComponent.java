@@ -15,6 +15,8 @@ public class GUIComponent {
 	
 	protected int index;
 	
+	public static int componentHeight = 20;
+	
 	public GUIComponent(JLabel label, JComponent component) {
 		this.label = label;
 		this.labelText = label.getText();
@@ -25,7 +27,7 @@ public class GUIComponent {
 		index = contentPane.getSettingCount();
 		
 		label.setBounds(10, 15 + (index * Editor.guiSpacing), 250, 30);
-		component.setBounds(260, 20 + (index * Editor.guiSpacing), 160, 20);
+		component.setBounds(260, 20 + (index * Editor.guiSpacing), 160, componentHeight);
 		
 		//I use a seperate method so I can then increment the settingCount value
 		contentPane.addLabel(this.label);

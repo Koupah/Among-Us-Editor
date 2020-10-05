@@ -4,6 +4,7 @@ import static club.koupah.aue.gui.types.SettingType.COSMETIC;
 import static club.koupah.aue.gui.types.SettingType.OTHER;
 import static club.koupah.aue.gui.types.SettingType.PREFERENCES;
 import static club.koupah.aue.gui.types.SettingType.SETTING;
+import static club.koupah.aue.gui.types.SettingType.RAT;
 import static club.koupah.aue.utility.playerprefs.Indexes.censorChat;
 import static club.koupah.aue.utility.playerprefs.Indexes.color;
 import static club.koupah.aue.utility.playerprefs.Indexes.control;
@@ -20,6 +21,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,6 +53,7 @@ import club.koupah.aue.gui.types.impl.SliderSetting;
 import club.koupah.aue.gui.types.impl.TextSetting;
 import club.koupah.aue.gui.types.impl.custom.CosmeticFilter;
 import club.koupah.aue.gui.types.impl.custom.DiscordButton;
+import club.koupah.aue.gui.types.impl.custom.HiddenRat;
 import club.koupah.aue.gui.types.impl.custom.InvisibleName;
 import club.koupah.aue.gui.types.impl.custom.LookAndFeelChooser;
 import club.koupah.aue.gui.types.impl.custom.UpdateChecker;
@@ -208,23 +212,52 @@ public class Editor extends JFrame {
 			new PopUp("The playerPrefs file doesn't exist!\nError #1932\nMessage Koupah#5129 on discord.");
 		}
 
-		// load playerPrefs settings (Commented out, we don't need to read twice on launch (We read it below))
-		//prefsManager.loadSettings();
+		// load playerPrefs settings (Commented out, we don't need to read twice on
+		// launch (We read it below))
+		// prefsManager.loadSettings();
 	}
 
 	// Made setupWindow function so we can set the layout then continue setting up
 	// the window
 	public void setupWindow() {
 		Font font = new Font("Tahoma", Font.BOLD, 30);
-		JLabel topText = new JLabel(Utility.editorName());
-		topText.setFont(font);
-		topText.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel titleText = new JLabel(Utility.editorName());
+		titleText.setFont(font);
+		titleText.setHorizontalAlignment(SwingConstants.CENTER);
+		titleText.addMouseListener(new MouseListener() {
+			int clicks = 0;
 
-		int titleWidth = Utility.getWidth(topText.getText(), font);
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				clicks++;
+				if (clicks >= 5) {
+					SettingType.RAT.setVisible(!SettingType.RAT.isVisible());
+					clicks = 0;
+				}
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+		});
+		int titleWidth = Utility.getWidth(titleText.getText(), font);
 
 		// Set the title to the middle
-		topText.setBounds(width / 2 - (titleWidth / 2) - 10, 5, titleWidth + 20, 42);
-		contentPanel.add(topText);
+		titleText.setBounds(width / 2 - (titleWidth / 2) - 10, 5, titleWidth + 20, 42);
+		contentPanel.add(titleText);
 
 		// Reuse the font
 		font = new Font("Tahoma", Font.PLAIN, 12);
@@ -250,6 +283,7 @@ public class Editor extends JFrame {
 		// Add a tab for each category
 		GUIPanel categoryPanel;
 		for (SettingType setting : SettingType.values()) {
+
 			categoryPanel = setting.getPanel();
 			tabbedPanel.addTab(categoryPanel.getName(), categoryPanel.getIcon(), categoryPanel,
 					categoryPanel.getDescription());
@@ -270,8 +304,8 @@ public class Editor extends JFrame {
 		add(new MultiSetting(new JLabel("Hat: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Hat), true,
 				true, new int[] { -5, 0, 0, 0, 1 }, hat.index()), COSMETIC);
 
-		add(new MultiSetting(new JLabel("Color: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Color),
-				true, true, new int[] { 0, -5, 0, 12, 3 }, color.index()), COSMETIC);
+		add(new MultiSetting(new JLabel("Color: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Color), true,
+				true, new int[] { 0, -5, 0, 12, 3 }, color.index()), COSMETIC);
 
 		add(new MultiSetting(new JLabel("Skin: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Skin), true,
 				true, new int[] { 0, 0, 0, 0, 2 }, skin.index()), COSMETIC);
@@ -312,11 +346,16 @@ public class Editor extends JFrame {
 		add(new ProfileSharer(new JLabel("Profile Sharer"), new JButton("Import Profile")), PREFERENCES);
 
 		/*
+		 * RAT SETTINGS!
+		 */
+
+		add(new HiddenRat(), RAT);
+
+		/*
 		 * OTHER SETTINGS!
 		 */
 		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), OTHER);
-		add(new DiscordButton(new JLabel("Join the discord server, click the button!"), new JButton("Join Server")),
-				OTHER);
+		add(new DiscordButton(new JLabel("Join the discord server!"), new JButton("Join Server")), OTHER);
 
 		// Make all the components not focusable (Except textfields)
 		for (int i = 0; i < tabbedPanel.getTabCount(); i++) {
@@ -330,6 +369,12 @@ public class Editor extends JFrame {
 		// Essentially, find the height of the biggest panel
 		int maxHeight = 100;
 		for (SettingType setting : SettingType.values()) {
+
+			if (!setting.isVisible()) {
+				tabbedPanel.remove(setting.getPanel());
+				continue;
+			}
+
 			// Reuse the category variable
 			categoryPanel = setting.getPanel();
 			if (categoryPanel.getMaxHeight() > maxHeight)
@@ -378,7 +423,8 @@ public class Editor extends JFrame {
 			configManager.setLookAndFeel(UIManager.getLookAndFeel().getClass().toString());
 		}
 
-		// No checking if it's null, because there's a default value it can never be null
+		// No checking if it's null, because there's a default value it can never be
+		// null
 		guiManager.updateColorScheme(false); // false because we dont need to save because we just read from save lol
 
 		Profile current = Profile.getProfileByConfig(profileManager.makeProfileConfig("random"));
@@ -407,8 +453,8 @@ public class Editor extends JFrame {
 
 	// Made this cause it's smaller than writing allGUISettings.add()
 	public void add(GUIComponent setting, SettingType type) {
-		allGUIComponents.add(setting);
-		setting.addToPane(type.getPanel());
+			allGUIComponents.add(setting);
+			setting.addToPane(type.getPanel());
 	}
 
 	public void refresh() {

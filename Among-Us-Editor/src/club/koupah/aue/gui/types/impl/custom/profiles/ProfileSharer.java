@@ -1,7 +1,16 @@
 package club.koupah.aue.gui.types.impl.custom.profiles;
 
+import java.awt.HeadlessException;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.Base64;
 
 import javax.swing.BoxLayout;
@@ -97,11 +106,44 @@ public class ProfileSharer extends GUIComponent {
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		JTextField shareText = new JTextField("aue" + share);
+		final JTextField shareText = new JTextField("aue" + share);
+		shareText.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				if (arg0.getButton() == 3) // 3 is right click
+					try {
+					    StringSelection sel = new StringSelection(shareText.getText());
+					    Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();
+					    clip.setContents(sel, null);
+					} catch (HeadlessException e1) {
+						// Basically, if theres an error just don't copy
+					}
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+		});
 		shareText.setHorizontalAlignment(JTextField.CENTER);
 		shareText.setEditable(false);
 		panel.add(new JLabel("Sharing Profile: " + profileName));
 		panel.add(new JLabel("Copy the text below, anyone can import it to get your profile!"));
+		
+		if (Editor.getInstance().windowsOS)
+		panel.add(new JLabel("You can also right click the text box to copy the share code"));
 
 		panel.add(shareText);
 
@@ -116,10 +158,46 @@ public class ProfileSharer extends GUIComponent {
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		JTextField shareText = new JTextField(null);
+		final JTextField shareText = new JTextField("");
+		
+		//Not removing this incase it does work on non windowsOS, but we catch all exceptions so if it doesn't, oh well
+		shareText.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				if (arg0.getButton() == 3) // 3 is right click
+					try {
+						String clipboard = (String) Toolkit.getDefaultToolkit().getSystemClipboard()
+								.getData(DataFlavor.stringFlavor);
+						shareText.setText(clipboard); // To prevent accidentally pasting multiple times, we don't append
+					} catch (HeadlessException | UnsupportedFlavorException | IOException e1) {
+						// Basically, if theres an error just don't paste
+					}
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+		});
 		shareText.setHorizontalAlignment(JTextField.CENTER);
 		shareText.setEditable(true);
 		panel.add(new JLabel("Put the share code below to import it!"));
+
+		if (Editor.getInstance().windowsOS) //Not sure if pasting works on
+		// non-windows, just to be safe :P 
+		panel.add(new JLabel("You can also right click the text box to paste your clipboard!")); 
 
 		panel.add(shareText);
 

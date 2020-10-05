@@ -21,7 +21,7 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	static double version = 1.482;
+	static double version = 1.485;
 
 	public static String title = "Among Us Editor";
 
@@ -90,7 +90,6 @@ public class AUEditorMain {
 			// Catch any exception that, for whatever reason wasn't already caught
 		} catch (Exception e) {
 			StackTraceElement cause = e.getStackTrace()[0];
-			System.out.println(cause.getClass());
 			
 			StackTraceElement origin = null;
 			for (StackTraceElement ste : e.getStackTrace()) {
@@ -105,6 +104,7 @@ public class AUEditorMain {
 							+ "\nException Type: " + cause.getClassName() + "\nMethod: " + cause.getMethodName() + (origin == null ? "" : "\nOrigin Class: " + origin.getClassName() + "\nOrigin Method: " + origin.getMethodName() + "\nOrigin Line: " + origin.getLineNumber()) + "\n\nNote: There is a chance you can fix this error yourself by deleting your AUEConfig file\nand by also deleting your playerPrefs file (If you know where it is)");
 			
 			e.printStackTrace();
+			System.exit(0);
 		}
 	}
 
