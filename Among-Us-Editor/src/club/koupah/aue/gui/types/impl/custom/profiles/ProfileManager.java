@@ -23,9 +23,11 @@ public class ProfileManager extends GUIComponent {
 	JButton load;
 
 	JButton delete;
-	
+
 	public Profile current;
-	
+
+	public int profileLength = 32;
+
 	// Going to use this to load and delete profiles, saving/sharing will be another
 	// component
 	public ProfileManager(final JLabel label, JComboBox<String> component) {
@@ -36,10 +38,10 @@ public class ProfileManager extends GUIComponent {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				if (!Editor.getInstance().isVisible())
 					return;
-				
+
 				String selected = (String) ((JComboBox<String>) ProfileManager.this.component).getSelectedItem();
 				if (selected != null && Profile.profileExists(selected)) {
 
@@ -61,11 +63,12 @@ public class ProfileManager extends GUIComponent {
 							}
 						}
 					}
-					
+
 					current = profile;
 					updateProfiles(selected);
-					
-					//We do this to circumvent the normal saveSettings() which changes our current settings array
+
+					// We do this to circumvent the normal saveSettings() which changes our current
+					// settings array
 					Editor.getInstance().prefsManager.savePlayerPrefs();
 					Editor.getInstance().refresh();
 				} else {
@@ -102,18 +105,17 @@ public class ProfileManager extends GUIComponent {
 					String newSettings[] = makeProfileConfig(selected);
 
 					profile.updateSettings(newSettings);
-					
+
 					updateProfiles(selected);
 					Editor.getInstance().configManager.saveConfig();
 				} else {
 					if (selected != null && selected.equals("None"))
 						new PopUp("That profile cannot be saved to!", false);
-					else
-						new PopUp("That profile doesn't exist!", false);
+					else new PopUp("That profile doesn't exist!", false);
 				}
 			}
 		});
-		
+
 		delete.setToolTipText("Delete the current selected profile!");
 		delete.setBounds(180, 20 + (index * Editor.guiSpacing), 70, 20);
 		delete.addActionListener(new ActionListener() {
@@ -130,8 +132,7 @@ public class ProfileManager extends GUIComponent {
 				} else {
 					if (selected != null && selected.equals("None"))
 						new PopUp("That profile cannot be deleted!", false);
-					else
-						new PopUp("That profile doesn't exist!", false);
+					else new PopUp("That profile doesn't exist!", false);
 				}
 			}
 		});
@@ -181,4 +182,39 @@ public class ProfileManager extends GUIComponent {
 		return settings;
 	}
 
+	public boolean profileNameChecks(String name, boolean importing) {
+		String tocheck;
+		String corrupted = "That profile is corrupted!\nMake sure you copied it correctly!";
+		if (name == null || name.length() < 1 || (tocheck = name.replaceAll(" ", "")).length() < 1) {
+			new PopUp(importing ? corrupted : "The profile doesn't have a name!", false);
+			return false;
+		}
+
+		if (name.length() > profileLength) {
+			new PopUp(importing ? corrupted : "That profile name is too long!", false);
+			return false;
+		}
+
+		if (tocheck.length() < 3) {
+			new PopUp(importing ? corrupted : "That profile name is too short!", false);
+			return false;
+		}
+
+		if (name.equals("None")) {
+			new PopUp(importing ? corrupted : "Profiles cannot have this name!", false);
+			return false;
+		}
+		
+		if (name.contains(",")) {
+			new PopUp(importing ? corrupted : "Profile names cannot contain \",\"", false);
+			return false;
+		}
+
+		if (!name.matches("\\A\\p{ASCII}*\\z")) { //Ascii only baby, helps me detect when people mess up importing profiles
+			new PopUp(importing ? corrupted : "Profiles names cannot have special symbols/letters!\n(ASCII Characters only)", false);
+			return false;
+		}
+
+		return true;
+	}
 }

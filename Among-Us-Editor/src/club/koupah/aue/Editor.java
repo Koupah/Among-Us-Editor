@@ -295,7 +295,7 @@ public class Editor extends JFrame {
 
 		// Not using allGUISettings.addAll(Arrays.asList(Setting,Setting,Setting));
 		// because we use the size of the array to get index because am lazy
-		add(new TextSetting(new JLabel("Username: "), new JTextField(), name.index()), COSMETIC);
+		add(new TextSetting(new JLabel("Username: "), new JTextField(), 10, "You may not be able to join games with a\nusername longer than 10 characters!", name.index()), COSMETIC);
 
 		add(new InvisibleName(new JLabel("Invisible Name: "), new JCheckBox(), name.index()), COSMETIC);
 
@@ -471,6 +471,10 @@ public class Editor extends JFrame {
 
 	public static Editor getInstance() {
 		return editor;
+	}
+
+	public static ProfileManager getProfileManager() {
+		return editor.profileManager;
 	}
 
 }

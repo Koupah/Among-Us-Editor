@@ -48,7 +48,7 @@ public class ProfileCreator extends GUIComponent {
 				} else {
 					// the name but with spaces replaced to check true length
 
-					if (profileNameChecks(name)) {
+					if (Editor.getProfileManager().profileNameChecks(name, false)) {
 
 						((JTextField) ProfileCreator.this.component).setText("");
 						String[] settings = Editor.getInstance().profileManager.makeProfileConfig(name);
@@ -69,30 +69,5 @@ public class ProfileCreator extends GUIComponent {
 		contentPane.add(create);
 	}
 
-	private boolean profileNameChecks(String name) {
-		String tocheck;
-
-		if (name == null || name.length() < 1 || (tocheck = name.replaceAll(" ", "")).length() < 1) {
-			new PopUp("You need a name for the profile!", false);
-			return false;
-		}
-
-		if (name.length() > 32) {
-			new PopUp("That name is too long!", false);
-			return false;
-		}
-
-		if (tocheck.length() < 3) {
-			new PopUp("That name is too short!", false);
-			return false;
-		}
-
-		if (name.equals("None")) {
-			new PopUp("You cannot create a profile with this name!", false);
-			return false;
-		}
-
-		return true;
-	}
 
 }

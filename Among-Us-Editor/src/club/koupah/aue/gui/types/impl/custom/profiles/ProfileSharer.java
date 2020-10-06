@@ -55,9 +55,13 @@ public class ProfileSharer extends GUIComponent {
 
 					Profile imported = new Profile(config);
 					if (imported.getProfileName() != null) {
-						Editor.getInstance().profileManager.updateProfiles(imported.getProfileName());
-						Editor.getInstance().configManager.saveConfig();
-						new PopUp("Successfully imported the profile \"" + imported.getProfileName() + "\"!", false);
+						if (Editor.getProfileManager().profileNameChecks(imported.getProfileName(), true)) { //Separate if statement, as this check shows it's own popups
+							Editor.getInstance().profileManager.updateProfiles(imported.getProfileName());
+							Editor.getInstance().configManager.saveConfig();
+							new PopUp("Successfully imported the profile \"" + imported.getProfileName() + "\"!", false);
+						} else {
+							imported.delete(); //Delete it from existence 
+						}
 					} else {
 						new PopUp(
 								"The profile you tried importing seemed to be corrupted!\nIf this is a mistake:\ntry again and make sure you copied the share code properly!",
@@ -124,9 +128,9 @@ public class ProfileSharer extends GUIComponent {
 			public void mousePressed(MouseEvent arg0) {
 				if (arg0.getButton() == 3) // 3 is right click
 					try {
-					    StringSelection sel = new StringSelection(shareText.getText());
-					    Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();
-					    clip.setContents(sel, null);
+						StringSelection sel = new StringSelection(shareText.getText());
+						Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();
+						clip.setContents(sel, null);
 					} catch (HeadlessException e1) {
 						// Basically, if theres an error just don't copy
 					}
@@ -141,15 +145,14 @@ public class ProfileSharer extends GUIComponent {
 		shareText.setEditable(false);
 		panel.add(new JLabel("Sharing Profile: " + profileName));
 		panel.add(new JLabel("Copy the text below, anyone can import it to get your profile!"));
-		
+
 		if (Editor.getInstance().windowsOS)
-		panel.add(new JLabel("You can also right click the text box to copy the share code"));
+			panel.add(new JLabel("You can also right click the text box to copy the share code"));
 
 		panel.add(shareText);
 
-		JOptionPane.showOptionDialog(null, panel, "Sharing " + profileName,
-				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-				null, options, null);
+		JOptionPane.showOptionDialog(null, panel, "Sharing " + profileName, JOptionPane.DEFAULT_OPTION,
+				JOptionPane.PLAIN_MESSAGE, null, options, null);
 	}
 
 	static String showImport() {
@@ -159,8 +162,9 @@ public class ProfileSharer extends GUIComponent {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		final JTextField shareText = new JTextField("");
-		
-		//Not removing this incase it does work on non windowsOS, but we catch all exceptions so if it doesn't, oh well
+
+		// Not removing this incase it does work on non windowsOS, but we catch all
+		// exceptions so if it doesn't, oh well
 		shareText.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -195,15 +199,14 @@ public class ProfileSharer extends GUIComponent {
 		shareText.setEditable(true);
 		panel.add(new JLabel("Put the share code below to import it!"));
 
-		if (Editor.getInstance().windowsOS) //Not sure if pasting works on
-		// non-windows, just to be safe :P 
-		panel.add(new JLabel("You can also right click the text box to paste your clipboard!")); 
+		if (Editor.getInstance().windowsOS) // Not sure if pasting works on
+			// non-windows, just to be safe :P
+			panel.add(new JLabel("You can also right click the text box to paste your clipboard!"));
 
 		panel.add(shareText);
 
-		JOptionPane.showOptionDialog(null, panel, "Importing Profile",
-				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-				null, options, null);
+		JOptionPane.showOptionDialog(null, panel, "Importing Profile", JOptionPane.DEFAULT_OPTION,
+				JOptionPane.PLAIN_MESSAGE, null, options, null);
 
 		String input = shareText.getText().replaceAll(" ", "").replaceAll("\n", ""); // sanitize the string
 
@@ -222,6 +225,11 @@ public class ProfileSharer extends GUIComponent {
 		}
 
 		if (isCorrupted(toDecode)) {
+			new PopUp("That share code is corrupted!\nPlease make sure you copied it correctly.", false);
+			return null;
+		}
+
+		if (input.split(",").length < 6 || input.split(",")[0].length() > 32) {
 			new PopUp("That share code is corrupted!\nPlease make sure you copied it correctly.", false);
 			return null;
 		}

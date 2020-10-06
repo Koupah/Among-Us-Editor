@@ -149,4 +149,8 @@ public class Profile {
 		pet = settings[5];
 	}
 
+	public void delete() {
+		Profile.profiles.remove(this);
+	}
+
 }
