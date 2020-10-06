@@ -35,6 +35,7 @@ public class TextSetting extends Setting {
 
 	@Override
 	public String getProperValue() {
+		System.out.println(((JTextField) TextSetting.this.component).getText().length());
 		if (Editor.getInstance().isVisible()
 				&& ((JTextField) TextSetting.this.component).getText().length() > TextSetting.this.maxLength) {
 			if (warn) {

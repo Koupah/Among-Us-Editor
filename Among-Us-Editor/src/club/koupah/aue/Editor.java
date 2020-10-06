@@ -289,73 +289,7 @@ public class Editor extends JFrame {
 					categoryPanel.getDescription());
 		}
 
-		/*
-		 * COSMETIC SETTINGS!
-		 */
-
-		// Not using allGUISettings.addAll(Arrays.asList(Setting,Setting,Setting));
-		// because we use the size of the array to get index because am lazy
-		add(new TextSetting(new JLabel("Username: "), new JTextField(), 10, "You may not be able to join games with a\nusername longer than 10 characters!", name.index()), COSMETIC);
-
-		add(new InvisibleName(new JLabel("Invisible Name: "), new JCheckBox(), name.index()), COSMETIC);
-
-		// Shifted hat over 5 pixels to make it more centered on average w/ the other
-		// cosmetics
-		add(new MultiSetting(new JLabel("Hat: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Hat), true,
-				true, new int[] { -5, 0, 0, 0, 1 }, hat.index()), COSMETIC);
-
-		add(new MultiSetting(new JLabel("Color: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Color), true,
-				true, new int[] { 0, -5, 0, 12, 3 }, color.index()), COSMETIC);
-
-		add(new MultiSetting(new JLabel("Skin: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Skin), true,
-				true, new int[] { 0, 0, 0, 0, 2 }, skin.index()), COSMETIC);
-
-		add(new MultiSetting(new JLabel("Pet: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Pet), false,
-				true, new int[] { -12, -12, 24, 24, 5 }, pet.index()), COSMETIC);
-
-		add(new CosmeticFilter(new JLabel("Filter Cosmetics: "), new JComboBox<String>()), COSMETIC);
-
-		/*
-		 * SETTING SETTINGS!
-		 */
-
-		add(new MultiSetting(new JLabel("Language: "), new JComboBox<String>(), Language.getAllLanguagesString(), false,
-				language.index()), SETTING);
-
-		add(new MultiSetting(new JLabel("Controls: "), new JComboBox<String>(),
-				Arrays.asList("Mouse Only", "Keyboard and Mouse"), false, control.index()), SETTING);
-
-		add(new CheckboxSetting(new JLabel("VSync: "), new JCheckBox(), vsync.index()), SETTING);
-
-		add(new CheckboxSetting(new JLabel("Censor Chat: "), new JCheckBox(), censorChat.index()), SETTING);
-
-		add(new SliderSetting(new JLabel("Sounds Effects Volume: "), new JSlider(), 0, 255, sfx.index()), SETTING);
-
-		add(new SliderSetting(new JLabel("Music Volume: "), new JSlider(), 0, 255, music.index()), SETTING);
-
-		/*
-		 * PREFERENCES SETTINGS!
-		 */
-
-		add(new LookAndFeelChooser(new JLabel("Look & Feel: "), new JComboBox<String>()), PREFERENCES);
-		add(new SchemeChooser(new JLabel("GUI Mode: "), new JComboBox<String>()), PREFERENCES);
-		add(new CustomSchemeEditor(new JLabel("Custom Colors: "), new JButton("Background")), PREFERENCES);
-
-		add(new ProfileCreator(new JLabel("Create Profile"), new JTextField()), PREFERENCES);
-		add(profileManager, PREFERENCES);
-		add(new ProfileSharer(new JLabel("Profile Sharer"), new JButton("Import Profile")), PREFERENCES);
-
-		/*
-		 * RAT SETTINGS!
-		 */
-
-		add(new HiddenRat(), RAT);
-
-		/*
-		 * OTHER SETTINGS!
-		 */
-		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), OTHER);
-		add(new DiscordButton(new JLabel("Join the discord server!"), new JButton("Join Server")), OTHER);
+		addComponents();
 
 		// Make all the components not focusable (Except textfields)
 		for (int i = 0; i < tabbedPanel.getTabCount(); i++) {
@@ -475,6 +409,77 @@ public class Editor extends JFrame {
 
 	public static ProfileManager getProfileManager() {
 		return editor.profileManager;
+	}
+	
+	public void addComponents() {
+		/*
+		 * COSMETIC SETTINGS!
+		 */
+
+		// Not using allGUISettings.addAll(Arrays.asList(Setting,Setting,Setting));
+		// because we use the size of the array to get index because am lazy
+		add(new TextSetting(new JLabel("Username: "), new JTextField(), 10, "You might not be able to join games with a\nusername longer than 10 characters!", name.index()), COSMETIC);
+
+		add(new InvisibleName(new JLabel("Invisible Name: "), new JCheckBox(), name.index()), COSMETIC);
+
+		// Shifted hat over 5 pixels to make it more centered on average w/ the other
+		// cosmetics
+		add(new MultiSetting(new JLabel("Hat: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Hat), true,
+				true, new int[] { -5, 0, 0, 0, 1 }, hat.index()), COSMETIC);
+
+		add(new MultiSetting(new JLabel("Color: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Color), true,
+				true, new int[] { 0, -5, 0, 12, 3 }, color.index()), COSMETIC);
+
+		add(new MultiSetting(new JLabel("Skin: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Skin), true,
+				true, new int[] { 0, 0, 0, 0, 2 }, skin.index()), COSMETIC);
+
+		add(new MultiSetting(new JLabel("Pet: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Pet), false,
+				true, new int[] { -12, -12, 24, 24, 5 }, pet.index()), COSMETIC);
+
+		add(new CosmeticFilter(new JLabel("Filter Cosmetics: "), new JComboBox<String>()), COSMETIC);
+
+		/*
+		 * SETTING SETTINGS!
+		 */
+
+		add(new MultiSetting(new JLabel("Language: "), new JComboBox<String>(), Language.getAllLanguagesString(), false,
+				language.index()), SETTING);
+
+		add(new MultiSetting(new JLabel("Controls: "), new JComboBox<String>(),
+				Arrays.asList("Mouse Only", "Keyboard and Mouse"), false, control.index()), SETTING);
+
+		add(new CheckboxSetting(new JLabel("VSync: "), new JCheckBox(), vsync.index()), SETTING);
+
+		add(new CheckboxSetting(new JLabel("Censor Chat: "), new JCheckBox(), censorChat.index()), SETTING);
+
+		add(new SliderSetting(new JLabel("Sounds Effects Volume: "), new JSlider(), 0, 255, sfx.index()), SETTING);
+
+		add(new SliderSetting(new JLabel("Music Volume: "), new JSlider(), 0, 255, music.index()), SETTING);
+
+		/*
+		 * PREFERENCES SETTINGS!
+		 */
+
+		add(new LookAndFeelChooser(new JLabel("Look & Feel: "), new JComboBox<String>()), PREFERENCES);
+		add(new SchemeChooser(new JLabel("GUI Mode: "), new JComboBox<String>()), PREFERENCES);
+		add(new CustomSchemeEditor(new JLabel("Custom Colors: "), new JButton("Background")), PREFERENCES);
+
+		add(new ProfileCreator(new JLabel("Create Profile"), new JTextField()), PREFERENCES);
+		add(profileManager, PREFERENCES);
+		add(new ProfileSharer(new JLabel("Profile Sharer"), new JButton("Import Profile")), PREFERENCES);
+
+		/*
+		 * OTHER SETTINGS!
+		 */
+		
+		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), OTHER);
+		add(new DiscordButton(new JLabel("Join the discord server!"), new JButton("Join Server")), OTHER);
+		
+		/*
+		 * RAT SETTINGS!
+		 */
+
+		add(new HiddenRat(), RAT);
 	}
 
 }

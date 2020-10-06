@@ -56,8 +56,7 @@ public class ProfileManager extends GUIComponent {
 							// This allows InvisibleName and future GUIComponents to avoid impacting
 							// settings
 
-							if (setting.getComponentValue(false) != null
-									&& Profile.isProfileSetting(setting.getSettingIndex())) {
+							if (Profile.isProfileSetting(setting.getSettingIndex())) {
 								Editor.getInstance().prefsManager.currentSettings[setting.getSettingIndex()] = settings[Profile
 										.getProfileIndex(setting.getSettingIndex())];
 							}
