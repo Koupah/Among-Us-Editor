@@ -2,7 +2,7 @@
 
 ### WINDOWS, MAC & LINUX NOW SUPPORTED (Not Android/IOS) ###  
 ### DISCORD: https://koupah.club/aueditor ###  
-  
+( https://discord.com/invite/HTm3mwK )  
 There were originally a bunch more commits (50+ lost) but I messed up and forced my whole workspace and it messed everything up
   
 ## Download Instructions ##  
