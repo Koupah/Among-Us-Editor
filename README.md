@@ -1,11 +1,10 @@
 # Among-Us-Editor
-
-### WINDOWS, MAC & LINUX NOW SUPPORTED (Not Android/IOS) ###  
 ### DISCORD: https://koupah.club/aueditor ###  
-( https://discord.com/invite/HTm3mwK )  
-There were originally a bunch more commits (50+ lost) but I messed up and forced my whole workspace and it messed everything up
+#### ( https://discord.com/invite/HTm3mwK ) ####    
+Join the discord to share your profiles, make suggestions and many other things!  
   
 ## Download Instructions ##  
+### Video Tutorial: https://youtu.be/rlv_1qFbZFM ###  
 ### Requires Java 7 or above https://www.java.com/ES/download/ ###  
 Download Link: https://github.com/Koupah/Among-Us-Editor/releases  
 Download the .jar file by clicking on it, then run it once it's finished downloading  
@@ -24,22 +23,24 @@ Therefore there can be 3 greens and 2 reds, and I believe if multiple people hav
 ![](images/fortegreen.png)  
 ![](images/fortegreen1.png)  
   
-## Video ##  
-Latest: https://youtu.be/rlv_1qFbZFM  
-OLD: https://youtu.be/2wRJmS7DKpc  
+## Videos ##  
+1.5 (Latest): https://youtu.be/rlv_1qFbZFM  
+1.45: https://youtu.be/rlv_1qFbZFM  
+1.0: https://youtu.be/2wRJmS7DKpc  
 
 If you upload a video showing or using this please give credit or atleast link this GitHub page!
 
 My Discord: Koupah#5129
 
 ## Credits ##  
-SovietSeal#0001: Wrote out all the names, ID's and Category of all Hats & Skins  
-SovietSeal#0001: Downloaded skin, pet & color images and named them their ID's for me  
+All Contributors in the discord!
 Slymeball: Has helped me bring support to mac/linux via his issues. Thank you.
 
 If you'd like to help w/ something or receive credit, you can contact me on my discord listed above 
 
 ## Information for those interested: ##  
+
+There were originally a bunch more commits (50+ lost) but I messed up and forced my whole workspace and it messed everything up  
 
 Custom names that include "\\", ")" or "\[" will result in a "Banned from Room" message and you also cannot include "," in your name as it breaks the file.  
 Names longer than 10 characters will also not work in online games, local play lets you make a lobby but I'm not sure if others can join.

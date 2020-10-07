@@ -1,11 +1,12 @@
 @echo off
 color 0a
-set "version=1.0"
+set "version=1.1"
 Title Among Us Editor Launcher v%version%
 cls
 echo Welcome to the optional Among Us Editor launcher v%version% 
 echo I only suggest using this if you're having an issue launching the Editor normally!
 echo Make sure the Editor is in the same location as this batch file!
+echo Make sure the Editor file name also has NO spaces in it!
 :start
 echo.
 echo.
@@ -19,6 +20,8 @@ set /p type="Enter Launch Type: "
 :choosefile
 set /p editor="Enter the Editor .jar file name (Press tab to auto complete): "
 
+
+set editor=%editor:"=%
 
 IF NOT exist %editor% (
 	cls
@@ -41,7 +44,7 @@ IF %type%==2 (
 )
 
 IF %type%==3 (
-	java -jar %editor%
+	echo java -jar "%editor%"
 	GOTO end
 )
 
