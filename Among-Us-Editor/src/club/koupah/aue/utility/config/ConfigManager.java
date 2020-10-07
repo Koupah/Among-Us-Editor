@@ -54,9 +54,9 @@ public class ConfigManager {
 		try {
 			this.applicationDirectory = new File(codeSource.getLocation().toURI().getPath()).getParent();
 		} catch (URISyntaxException e) {
-			this.applicationDirectory = new File("AUEConfig").getParent(); //If we can't get the source, just get a new file and try
+			this.applicationDirectory = System.getProperty("user.dir"); //If we can't get the source, just get current directory
 		}
-	
+
 		this.config = new File(applicationDirectory,configFileName);
 		this.configName = config.getName();
 		this.instance = instance;
