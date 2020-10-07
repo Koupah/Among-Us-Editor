@@ -27,7 +27,7 @@ public class GUIManager {
 	public void updateLookAndFeel() {
 		try {
 			UIManager.setLookAndFeel(instance.configManager.getLookAndFeel());
-			SwingUtilities.updateComponentTreeUI(instance);
+			SwingUtilities.updateComponentTreeUI(instance); //TODO find what causes this error: http://prntscr.com/uup2q6
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| UnsupportedLookAndFeelException e) {
 			new PopUp("Look and Feel error?\n" + e.getMessage() + "\n\nAttempting default Look and Feel!", false);

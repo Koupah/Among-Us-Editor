@@ -5,7 +5,7 @@ Join the discord to share your profiles, make suggestions and many other things!
   
 ## Download Instructions ##  
 ### Video Tutorial: https://youtu.be/OS1px12PtGQ ###  
-### Requires Java 7 or above https://www.java.com/ES/download/ ###  
+### Requires Java 7 or above https://www.java.com/en/download/ ###  
 Download Link: https://github.com/Koupah/Among-Us-Editor/releases  
 Download the .jar file by clicking on it, then run it once it's finished downloading  
 From there, it's as simple as choosing your settings then applying & running the game  
@@ -24,7 +24,7 @@ Therefore there can be 3 greens and 2 reds, and I believe if multiple people hav
 ![](images/fortegreen1.png)  
   
 ## Videos ##  
-1.5 (Latest): https://youtu.be/OS1px12PtGQ  
+1.51 (Latest): https://youtu.be/OS1px12PtGQ  
 1.45: https://youtu.be/rlv_1qFbZFM  
 1.0: https://youtu.be/2wRJmS7DKpc  
 
