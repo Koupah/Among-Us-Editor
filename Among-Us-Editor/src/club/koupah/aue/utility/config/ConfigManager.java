@@ -16,8 +16,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.URISyntaxException;
+import java.security.CodeSource;
 import java.util.ArrayList;
 
+import club.koupah.AUEditorMain;
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.settings.GUIScheme;
 import club.koupah.aue.utility.PopUp;
@@ -43,10 +46,19 @@ public class ConfigManager {
 	GUIScheme scheme = GUIScheme.Normal; // Default scheme/look
 
 	ArrayList<String> configLines = new ArrayList<String>();
-
-	public ConfigManager(File configFile, Editor instance) {
-		this.config = configFile;
-		this.configName = configFile.getName();
+	
+	String applicationDirectory;
+	
+	public ConfigManager(String configFileName, Editor instance) {
+		CodeSource codeSource = AUEditorMain.class.getProtectionDomain().getCodeSource();
+		try {
+			this.applicationDirectory = new File(codeSource.getLocation().toURI().getPath()).getParent();
+		} catch (URISyntaxException e) {
+			this.applicationDirectory = new File("AUEConfig").getParent(); //If we can't get the source, just get a new file and try
+		}
+	
+		this.config = new File(applicationDirectory,configFileName);
+		this.configName = config.getName();
 		this.instance = instance;
 	}
 
@@ -66,7 +78,7 @@ public class ConfigManager {
 				// line and makes some settings in config optional for proper loading
 				if (isSetting(PlayerPrefs, config, lineNum)) {
 					System.out.println(config + ":" + lineNum);
-					playerPrefs = new File(config);
+					playerPrefs = new File(config); //Don't need to put current directory, it's a path
 
 				} else if (isSetting(LookAndFeel, config, lineNum)) {
 
@@ -143,7 +155,7 @@ public class ConfigManager {
 			
 			writer.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			new PopUp(config.getAbsolutePath());
 			new PopUp(String.format(
 					"Failed to save the playerPrefs file location to %s.\nContinuing but it'll have to be found again next launch!",
 					configName), false);

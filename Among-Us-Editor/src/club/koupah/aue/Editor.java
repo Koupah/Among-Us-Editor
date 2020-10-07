@@ -109,9 +109,6 @@ public class Editor extends JFrame {
 	 */
 	public ConfigManager configManager;
 
-	// This config file is only used to create the config manager
-	private File configFile = new File("AUEConfig");
-
 	// Default settings for when a user has no settings
 	public String defaultSettings = "Username,1,0,1,False,False,False,0,False,False,0,255,94,0.5,0,0,0,True,0,False";
 
@@ -166,10 +163,10 @@ public class Editor extends JFrame {
 
 		profileManager = new ProfileManager(new JLabel("Manage Profile:"), new JComboBox<String>());
 
-		configManager = new ConfigManager(configFile, this);
+		configManager = new ConfigManager("AUEConfig", this);
 
 		// Can't load config if it doesnt exist
-		if (configFile.exists())
+		if (configManager.configExists())
 			configManager.loadConfig();
 		// else configManager.createConfigFile(); Don't create a new config here, we
 		// need it to not exist below
