@@ -6,9 +6,9 @@ import club.koupah.aue.gui.GUIPanel;
 public enum SettingType {
 
 	COSMETIC(new GUIPanel("Cosmetics", "cosmetics.png")),
-	SETTING(new GUIPanel("Settings", "settings.png")),
-	PREFERENCES(new GUIPanel("Preferences", "preferences.png")),
-	OTHER(new GUIPanel("Other", "other.png")),
+	SETTING(new GUIPanel("Settings", "settings.png", "settingswhite.png")),
+	PREFERENCES(new GUIPanel("Preferences", "preferences.png", "preferenceswhite.png")),
+	OTHER(new GUIPanel("Other", "other.png", "otherwhite.png")),
 	
 	RAT(new GUIPanel("Rat","rat.jpg"), false);//DO NOT SET THIS TO TRUE UNLESS YOU WANT A RAT
 	
@@ -34,13 +34,13 @@ public enum SettingType {
 	
 	public void setVisible(boolean update) {
 		if (this.visible = update)
-			Editor.getInstance().tabbedPanel.insertTab(getPanel().getName(), getPanel().getIcon(), getPanel(), getPanel().getDescription(), getIndex());
+			Editor.getInstance().tabbedPanel.insertTab(getPanel().getName(), getPanel().getIcon(false), getPanel(), getPanel().getDescription(), getIndex());
 		else
 			Editor.getInstance().tabbedPanel.remove(this.getPanel());
 	}
 	
 	//gets the index of this in the array (Cosmetic 0, Setting 1, etc)
-	int getIndex() {
+	public int getIndex() {
 		int index = 0;
 		for (SettingType type : values()) {
 			if (type.equals(this))

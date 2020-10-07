@@ -23,7 +23,7 @@ public class CosmeticFilter extends GUIComponent {
 		for (CosmeticCategory category : Cosmetic.CosmeticCategory.values()) 
 			component.addItem(category.name());
 		
-		component.addItem("All except Free");
+		component.addItem("Seasonal + Paid");
 		
 		label.setText(label.getText() + "All");
 		
@@ -50,7 +50,7 @@ public class CosmeticFilter extends GUIComponent {
 							
 							if (selected.equals("All")) 
 								multi.originalValues();
-							else if (selected.equals("All except Free")) 
+							else if (selected.equals("Seasonal + Paid")) 
 								multi.setValues(Cosmetic.getItems(type, CosmeticCategory.Paid, true)); // true == and above
 							else 
 								//TODO: Add ability to choose "and above", essentially filter to Paid & Above

@@ -133,7 +133,7 @@ public class Editor extends JFrame {
 		// The instance
 		editor = this;
 
-		this.setIconImage(ImageUtil.getImage(GUIPanel.class, "tabicons/cosmetics.png"));
+		this.setIconImage(ImageUtil.getImage(GUIPanel.class, "icons/cosmetics.png"));
 
 		setTitle(Utility.editorName() + " (v" + version + ") - By Koupah");
 
@@ -164,7 +164,7 @@ public class Editor extends JFrame {
 
 		guiManager = new GUIManager(this);
 
-		profileManager = new ProfileManager(new JLabel("Manage Profile"), new JComboBox<String>());
+		profileManager = new ProfileManager(new JLabel("Manage Profile:"), new JComboBox<String>());
 
 		configManager = new ConfigManager(configFile, this);
 
@@ -189,8 +189,8 @@ public class Editor extends JFrame {
 			// Just get the one from config if we're on mac/linux
 			File playerPrefs = configManager.getPlayerPrefs();
 
-			if (!playerPrefs.exists()) {
-				new PopUp("The playerPrefs file in your config doesn't exist!\nPlease choose it again!");
+			if (playerPrefs == null || !playerPrefs.exists()) {
+				new PopUp("The playerPrefs file in your config doesn't exist!\nPlease choose it again!", false);
 				// Function for non-windows users
 				prefsFinder.choosePlayerPrefs();
 			}
@@ -285,7 +285,7 @@ public class Editor extends JFrame {
 		for (SettingType setting : SettingType.values()) {
 
 			categoryPanel = setting.getPanel();
-			tabbedPanel.addTab(categoryPanel.getName(), categoryPanel.getIcon(), categoryPanel,
+			tabbedPanel.addTab(categoryPanel.getName(), categoryPanel.getIcon(false), categoryPanel,
 					categoryPanel.getDescription());
 		}
 
@@ -326,7 +326,23 @@ public class Editor extends JFrame {
 		applySettings.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				saveSettings();
+				if (applySettings.getText().equals("Apply Settings")) { // Disabling the button doesnt let us control text
+																							// color, Instead just change text and don't work
+																							// unless the text is normal
+					saveSettings();
+					configManager.saveConfig();
+					new Thread() {
+						public void run() {
+							try {
+								applySettings.setText("Applied");
+								Thread.sleep(1000);
+								applySettings.setText("Apply Settings");
+							} catch (InterruptedException e) {
+							}
+
+						}
+					}.start();
+				}
 			}
 		});
 
@@ -387,8 +403,8 @@ public class Editor extends JFrame {
 
 	// Made this cause it's smaller than writing allGUISettings.add()
 	public void add(GUIComponent setting, SettingType type) {
-			allGUIComponents.add(setting);
-			setting.addToPane(type.getPanel());
+		allGUIComponents.add(setting);
+		setting.addToPane(type.getPanel());
 	}
 
 	public void refresh() {
@@ -410,7 +426,7 @@ public class Editor extends JFrame {
 	public static ProfileManager getProfileManager() {
 		return editor.profileManager;
 	}
-	
+
 	public void addComponents() {
 		/*
 		 * COSMETIC SETTINGS!
@@ -418,7 +434,8 @@ public class Editor extends JFrame {
 
 		// Not using allGUISettings.addAll(Arrays.asList(Setting,Setting,Setting));
 		// because we use the size of the array to get index because am lazy
-		add(new TextSetting(new JLabel("Username: "), new JTextField(), 10, "You might not be able to join games with a\nusername longer than 10 characters!", name.index()), COSMETIC);
+		add(new TextSetting(new JLabel("Username: "), new JTextField(), 10,
+				"You might not be able to join games with a\nusername longer than 10 characters!", name.index()), COSMETIC);
 
 		add(new InvisibleName(new JLabel("Invisible Name: "), new JCheckBox(), name.index()), COSMETIC);
 
@@ -464,17 +481,17 @@ public class Editor extends JFrame {
 		add(new SchemeChooser(new JLabel("GUI Mode: "), new JComboBox<String>()), PREFERENCES);
 		add(new CustomSchemeEditor(new JLabel("Custom Colors: "), new JButton("Background")), PREFERENCES);
 
-		add(new ProfileCreator(new JLabel("Create Profile"), new JTextField()), PREFERENCES);
+		add(new ProfileCreator(new JLabel("Create Profile:"), new JTextField()), PREFERENCES);
 		add(profileManager, PREFERENCES);
-		add(new ProfileSharer(new JLabel("Profile Sharer"), new JButton("Import Profile")), PREFERENCES);
+		add(new ProfileSharer(new JLabel("Profile Sharer:"), new JButton("Import Profile")), PREFERENCES);
 
 		/*
 		 * OTHER SETTINGS!
 		 */
-		
+
 		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), OTHER);
 		add(new DiscordButton(new JLabel("Join the discord server!"), new JButton("Join Server")), OTHER);
-		
+
 		/*
 		 * RAT SETTINGS!
 		 */

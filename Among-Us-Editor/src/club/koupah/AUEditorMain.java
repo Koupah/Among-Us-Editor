@@ -15,13 +15,14 @@ import club.koupah.aue.gui.settings.cosmetics.Skins;
 import club.koupah.aue.gui.types.SettingType;
 import club.koupah.aue.utility.PopUp;
 import club.koupah.aue.utility.Utility;
+import club.koupah.aue.utility.config.ConfigType;
 
 public class AUEditorMain {
 
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	static double version = 1.487;
+	static double version = 1.49;
 
 	public static String title = "Among Us Editor";
 
@@ -37,6 +38,7 @@ public class AUEditorMain {
 			Colors.values();
 			GUIScheme.values();
 			SettingType.values();
+			ConfigType.values();
 
 			// Local variable, I'm not going to use it again from outside this class
 			final Editor editor = new Editor(version);
@@ -98,7 +100,9 @@ public class AUEditorMain {
 					break;
 				}
 			}
-			
+			System.out.println("Exception Type: " + cause.getClassName());
+			System.out.println("Method: " + cause.getMethodName());
+			System.out.println(origin == null ? "" : "\nOrigin Class: " + origin.getClassName() + "\nOrigin Method: " + origin.getMethodName() + "\nOrigin Line: " + origin.getLineNumber());
 			JOptionPane.showMessageDialog(null,
 					"Fatal error #0001, send this to Koupah#5129 on discord or open an issue on the GitHub with the below!\nVersion: " + version + "\nMessage: " + e.getMessage()
 							+ "\nException Type: " + cause.getClassName() + "\nMethod: " + cause.getMethodName() + (origin == null ? "" : "\nOrigin Class: " + origin.getClassName() + "\nOrigin Method: " + origin.getMethodName() + "\nOrigin Line: " + origin.getLineNumber()) + "\n\nNote: There is a chance you can fix this error yourself by deleting your AUEConfig file\nand by also deleting your playerPrefs file (If you know where it is)");

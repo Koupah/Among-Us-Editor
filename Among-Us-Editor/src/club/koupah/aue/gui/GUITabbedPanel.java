@@ -10,6 +10,8 @@ public class GUITabbedPanel extends JTabbedPane {
 	/**
 	 * 
 	 */
+	
+	
 	private static final long serialVersionUID = -1214414762924116340L;
 
 	public GUITabbedPanel() {

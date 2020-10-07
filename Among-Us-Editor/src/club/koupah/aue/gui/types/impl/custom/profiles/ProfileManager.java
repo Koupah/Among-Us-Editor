@@ -190,12 +190,12 @@ public class ProfileManager extends GUIComponent {
 		}
 
 		if (name.length() > profileLength) {
-			new PopUp(importing ? corrupted : "That profile name is too long!", false);
+			new PopUp(importing ? corrupted : "That profile name is too long!\nMax Length: " + profileLength + " characters!", false);
 			return false;
 		}
 
 		if (tocheck.length() < 3) {
-			new PopUp(importing ? corrupted : "That profile name is too short!", false);
+			new PopUp(importing ? corrupted : "That profile name is too short!\nYou need atleast 3 characters!", false);
 			return false;
 		}
 

@@ -43,10 +43,12 @@ public class CustomSchemeEditor extends GUIComponent {
 					@Override
 					public void stateChanged(ChangeEvent arg0) {
 						GUIScheme.Custom.setBackground(colorChooser.getColor());
-						Editor.getInstance().guiManager.updateColorScheme(true);
+						Editor.getInstance().guiManager
+								.updateColorScheme(!Editor.getInstance().configManager.getScheme().isRGB()); // Prevents buggy
+																																		// grey effect
 					}
 				});
-				
+
 				if (!bgCFrame.isVisible()) {
 					bgCFrame.removeAll();
 					bgCFrame.dispose();
@@ -75,15 +77,16 @@ public class CustomSchemeEditor extends GUIComponent {
 					@Override
 					public void stateChanged(ChangeEvent arg0) {
 						GUIScheme.Custom.setForeground(colorChooser.getColor());
-						Editor.getInstance().guiManager.updateColorScheme(true);
+						Editor.getInstance().guiManager
+								.updateColorScheme(!Editor.getInstance().configManager.getScheme().isRGB());
 					}
 				});
-
-				
 				if (!fgCFrame.isVisible()) {
 					fgCFrame.removeAll();
 					fgCFrame.dispose();
 					fgCFrame = new JFrame("Foreground Color");
+					fgCFrame.setBackground(Color.RED);
+					fgCFrame.getContentPane().setBackground(Color.RED);
 					fgCFrame.setPreferredSize(new Dimension(300, 300));
 					fgCFrame.setResizable(false);
 					fgCFrame.setLocationRelativeTo(Editor.getInstance());

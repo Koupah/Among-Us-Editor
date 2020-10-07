@@ -209,7 +209,10 @@ public class ProfileSharer extends GUIComponent {
 				JOptionPane.PLAIN_MESSAGE, null, options, null);
 
 		String input = shareText.getText().replaceAll(" ", "").replaceAll("\n", ""); // sanitize the string
-
+		
+		if (input.length() < 1) //Just ignore it if the user inputs nothing
+			return null;
+		
 		if (!input.startsWith("aue") || input.length() < 12) {
 			new PopUp("That isn't a valid share code!", false);
 			return null;

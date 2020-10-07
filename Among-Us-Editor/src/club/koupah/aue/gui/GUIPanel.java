@@ -18,14 +18,22 @@ public class GUIPanel extends JLayeredPane {
 	String name;
 
 	Icon icon;
-
+	Icon whiteIcon;
+	
+	boolean hasWhite;
+	boolean white = false;
+	
 	int maxHeight = 0;
 
 	public GUIPanel(String name, String iconFileName) {
+		this(name, iconFileName, iconFileName);
+	}
+	
+	public GUIPanel(String name, String iconFileName, String whiteIcon) {
 		this.name = name;
-
-		this.icon = ImageUtil.getIcon(this.getClass(), "tabicons/" + iconFileName, 50, 20);
-
+		hasWhite = !iconFileName.equals(whiteIcon);
+		this.icon = ImageUtil.getIcon(this.getClass(), "icons/" + iconFileName, 50, 20);
+		this.whiteIcon = ImageUtil.getIcon(this.getClass(), "icons/" + whiteIcon, 50, 20);
 		setLayout(null);
 		setOpaque(true);
 	}
@@ -38,8 +46,9 @@ public class GUIPanel extends JLayeredPane {
 		return super.add(comp);
 	}
 
-	public Icon getIcon() {
-		return this.icon;
+	public Icon getIcon(boolean white) {
+		this.white = white;
+		return white ? this.whiteIcon : this.icon;
 	}
 
 	public String getDescription() {

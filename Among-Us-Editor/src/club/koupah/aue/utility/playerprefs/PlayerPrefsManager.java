@@ -38,7 +38,7 @@ public class PlayerPrefsManager {
 				new InputStreamReader(new FileInputStream(instance.configManager.getPlayerPrefs()), "UTF-8"))) {
 
 			String line = bufferedReader.readLine();
-			System.out.println("Read following line from settings file: \n" + line);
+			System.out.println("Read following line from the playerPrefs file: \n" + line);
 
 			// This is unnecessary, playerPrefs file is 1 line
 			// while(line != null) { line = bufferedReader.readLine(); }

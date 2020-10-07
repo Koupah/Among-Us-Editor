@@ -24,12 +24,12 @@ public class HiddenRat extends GUIComponent {
 		int height = 300;
 		component.setBounds(0, 0, width, height);
 		((JLabel) component).setIcon(ImageUtil.makeIcon(
-				ImageUtil.scaleImage(ImageUtil.getImage(GUITabbedPanel.class, "tabicons/rat.jpg"), width, height)));
+				ImageUtil.scaleImage(ImageUtil.getImage(GUITabbedPanel.class, "icons/rat.jpg"), width, height)));
 
 		JLabel remy = new JLabel("other rat guy");
 		remy.setBounds(280, 150, 150, 150);
 		remy.setIcon(ImageUtil
-				.makeIcon(ImageUtil.scaleImage(ImageUtil.getImage(GUITabbedPanel.class, "tabicons/remy.jpg"), 150, 150)));
+				.makeIcon(ImageUtil.scaleImage(ImageUtil.getImage(GUITabbedPanel.class, "icons/remy.jpg"), 150, 150)));
 		contentPane.add(remy, 1); // Put it above
 	
 		JLabel bt = new JLabel("Top Text");

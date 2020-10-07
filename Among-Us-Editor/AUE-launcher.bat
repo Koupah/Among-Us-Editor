@@ -1,9 +1,9 @@
 @echo off
 color 0a
-set "version=1.487"
-Title Among Us Editor %version% Launcher
+set "version=1.0"
+Title Among Us Editor Launcher v%version%
 cls
-echo Welcome to the optional Among Us Editor %version% launcher
+echo Welcome to the optional Among Us Editor launcher v%version% 
 echo I only suggest using this if you're having an issue launching the Editor normally!
 echo Make sure the Editor is in the same location as this batch file!
 :start

@@ -110,7 +110,7 @@ public class Setting extends GUIComponent {
 			//Warn people when saving the Fortegreen color about it's issues
 			if (Editor.getInstance().isVisible() && Integer.valueOf(currentSettings[settingIndex]) >= Colors.Fortegreen.getID() && fortegreenWarning) {
 				fortegreenWarning = false;
-				new PopUp("Using the Fortegreen color can cause all sorts of issues such as:\nHats not showing\nSkins not showing\nPets not showing\nBlack Screens when hosting\n\nYou can find all the issues listed on the GitHub page!", false);
+				new PopUp("Using the Fortegreen color can cause the following:\n-Hats not showing\n-Skins not showing\n-Pets not showing\n-Black Screens when hosting\n-Incorrect spawn location\n-Not being able to talk in lobby chat\n\nYou can find all the issues listed on the GitHub page!", false);
 			}
 			return Cosmetic.getItemName(CosmeticType.Color, currentSettings[settingIndex]);
 		}
