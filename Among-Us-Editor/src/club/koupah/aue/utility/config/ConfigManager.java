@@ -51,11 +51,8 @@ public class ConfigManager {
 	
 	public ConfigManager(String configFileName, Editor instance) {
 		CodeSource codeSource = AUEditorMain.class.getProtectionDomain().getCodeSource();
-		try {
-			this.applicationDirectory = new File(codeSource.getLocation().toURI().getPath()).getParent();
-		} catch (URISyntaxException e) {
-			this.applicationDirectory = System.getProperty("user.dir"); //If we can't get the source, just get current directory
-		}
+		String username = System.getProperty("user.name");
+		this.applicationDirectory = "/home/" + username + "/.config";
 
 		this.config = new File(applicationDirectory,configFileName);
 		this.configName = config.getName();
