@@ -19,7 +19,9 @@ import club.koupah.aue.utility.PopUp;
 public class GUIManager {
 
 	Editor instance;
-
+	
+	boolean alwaysOnTop = false; //Default
+	
 	public GUIManager(Editor instance) {
 		this.instance = instance;
 	}
@@ -27,7 +29,11 @@ public class GUIManager {
 	public void updateLookAndFeel() {
 		try {
 			UIManager.setLookAndFeel(instance.configManager.getLookAndFeel());
+			try {
 			SwingUtilities.updateComponentTreeUI(instance); //TODO find what causes this error: http://prntscr.com/uup2q6
+			} catch (Exception e) {
+				System.out.println("Swing utils updateComponentTreeUI exception");
+			}
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| UnsupportedLookAndFeelException e) {
 			new PopUp("Look and Feel error?\n" + e.getMessage() + "\n\nAttempting default Look and Feel!", false);
@@ -124,8 +130,10 @@ public class GUIManager {
 								// reset basically
 					SwingUtilities.updateComponentTreeUI(instance);
 				// This needs to be set after the swing update
-
+				try {
 				instance.tabbedPanel.updateUI(scheme.getForeground());
+				} catch (Exception e) {
+				}
 			}
 		});
 	}

@@ -51,6 +51,7 @@ import club.koupah.aue.gui.types.impl.CheckboxSetting;
 import club.koupah.aue.gui.types.impl.MultiSetting;
 import club.koupah.aue.gui.types.impl.SliderSetting;
 import club.koupah.aue.gui.types.impl.TextSetting;
+import club.koupah.aue.gui.types.impl.custom.AlwaysOnTop;
 import club.koupah.aue.gui.types.impl.custom.CosmeticFilter;
 import club.koupah.aue.gui.types.impl.custom.DiscordButton;
 import club.koupah.aue.gui.types.impl.custom.HiddenRat;
@@ -206,7 +207,7 @@ public class Editor extends JFrame {
 		// This really shouldn't be possible because the above should counter it, but
 		// **just** incase
 		if (!configManager.getPlayerPrefs().exists()) {
-			new PopUp("The playerPrefs file doesn't exist!\nError #1932\nMessage Koupah#5129 on discord.");
+			new PopUp("The playerPrefs file doesn't exist!\nPlease make sure you aren't using someone elses AUEConfig file!\nError #1932\nMessage Koupah#5129 on discord.");
 		}
 
 		// load playerPrefs settings (Commented out, we don't need to read twice on
@@ -477,11 +478,14 @@ public class Editor extends JFrame {
 		add(new LookAndFeelChooser(new JLabel("Look & Feel: "), new JComboBox<String>()), PREFERENCES);
 		add(new SchemeChooser(new JLabel("GUI Mode: "), new JComboBox<String>()), PREFERENCES);
 		add(new CustomSchemeEditor(new JLabel("Custom Colors: "), new JButton("Background")), PREFERENCES);
-
+		
 		add(new ProfileCreator(new JLabel("Create Profile:"), new JTextField()), PREFERENCES);
 		add(profileManager, PREFERENCES);
 		add(new ProfileSharer(new JLabel("Profile Sharer:"), new JButton("Import Profile")), PREFERENCES);
-
+		
+		add(new AlwaysOnTop(new JLabel("Always On Top: "), new JCheckBox(), -1), PREFERENCES);
+		
+		
 		/*
 		 * OTHER SETTINGS!
 		 */

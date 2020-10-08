@@ -8,12 +8,14 @@ import javax.swing.JLabel;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import club.koupah.aue.Editor;
+import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.types.GUIComponent;
 import club.koupah.aue.utility.Utility;
 
 public class UpdateChecker extends GUIComponent {
 
 	LookAndFeelInfo[] allLookAndFeels;
+	
 	
 	public UpdateChecker(JLabel label, JButton component) {
 		super(label, component);
@@ -25,5 +27,10 @@ public class UpdateChecker extends GUIComponent {
 			}
 		});
 	}
-
+	
+	@Override
+	public void addToPane(GUIPanel contentPane) {
+		super.addToPane(contentPane);	
+	}
+	
 }

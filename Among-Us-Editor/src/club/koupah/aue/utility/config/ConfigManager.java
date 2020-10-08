@@ -1,10 +1,6 @@
 package club.koupah.aue.utility.config;
 
-import static club.koupah.aue.utility.config.ConfigType.CustomColors;
-import static club.koupah.aue.utility.config.ConfigType.LookAndFeel;
-import static club.koupah.aue.utility.config.ConfigType.PlayerPrefs;
-import static club.koupah.aue.utility.config.ConfigType.RGBSpeed;
-import static club.koupah.aue.utility.config.ConfigType.Scheme;
+import static club.koupah.aue.utility.config.ConfigType.*;
 import static club.koupah.aue.utility.config.ConfigType.isSetting;
 
 import java.awt.Color;
@@ -45,19 +41,22 @@ public class ConfigManager {
 
 	GUIScheme scheme = GUIScheme.Normal; // Default scheme/look
 
+	boolean alwaysOnTop = false; // Default Value
+
 	ArrayList<String> configLines = new ArrayList<String>();
-	
+
 	String applicationDirectory;
-	
+
 	public ConfigManager(String configFileName, Editor instance) {
 		CodeSource codeSource = AUEditorMain.class.getProtectionDomain().getCodeSource();
 		try {
 			this.applicationDirectory = new File(codeSource.getLocation().toURI().getPath()).getParent();
 		} catch (URISyntaxException e) {
-			this.applicationDirectory = System.getProperty("user.dir"); //If we can't get the source, just get current directory
+			this.applicationDirectory = System.getProperty("user.dir"); // If we can't get the source, just get current
+																							// directory
 		}
 
-		this.config = new File(applicationDirectory,configFileName);
+		this.config = new File(applicationDirectory, configFileName);
 		this.configName = config.getName();
 		this.instance = instance;
 	}
@@ -78,7 +77,7 @@ public class ConfigManager {
 				// line and makes some settings in config optional for proper loading
 				if (isSetting(PlayerPrefs, config, lineNum)) {
 					System.out.println(config + ":" + lineNum);
-					playerPrefs = new File(config); //Don't need to put current directory, it's a path
+					playerPrefs = new File(config); // Don't need to put current directory, it's a path
 
 				} else if (isSetting(LookAndFeel, config, lineNum)) {
 
@@ -99,6 +98,10 @@ public class ConfigManager {
 				} else if (isSetting(RGBSpeed, config, lineNum)) {
 
 					rgbSpeed = config.split(RGBSpeed.lineStart)[1];
+
+				} else if (isSetting(AOT, config, lineNum)) {
+
+					alwaysOnTop = config.split(":")[1].equals("true");
 
 				} else if (config.contains(",") && config.split(",").length > 5) {
 
@@ -129,30 +132,30 @@ public class ConfigManager {
 				return;
 			}
 
-
 			// We should only continue writing if the line that should exist next, exists.
 			// This is for 100% backwards/forwards compatibility
-				
-				PlayerPrefs.write(writer, playerPrefs.getAbsolutePath());
 
-				LookAndFeel.write(writer, lookAndFeel);
+			PlayerPrefs.write(writer, playerPrefs.getAbsolutePath());
 
-				Scheme.write(writer, scheme.getName());
+			LookAndFeel.write(writer, lookAndFeel);
 
-				CustomColors.write(writer,
-						(GUIScheme.Custom.getForeground().getRGB()) + ":" + (GUIScheme.Custom.getBackground().getRGB()));
-				
-				RGBSpeed.write(writer, rgbSpeed);
-		
-				// Write profiles here
-				writer.write("[profiles]");
+			Scheme.write(writer, scheme.getName());
+
+			CustomColors.write(writer,
+					(GUIScheme.Custom.getForeground().getRGB()) + ":" + (GUIScheme.Custom.getBackground().getRGB()));
+
+			RGBSpeed.write(writer, rgbSpeed);
+
+			AOT.write(writer, String.valueOf(alwaysOnTop));
+
+			// Write profiles here
+			writer.write("[profiles]");
+			writer.newLine();
+			for (Profile profile : Profile.profiles) {
+				writer.write(profile.getConfigLine());
 				writer.newLine();
-				for (Profile profile : Profile.profiles) {
-					writer.write(profile.getConfigLine());
-					writer.newLine();
-				}
+			}
 
-			
 			writer.close();
 		} catch (IOException e) {
 			new PopUp(config.getAbsolutePath());
@@ -211,6 +214,14 @@ public class ConfigManager {
 
 	public void setRGBSpeed(int value) {
 		rgbSpeed = String.valueOf(value);
+	}
+
+	public boolean getAOT() {
+		return this.alwaysOnTop;
+	}
+
+	public void setAOT(boolean aot) {
+		this.alwaysOnTop = aot;
 	}
 
 }

@@ -10,7 +10,8 @@ public enum ConfigType {
 	Scheme(2),
 	CustomColors("aueCC:", 3),
 	RGBSpeed("aueRGBS:", 4),
-	ConfigProfile(6);
+	AOT("aueAOT:", 5),
+	ConfigProfile(7);
 	
 	
 	String lineStart;

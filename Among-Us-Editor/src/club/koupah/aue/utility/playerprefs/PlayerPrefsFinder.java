@@ -31,9 +31,12 @@ public class PlayerPrefsFinder {
 		if (instance.configManager.configExists()) {
 			File fromConfig = instance.configManager.getPlayerPrefs();
 			// Can return null if the line
-			if (fromConfig != null /* && fromConfig.exists() */) // Removed exists check as I want the user to know if it
+			if (fromConfig != null  && fromConfig.exists()) {// Removed exists check as I want the user to know if it
 																					// doesn't exist anymore
 				return fromConfig;
+			} else {
+				new PopUp("The playerPrefs file in your AUEConfig doesn't exist!\nThis can happen if you use someone elses AUEConfig file!\n\nGoing to search for correct the playerPrefs file now!", false);
+			}
 		} else {
 			instance.configManager.createConfigFile();
 		}
