@@ -59,7 +59,7 @@ public class PlayerPrefsManager {
 				currentSettings = line.split(",");
 			else
 			new PopUp("Error loading settings (Potentially newer version?)\nScreenshot the following and send it to Koupah#5129 (Discord)\n"
-							+ line + "\n[" + instance.configManager.getPlayerPrefs().exists() +"]", true);
+							+ line + "\n[" + instance.configManager.getPlayerPrefs().exists() +"]\n" + instance.configManager.getPlayerPrefs().getAbsolutePath(), true);
 
 			newSettings = currentSettings;
 			

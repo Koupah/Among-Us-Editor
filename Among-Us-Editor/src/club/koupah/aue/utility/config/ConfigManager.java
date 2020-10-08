@@ -76,7 +76,7 @@ public class ConfigManager {
 				// Look, it's not a switch or anything but it's cleaner then just checking every
 				// line and makes some settings in config optional for proper loading
 				if (isSetting(PlayerPrefs, config, lineNum)) {
-					System.out.println(config + ":" + lineNum);
+
 					playerPrefs = new File(config); // Don't need to put current directory, it's a path
 
 				} else if (isSetting(LookAndFeel, config, lineNum)) {

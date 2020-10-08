@@ -207,7 +207,8 @@ public class Editor extends JFrame {
 		// This really shouldn't be possible because the above should counter it, but
 		// **just** incase
 		if (!configManager.getPlayerPrefs().exists()) {
-			new PopUp("The playerPrefs file doesn't exist!\nPlease make sure you aren't using someone elses AUEConfig file!\nError #1932\nMessage Koupah#5129 on discord.");
+			new PopUp(
+					"The playerPrefs file doesn't exist!\nPlease make sure you aren't using someone elses AUEConfig file!\nError #1932\nMessage Koupah#5129 on discord.");
 		}
 
 		// load playerPrefs settings (Commented out, we don't need to read twice on
@@ -393,6 +394,7 @@ public class Editor extends JFrame {
 				// settings
 				if (setting.getComponentValue(false) != null)
 					prefsManager.newSettings[setting.getSettingIndex()] = setting.getComponentValue(false);
+
 			}
 		}
 		prefsManager.savePlayerPrefs();
@@ -433,7 +435,10 @@ public class Editor extends JFrame {
 		// Not using allGUISettings.addAll(Arrays.asList(Setting,Setting,Setting));
 		// because we use the size of the array to get index because am lazy
 		add(new TextSetting(new JLabel("Username: "), new JTextField(), 10,
-				"You might not be able to join games with a\nusername longer than 10 characters!", name.index()), COSMETIC);
+				"You might not be able to join games with a\nusername longer than 10 characters!", name.index(),
+				"The following symbol can't be used in your username:", ",", "\\", ")", "["), COSMETIC); // The symbols are
+																																		// listed on the
+																																		// github page
 
 		add(new InvisibleName(new JLabel("Invisible Name: "), new JCheckBox(), name.index()), COSMETIC);
 
@@ -478,14 +483,13 @@ public class Editor extends JFrame {
 		add(new LookAndFeelChooser(new JLabel("Look & Feel: "), new JComboBox<String>()), PREFERENCES);
 		add(new SchemeChooser(new JLabel("GUI Mode: "), new JComboBox<String>()), PREFERENCES);
 		add(new CustomSchemeEditor(new JLabel("Custom Colors: "), new JButton("Background")), PREFERENCES);
-		
+
 		add(new ProfileCreator(new JLabel("Create Profile:"), new JTextField()), PREFERENCES);
 		add(profileManager, PREFERENCES);
 		add(new ProfileSharer(new JLabel("Profile Sharer:"), new JButton("Import Profile")), PREFERENCES);
-		
+
 		add(new AlwaysOnTop(new JLabel("Always On Top: "), new JCheckBox(), -1), PREFERENCES);
-		
-		
+
 		/*
 		 * OTHER SETTINGS!
 		 */

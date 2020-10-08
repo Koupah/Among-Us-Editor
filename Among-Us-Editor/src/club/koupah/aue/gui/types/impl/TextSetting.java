@@ -12,15 +12,25 @@ public class TextSetting extends Setting {
 	int maxLength = Integer.MAX_VALUE;
 	boolean warn = true;
 	String warning;
-
+	
+	String disallowedMessage;
+	String[] disallowed;
+	
 	public TextSetting(JLabel label, final JTextField component, int maxLength, final String warning, int settingIndex) {
-		super(label, component, settingIndex);
+		this(label, component, settingIndex);
 		this.maxLength = maxLength;
 		this.warning = warning;
 	}
 
 	public TextSetting(JLabel label, JTextField component, int settingIndex) {
 		super(label, component, settingIndex);
+		this.disallowed = new String[0];
+	}
+
+	public TextSetting(JLabel label, final JTextField component, int maxLength, final String warning, int settingIndex, String message, String... symbols) {
+		this(label, component, settingIndex, warning, settingIndex);
+		this.disallowed = symbols;
+		this.disallowedMessage = message;
 	}
 
 	@Override
@@ -35,15 +45,22 @@ public class TextSetting extends Setting {
 
 	@Override
 	public String getProperValue() {
-
+		String text = ((JTextField) component).getText();
 		if (Editor.getInstance().isVisible()
-				&& ((JTextField) TextSetting.this.component).getText().length() > TextSetting.this.maxLength) {
+				&& text.length() > TextSetting.this.maxLength) {
 			if (warn) {
 				warn = false;
 				new PopUp(warning, false);
 			}
 		} else {
 			warn = true;
+		}
+	
+		for (String symbol : disallowed) {
+			if (text.contains(symbol)) {
+				((JTextField) component).setText(text.replaceAll(symbol, ""));
+				new PopUp(disallowedMessage + " \"" + symbol + "\"\nUsing it will cause issues.", false);
+			}
 		}
 		return ((JTextField) component).getText();
 	}
