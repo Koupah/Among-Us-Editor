@@ -11,8 +11,14 @@ Download the .jar file by clicking on it, then run it once it's finished downloa
 From there, it's as simple as choosing your settings then applying & running the game  
   
 NOTE: You need to relaunch/have your game closed when using this! 
-The game only seems to read settings on launch, so use this then launch your game!
+The game only seems to read settings on launch, so use this then launch your game!  
 
+## Videos ##  
+1.51 (Latest) by Koupah: https://youtu.be/OS1px12PtGQ  
+1.51 by Discord Member: https://youtu.be/7KABvBbP1hM  
+1.45 by Koupah: https://youtu.be/rlv_1qFbZFM  
+1.0 by Koupah: https://youtu.be/2wRJmS7DKpc  
+  
 ## Secret/Glitched Color (Fortegreen) ##
 The secret color is a lighter version of the dark green, in lobbies chat normally won't work, you can't customize your character. People also see your name as "???".  
 In game, your dead body will be red, in meetings you'll be red and in chat you'll be red.
@@ -23,10 +29,7 @@ Therefore there can be 3 greens and 2 reds, and I believe if multiple people hav
 ![](images/fortegreen.png)  
 ![](images/fortegreen1.png)  
   
-## Videos ##  
-1.51 (Latest): https://youtu.be/OS1px12PtGQ  
-1.45: https://youtu.be/rlv_1qFbZFM  
-1.0: https://youtu.be/2wRJmS7DKpc  
+
 
 If you upload a video showing or using this please give credit or atleast link this GitHub page!
 
