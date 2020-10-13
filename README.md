@@ -38,6 +38,7 @@ My Discord: Koupah#5129
 ## Credits ##  
 All Contributors in the discord!
 Slymeball: Has helped me bring support to mac/linux via his issues. Thank you.
+camas: Created the playerPrefs index table  
 
 If you'd like to help w/ something or receive credit, you can contact me on my discord listed above 
 
