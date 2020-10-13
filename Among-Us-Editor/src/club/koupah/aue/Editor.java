@@ -57,6 +57,7 @@ import club.koupah.aue.gui.types.impl.custom.DiscordButton;
 import club.koupah.aue.gui.types.impl.custom.HiddenRat;
 import club.koupah.aue.gui.types.impl.custom.InvisibleName;
 import club.koupah.aue.gui.types.impl.custom.LookAndFeelChooser;
+import club.koupah.aue.gui.types.impl.custom.ResizableGUIOption;
 import club.koupah.aue.gui.types.impl.custom.UpdateChecker;
 import club.koupah.aue.gui.types.impl.custom.profiles.ProfileCreator;
 import club.koupah.aue.gui.types.impl.custom.profiles.ProfileManager;
@@ -375,7 +376,12 @@ public class Editor extends JFrame {
 		// No checking if it's null, because there's a default value it can never be
 		// null
 		guiManager.updateColorScheme(false); // false because we dont need to save because we just read from save lol
-
+		
+		if (configManager.getIsCustomResolution()) {
+			this.setResizable(true);
+			this.setBounds(this.getX(), this.getY(), configManager.getCustomWidth(), configManager.getCustomHeight());
+		}
+		
 		Profile current = Profile.getProfileByConfig(profileManager.makeProfileConfig("random"));
 		if (current != null) {
 			profileManager.updateProfiles(current.getProfileName());
@@ -426,7 +432,14 @@ public class Editor extends JFrame {
 	public static ProfileManager getProfileManager() {
 		return editor.profileManager;
 	}
-
+	
+	public void updateWidth(int width) {
+		this.width = width;
+		tabbedPanel.setBounds(tabbedPanel.getX(),tabbedPanel.getY(),this.width,tabbedPanel.getHeight());
+		this.setBounds(this.getX(), this.getY(), width, this.getHeight());
+		this.repaint();
+	}
+	
 	public void addComponents() {
 		/*
 		 * COSMETIC SETTINGS!
@@ -489,7 +502,9 @@ public class Editor extends JFrame {
 		add(new ProfileSharer(new JLabel("Profile Sharer:"), new JButton("Import Profile")), PREFERENCES);
 
 		add(new AlwaysOnTop(new JLabel("Always On Top: "), new JCheckBox(), -1), PREFERENCES);
-
+		
+		add(new ResizableGUIOption(new JLabel("Resizable GUI: "), new JCheckBox(), -1), PREFERENCES);
+		
 		/*
 		 * OTHER SETTINGS!
 		 */

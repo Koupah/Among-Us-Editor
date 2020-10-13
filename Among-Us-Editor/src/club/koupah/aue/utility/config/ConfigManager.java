@@ -47,6 +47,12 @@ public class ConfigManager {
 
 	String applicationDirectory;
 
+	boolean customResolution = false;
+
+	int resolutionW;
+
+	int resolutionH;
+
 	public ConfigManager(String configFileName, Editor instance) {
 		CodeSource codeSource = AUEditorMain.class.getProtectionDomain().getCodeSource();
 		try {
@@ -103,6 +109,15 @@ public class ConfigManager {
 
 					alwaysOnTop = config.split(":")[1].equals("true");
 
+				} else if (isSetting(CustomResolution, config, lineNum)) {
+
+					customResolution = config.split(CustomResolution.lineStart)[1].equals("true");
+
+				} else if (isSetting(Resolution, config, lineNum)) {
+					String res = config.split(Resolution.lineStart)[1];
+					resolutionW = Integer.parseInt(res.split(":")[0]);
+					resolutionH = Integer.parseInt(res.split(":")[1]);
+
 				} else if (config.contains(",") && config.split(",").length > 5) {
 
 					new Profile(config);
@@ -147,6 +162,13 @@ public class ConfigManager {
 			RGBSpeed.write(writer, rgbSpeed);
 
 			AOT.write(writer, String.valueOf(alwaysOnTop));
+
+			CustomResolution.write(writer, String.valueOf(customResolution));
+			
+			resolutionW = Editor.getInstance().getWidth();
+			resolutionH = Editor.getInstance().getHeight();
+			
+			Resolution.write(writer, resolutionW + ":" + resolutionH);
 
 			// Write profiles here
 			writer.write("[profiles]");
@@ -222,6 +244,22 @@ public class ConfigManager {
 
 	public void setAOT(boolean aot) {
 		this.alwaysOnTop = aot;
+	}
+
+	public boolean getIsCustomResolution() {
+		return this.customResolution;
+	}
+
+	public int getCustomWidth() {
+		return this.resolutionW;
+	}
+
+	public int getCustomHeight() {
+		return this.resolutionH;
+	}
+
+	public void setCustomResolution(boolean cr) {
+		this.customResolution = cr;
 	}
 
 }

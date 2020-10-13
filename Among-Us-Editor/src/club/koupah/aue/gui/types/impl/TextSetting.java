@@ -58,7 +58,7 @@ public class TextSetting extends Setting {
 	
 		for (String symbol : disallowed) {
 			if (text.contains(symbol)) {
-				((JTextField) component).setText(text.replaceAll(symbol, ""));
+				((JTextField) component).setText(text.replaceAll("\\"+symbol, ""));
 				new PopUp(disallowedMessage + " \"" + symbol + "\"\nUsing it will cause issues.", false);
 			}
 		}

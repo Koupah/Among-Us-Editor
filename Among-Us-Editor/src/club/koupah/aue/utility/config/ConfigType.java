@@ -11,7 +11,9 @@ public enum ConfigType {
 	CustomColors("aueCC:", 3),
 	RGBSpeed("aueRGBS:", 4),
 	AOT("aueAOT:", 5),
-	ConfigProfile(7);
+	CustomResolution("aueCR:",6),
+	Resolution("aueResolution:",7),
+	ConfigProfile(8);
 	
 	
 	String lineStart;

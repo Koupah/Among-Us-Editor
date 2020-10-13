@@ -48,24 +48,26 @@ There were originally a bunch more commits (50+ lost) but I messed up and forced
 Custom names that include "\\", ")" or "\[" will result in a "Banned from Room" message and you also cannot include "," in your name as it breaks the file.  
 Names longer than 10 characters will also not work in online games, local play lets you make a lobby but I'm not sure if others can join.
 
-Indexes of playerPrefs file (Starting from 1 instead of 0, just -1 in your head)  
-1st: Player Name  
-2nd: Controls (0 Mouse, 1 Mouse and Keyboard)  
-3rd: Preferred color (0-11, 12+ for Fortegreen ~~glitched~~ color)  
-4th: Unknown  
-5th: Unknown  
-6th: Unknown  
-7th: Unknown  
-8th: Personalized Ads for Mobile (128 On, 129 Off)  
-9th: Unknown, probably ad related ~~Unsure but potentially ads On/Off (true/false)~~  
-10th: Unknown  
-11th: Hat (0 to like 93)  
-12th: SFX volume 0-255  
-13th: Music volume 0-255  
-14th: Apparently GUI scale for mobile (0.5,1.0,1.5)  
-15th: Unknown  
-16th: Skin (Costume) (0-15)  
-17th: Pet (0-10)  
-18th: Censor Chat (True/False)  
-19th: Language (0-4, 0: English, 1: Spanish, 2: Portuguese, 3: Korean, 4: Russian)  
-20th: VSync (True/False)  
+Indexes of playerPrefs file
+|Index|Name used by Among Us|Type|Comment|
+|--|--|--|--|
+|0|lastPlayerName|String||
+|1|touchConfig|int|Controls 0 Mouse, 1 Mouse and Keyboard|
+|2|colorConfig|uint|0-11, 12+ for Fortegreen ~~glitched~~ color|
+|3|ignored unknown||Default `1`|
+|4|ignored sendName|bool|Default `False`|
+|5|ignored sendTelemetry|bool|Default `False`|
+|6|ignored sendDataScreen|bool|Default `False`|
+|7|showAdsScreen|bit flags|Personalized `0x00`, NonPersonalized `0x01`, Accepted `0x80`, Purchased `0x82`|
+|8|showMinPlayerWarning|bool||
+|9|showOnlineHelp|bool||
+|10|lastHat|uint|0 to like 93|
+|11|sfxVolume|byte|0-255|
+|12|musicVolume|byte|0-255|
+|13|joyStickSize|float|0.5, 1, 1.5|
+|14|lastGameStart|long|Ticks since last game started. Used to check if left game too early|
+|15|lastSkin|uint|0-15|
+|16|lastPet|uint|0-10|
+|17|censorChat|bool||
+|18|lastLanguage|uint|0-4, 0: English, 1: Spanish, 2: Portuguese, 3: Korean, 4: Russian|
+|19|vsync|bool||
