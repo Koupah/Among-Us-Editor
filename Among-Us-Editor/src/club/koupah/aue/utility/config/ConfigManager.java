@@ -52,7 +52,9 @@ public class ConfigManager {
 	int resolutionW;
 
 	int resolutionH;
-
+	
+	File gameHostOptions;
+	
 	public ConfigManager(String configFileName, Editor instance) {
 		CodeSource codeSource = AUEditorMain.class.getProtectionDomain().getCodeSource();
 		try {
@@ -261,5 +263,16 @@ public class ConfigManager {
 	public void setCustomResolution(boolean cr) {
 		this.customResolution = cr;
 	}
-
+	
+	public File getGameHostOptionsFile() {
+		if (this.gameHostOptions == null) {
+			if (this.configExists()) {
+				this.gameHostOptions = new File(this.config.getParent() + File.pathSeparator + "gameHostOptions");
+				return gameHostOptions.exists() ? gameHostOptions : null;
+			}
+			return null;
+		}
+		return this.gameHostOptions;
+	}
+	
 }

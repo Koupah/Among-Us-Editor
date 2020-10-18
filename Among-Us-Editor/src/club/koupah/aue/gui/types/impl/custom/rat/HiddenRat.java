@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.impl.custom;
+package club.koupah.aue.gui.types.impl.custom.rat;
 
 import java.awt.Font;
 

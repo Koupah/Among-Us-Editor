@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.impl.custom.schemes;
+package club.koupah.aue.gui.types.impl.custom.preferences.schemes;
 
 import java.awt.Color;
 import java.awt.Component;

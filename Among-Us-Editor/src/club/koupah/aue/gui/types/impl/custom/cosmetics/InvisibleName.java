@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.impl.custom;
+package club.koupah.aue.gui.types.impl.custom.cosmetics;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;

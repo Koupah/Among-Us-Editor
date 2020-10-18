@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.impl.custom;
+package club.koupah.aue.gui.types.impl.custom.preferences;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

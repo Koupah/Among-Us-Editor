@@ -29,7 +29,9 @@ public class AUEditorMain {
 	public static String discordLink = "https://www.koupah.club/aueditor";
 
 	public static void main(String[] args) {
-
+		
+		System.out.println(String.format("Starting up %s version %s", title, version));
+		
 		try {
 			// Idk how to get them to initialize their values cause am big noob
 			Hats.values();

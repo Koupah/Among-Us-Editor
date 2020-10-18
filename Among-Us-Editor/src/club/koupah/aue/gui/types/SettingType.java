@@ -7,6 +7,7 @@ public enum SettingType {
 
 	COSMETIC(new GUIPanel("Cosmetics", "cosmetics.png")),
 	SETTING(new GUIPanel("Settings", "settings.png", "settingswhite.png")),
+	HOST_SETTINGS(new GUIPanel("Host Settings", "settings.png", "settingswhite.png")),
 	PREFERENCES(new GUIPanel("Preferences", "preferences.png", "preferenceswhite.png")),
 	OTHER(new GUIPanel("Other", "other.png", "otherwhite.png")),
 	

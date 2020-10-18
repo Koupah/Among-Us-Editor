@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.impl.custom.profiles;
+package club.koupah.aue.gui.types.impl.custom.preferences.profiles;
 
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
