@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import club.koupah.AUEditorMain;
 import club.koupah.aue.Editor;
-import club.koupah.aue.gui.settings.GUIScheme;
+import club.koupah.aue.gui.values.GUIScheme;
 import club.koupah.aue.utility.PopUp;
 
 public class ConfigManager {
@@ -267,7 +267,7 @@ public class ConfigManager {
 	public File getGameHostOptionsFile() {
 		if (this.gameHostOptions == null) {
 			if (this.configExists()) {
-				this.gameHostOptions = new File(this.config.getParent() + File.pathSeparator + "gameHostOptions");
+				this.gameHostOptions = new File(this.playerPrefs.getParent() + File.separator + "gameHostOptions");
 				return gameHostOptions.exists() ? gameHostOptions : null;
 			}
 			return null;

@@ -1,9 +1,9 @@
-package club.koupah.aue.gui.settings.cosmetics;
+package club.koupah.aue.gui.values.cosmetics;
 
-import static club.koupah.aue.gui.settings.cosmetics.Cosmetic.CosmeticCategory.*;
+import static club.koupah.aue.gui.values.cosmetics.Cosmetic.CosmeticCategory.*;
 
-import club.koupah.aue.gui.settings.cosmetics.Cosmetic.CosmeticCategory;
-import club.koupah.aue.gui.settings.cosmetics.Cosmetic.CosmeticType;
+import club.koupah.aue.gui.values.cosmetics.Cosmetic.CosmeticCategory;
+import club.koupah.aue.gui.values.cosmetics.Cosmetic.CosmeticType;
 
 /*
  * 

@@ -8,9 +8,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import club.koupah.aue.gui.GUIPanel;
-import club.koupah.aue.gui.settings.cosmetics.Cosmetic;
-import club.koupah.aue.gui.settings.cosmetics.Hats;
 import club.koupah.aue.gui.types.Setting;
+import club.koupah.aue.gui.values.cosmetics.Cosmetic;
+import club.koupah.aue.gui.values.cosmetics.Hats;
 import club.koupah.aue.utility.ImageUtil;
 import club.koupah.aue.utility.PopUp;
 

@@ -7,12 +7,12 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import club.koupah.aue.Editor;
-import club.koupah.aue.gui.settings.GUIScheme;
-import club.koupah.aue.gui.settings.cosmetics.Colors;
-import club.koupah.aue.gui.settings.cosmetics.Hats;
-import club.koupah.aue.gui.settings.cosmetics.Pets;
-import club.koupah.aue.gui.settings.cosmetics.Skins;
 import club.koupah.aue.gui.types.SettingType;
+import club.koupah.aue.gui.values.GUIScheme;
+import club.koupah.aue.gui.values.cosmetics.Colors;
+import club.koupah.aue.gui.values.cosmetics.Hats;
+import club.koupah.aue.gui.values.cosmetics.Pets;
+import club.koupah.aue.gui.values.cosmetics.Skins;
 import club.koupah.aue.utility.PopUp;
 import club.koupah.aue.utility.Utility;
 import club.koupah.aue.utility.config.ConfigType;
@@ -22,7 +22,7 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	static double version = 1.513;
+	static double version = 1.514;
 
 	public static String title = "Among Us Editor";
 
@@ -33,6 +33,7 @@ public class AUEditorMain {
 		System.out.println(String.format("Starting up %s version %s", title, version));
 		
 		try {
+			
 			// Idk how to get them to initialize their values cause am big noob
 			Hats.values();
 			Pets.values();

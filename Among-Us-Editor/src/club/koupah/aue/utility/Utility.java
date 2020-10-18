@@ -4,9 +4,14 @@ import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 
@@ -15,7 +20,6 @@ import club.koupah.aue.Editor;
 
 public class Utility {
 
-	
 	public static void runUpdateCheck(final JButton button) {
 
 		if (button != null)
@@ -27,9 +31,9 @@ public class Utility {
 		 */
 		Thread updateCheck = new Thread() {
 			public void run() {
-				
+
 				double version = Editor.version;
-				
+
 				// Made these booleans private, they're only used here
 				boolean preRelease = false;
 				boolean outdated = false;
@@ -56,8 +60,7 @@ public class Utility {
 							info += read + "\n";
 						}
 
-						String message = "You're on version " + version + " and " + latestVersionString
-								+ " is the latest!"
+						String message = "You're on version " + version + " and " + latestVersionString + " is the latest!"
 						// If there is info (not just like a space or whatever) then show the message
 								+ (info.length() > 2 ? "\n\nVersion " + latestVersionString + ":\n" + info : "");
 
@@ -82,9 +85,8 @@ public class Utility {
 				}
 
 				// Update the title based on version
-				Editor.getInstance().setTitle(
-						editorName() + " (v" + version + (outdated ? " outdated" : (preRelease ? " prerelease" : ""))
-								+ ") - By Koupah");
+				Editor.getInstance().setTitle(editorName() + " (v" + version
+						+ (outdated ? " outdated" : (preRelease ? " prerelease" : "")) + ") - By Koupah");
 
 				if (button != null)
 					button.setEnabled(true);
@@ -93,16 +95,54 @@ public class Utility {
 
 		updateCheck.start();
 	}
-	
 
 	public static String editorName() {
 		return AUEditorMain.title;
 	}
-	
+
 	public static int getWidth(String input, Font font) {
 		AffineTransform affinetransform = new AffineTransform();
 		FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
 
 		return (int) (font.getStringBounds(input, frc).getWidth());
 	}
+
+	public static ArrayList<String> readFile(File file) {
+		ArrayList<String> lines = new ArrayList<String>();
+		try (BufferedReader bufferedReader = new BufferedReader(
+				new InputStreamReader(new FileInputStream(file), "UTF-8"))) {
+			String line;
+			while ((line = bufferedReader.readLine()) != null)
+				lines.add(line);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lines;
+	}
+
+	public static String[] readHex(File file) throws IOException {
+		ArrayList<String> hexValues = new ArrayList<String>();
+		FileInputStream fin = new FileInputStream(file);
+
+		int len;
+		byte data[] = new byte[16];
+		int index = 0;
+
+		while ((len = fin.read(data)) != -1) {
+			for (int j = 0; j < len; j++) {
+				hexValues.add(String.format("%02X", data[j]));
+				index++;
+			}
+		}
+		String[] hex = new String[index];
+		index = 0;
+		for (String h : hexValues) {
+			hex[index] = h;
+			index++;
+		}
+
+		return hex;
+	}
+
 }

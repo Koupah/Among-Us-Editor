@@ -7,11 +7,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import club.koupah.aue.Editor;
-import club.koupah.aue.gui.settings.cosmetics.Cosmetic;
-import club.koupah.aue.gui.settings.cosmetics.Cosmetic.CosmeticCategory;
-import club.koupah.aue.gui.settings.cosmetics.Cosmetic.CosmeticType;
 import club.koupah.aue.gui.types.GUIComponent;
 import club.koupah.aue.gui.types.impl.MultiSetting;
+import club.koupah.aue.gui.values.cosmetics.Cosmetic;
+import club.koupah.aue.gui.values.cosmetics.Cosmetic.CosmeticCategory;
+import club.koupah.aue.gui.values.cosmetics.Cosmetic.CosmeticType;
 
 public class CosmeticFilter extends GUIComponent {
 

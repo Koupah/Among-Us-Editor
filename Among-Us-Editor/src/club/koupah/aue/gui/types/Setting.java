@@ -5,10 +5,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 import club.koupah.aue.Editor;
-import club.koupah.aue.gui.settings.cosmetics.Colors;
-import club.koupah.aue.gui.settings.cosmetics.Cosmetic;
-import club.koupah.aue.gui.settings.cosmetics.Cosmetic.CosmeticType;
-import club.koupah.aue.gui.settings.language.Language;
+import club.koupah.aue.gui.values.cosmetics.Colors;
+import club.koupah.aue.gui.values.cosmetics.Cosmetic;
+import club.koupah.aue.gui.values.cosmetics.Cosmetic.CosmeticType;
+import club.koupah.aue.gui.values.language.Language;
 import club.koupah.aue.utility.PopUp;
 
 public class Setting extends GUIComponent {

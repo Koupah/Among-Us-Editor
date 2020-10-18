@@ -11,9 +11,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import club.koupah.aue.Editor;
-import club.koupah.aue.gui.settings.GUIScheme;
 import club.koupah.aue.gui.types.GUIComponent;
 import club.koupah.aue.gui.types.SettingType;
+import club.koupah.aue.gui.values.GUIScheme;
 import club.koupah.aue.utility.PopUp;
 
 public class GUIManager {

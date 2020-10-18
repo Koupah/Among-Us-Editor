@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.settings;
+package club.koupah.aue.gui.values;
 
 import java.awt.Color;
 

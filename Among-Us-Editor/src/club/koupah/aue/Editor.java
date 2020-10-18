@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -41,9 +42,6 @@ import javax.swing.UIManager;
 import club.koupah.aue.gui.GUIManager;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.GUITabbedPanel;
-import club.koupah.aue.gui.settings.cosmetics.Cosmetic;
-import club.koupah.aue.gui.settings.cosmetics.Cosmetic.CosmeticType;
-import club.koupah.aue.gui.settings.language.Language;
 import club.koupah.aue.gui.types.GUIComponent;
 import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.gui.types.SettingType;
@@ -64,6 +62,9 @@ import club.koupah.aue.gui.types.impl.custom.preferences.profiles.ProfileSharer;
 import club.koupah.aue.gui.types.impl.custom.preferences.schemes.CustomSchemeEditor;
 import club.koupah.aue.gui.types.impl.custom.preferences.schemes.SchemeChooser;
 import club.koupah.aue.gui.types.impl.custom.rat.HiddenRat;
+import club.koupah.aue.gui.values.cosmetics.Cosmetic;
+import club.koupah.aue.gui.values.cosmetics.Cosmetic.CosmeticType;
+import club.koupah.aue.gui.values.language.Language;
 import club.koupah.aue.utility.ImageUtil;
 import club.koupah.aue.utility.PopUp;
 import club.koupah.aue.utility.Utility;
@@ -389,6 +390,7 @@ public class Editor extends JFrame {
 
 		// After everything, save the config
 		configManager.saveConfig();
+		System.out.println(configManager.getGameHostOptionsFile());
 	}
 
 	public void saveSettings() {

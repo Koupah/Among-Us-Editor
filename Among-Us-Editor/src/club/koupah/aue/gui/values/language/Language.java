@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.settings.language;
+package club.koupah.aue.gui.values.language;
 
 import java.util.ArrayList;
 import java.util.Arrays;

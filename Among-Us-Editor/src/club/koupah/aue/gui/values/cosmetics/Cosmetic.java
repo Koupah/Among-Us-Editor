@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.settings.cosmetics;
+package club.koupah.aue.gui.values.cosmetics;
 
 import java.util.ArrayList;
 import java.util.List;
