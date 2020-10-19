@@ -15,10 +15,9 @@ public class Int16Setting extends HostSetting {
 	}
 
 	@Override
-	public boolean update() {
-		if (super.update())
+	public void update() {
+		if (super.shouldUpdate())
 		((JSpinner)component).setValue(getInt());
-		return true;
 	}
 	
 }

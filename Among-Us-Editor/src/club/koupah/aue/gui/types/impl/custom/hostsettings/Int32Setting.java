@@ -16,10 +16,9 @@ public class Int32Setting extends HostSetting {
 	}
 	
 	@Override
-	public boolean update() {
-		if (super.update())
+	public void update() {
+		if (super.shouldUpdate())
 		((JSpinner)component).setValue(getFloat());
-		return true;
 	}
 	
 

@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -222,12 +223,12 @@ public class Editor extends JFrame {
 		}
 
 		hostSettingsManager = new HostOptionsManager(configManager.getGameHostOptionsFile());
-		
+
 		if (!hostSettingsManager.exists()) {
 			new PopUp("Couldn't find your 'gameHostOptions' file,\nyou won't be able to change host settings!", false);
 			HOST_SETTINGS.setVisible(false);
 		}
-		
+
 		// load playerPrefs settings (Commented out, we don't need to read twice on
 		// launch (We read it below))
 		// prefsManager.loadSettings();
@@ -304,9 +305,9 @@ public class Editor extends JFrame {
 			tabbedPanel.addTab(categoryPanel.getName(), categoryPanel.getIcon(false), categoryPanel,
 					categoryPanel.getDescription());
 		}
-		
+
 		addComponents();
-		
+
 		// Make all the components not focusable (Except textfields)
 		for (int i = 0; i < tabbedPanel.getTabCount(); i++) {
 			GUIPanel panel = (GUIPanel) tabbedPanel.getComponentAt(i);
@@ -404,14 +405,24 @@ public class Editor extends JFrame {
 		if (current != null) {
 			profileManager.updateProfiles(current.getProfileName());
 		}
-		
+
 		// After everything, save the config
 		configManager.saveConfig();
 	}
 
-	
 	public void saveSettings() {
+		
+		if (hostSettingsManager.exists()) {
+			try {
+				hostSettingsManager.updateNewHex(hostSettingsManager.readHex());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		for (GUIComponent guicomponent : allGUIComponents) {
+
 			if (guicomponent instanceof Setting) {
 				Setting setting = (Setting) guicomponent;
 
@@ -420,11 +431,11 @@ public class Editor extends JFrame {
 				if (setting.getComponentValue(false) != null)
 					prefsManager.newSettings[setting.getSettingIndex()] = setting.getComponentValue(false);
 
-			} else if (guicomponent instanceof HostSetting) {
+			} else if (hostSettingsManager.exists() && guicomponent instanceof HostSetting) {
 				HostSetting hs = ((HostSetting) guicomponent);
 				String save = hs.getSaveValue();
 
-				// This is because for Little Endian, which the file uses
+				// This is for Little Endian, which the file uses
 				int index = 0;
 				for (int i = save.length(); i > 0; i -= 2) {
 					hostSettingsManager.setIndex(hs.getIndex() + index, save.substring(i - 2, i));
@@ -435,7 +446,16 @@ public class Editor extends JFrame {
 		}
 
 		prefsManager.savePlayerPrefs();
-		hostSettingsManager.saveHostSettings();
+
+		if (hostSettingsManager.exists()) {
+			hostSettingsManager.setIndex(0x28, "00"); // Force recommended settings off, every time
+			hostSettingsManager.saveHostSettings();
+			for (GUIComponent guicomponent : allGUIComponents) {
+				if (guicomponent instanceof HostSetting) {
+					((HostSetting)guicomponent).update();
+				}
+			}
+		}
 		refresh();
 	}
 

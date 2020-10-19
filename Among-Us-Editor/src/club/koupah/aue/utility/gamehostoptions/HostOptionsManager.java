@@ -30,8 +30,7 @@ public class HostOptionsManager {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			
+
 			System.out.println("Current gameHostOptions Hex: ");
 
 			int index = 0;
@@ -117,12 +116,19 @@ public class HostOptionsManager {
 			}
 			os.close();
 		} catch (IOException e) {
+			System.out.println(String.format("There was an error writing to the file, error message %s", e.getMessage()));
 			new PopUp("Error writing to file!\n" + e.getMessage(), true);
 		}
-
+		
+		this.currentHex = newHex;
+		
 	}
 
 	public boolean exists() {
 		return this.exists;
+	}
+
+	public void updateNewHex(String[] hex) {
+		this.newHex = hex;
 	}
 }

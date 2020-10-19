@@ -20,15 +20,16 @@ public class HostSetting extends GUIComponent {
 
 		this.index = index;
 		this.length = length;
-
 		this.currentHex = Editor.getInstance().hostSettingsManager.getHex(index, length);
 	}
 
 	public int getInt() {
+		this.currentHex = Editor.getInstance().hostSettingsManager.getHex(index, length);
 		return Integer.parseInt(currentHex, 16);
 	}
 
 	public float getFloat() {
+		this.currentHex = Editor.getInstance().hostSettingsManager.getHex(index, length);
 		Long i = Long.parseLong(currentHex, 16);
 		float f = Float.intBitsToFloat(i.intValue());
 		return f;
@@ -64,7 +65,11 @@ public class HostSetting extends GUIComponent {
 		return this.index;
 	}
 
-	public boolean update() {
+	public void update() {
+		System.out.println(this.getLabelText().split(":")[0] + " didn't override update()");
+	}
+	
+	public boolean shouldUpdate() {
 		return Editor.getInstance().hostSettingsManager.exists();
 	}
 
