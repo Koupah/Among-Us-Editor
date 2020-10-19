@@ -10,8 +10,7 @@ public class GUITabbedPanel extends JTabbedPane {
 	/**
 	 * 
 	 */
-	
-	
+
 	private static final long serialVersionUID = -1214414762924116340L;
 
 	public GUITabbedPanel() {
@@ -29,8 +28,8 @@ public class GUITabbedPanel extends JTabbedPane {
 				shadow = foreground;
 				darkShadow = foreground;
 				focus = foreground;
-				
-				//Nice 3 pixel border, although it uses ugly blue ):
+
+				// Nice 3 pixel border, although it uses ugly blue ):
 				this.contentBorderInsets.top = 3;
 				this.contentBorderInsets.left = 3;
 				this.contentBorderInsets.right = 3;
@@ -38,5 +37,15 @@ public class GUITabbedPanel extends JTabbedPane {
 			}
 		});
 
+	}
+
+	public int findTabByName(String title) {
+		int tabCount = getTabCount();
+		for (int i = 0; i < tabCount; i++) {
+			String tabTitle = getTitleAt(i);
+			if (tabTitle.equals(title))
+				return i;
+		}
+		return -1;
 	}
 }

@@ -1,17 +1,15 @@
 package club.koupah.aue.utility.gamehostoptions;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import club.koupah.aue.utility.PopUp;
 
-public class HostSettingsManager {
+public class HostOptionsManager {
 
 	File hostSettings;
 
@@ -21,9 +19,9 @@ public class HostSettingsManager {
 
 	String[] newHex;
 
-	public HostSettingsManager(File hostSettings) {
+	public HostOptionsManager(File hostSettings) {
 		this.hostSettings = hostSettings;
-		this.exists = hostSettings.exists();
+		this.exists = hostSettings != null && hostSettings.exists();
 
 		if (exists) {
 			try {
@@ -32,20 +30,23 @@ public class HostSettingsManager {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+			
+			
+			System.out.println("Current gameHostOptions Hex: ");
 
-		System.out.println("Current Hex: ");
-
-		int index = 0;
-		for (String hex : currentHex) {
-			if (index % 16 == 0) {
-				System.out.println("");
+			int index = 0;
+			for (String hex : currentHex) {
+				System.out.print(hex + ' ');
+				index++;
+				if (index % 16 == 0) {
+					System.out.println("");
+				}
 			}
-			System.out.print(hex + ' ');
-			index++;
-		}
 
-		System.out.println("\n");
+			System.out.println("\n");
+		} else {
+			System.out.println("gameHostOptions file doesn't exist");
+		}
 	}
 
 	public void setIndex(int index, String value) {
@@ -82,6 +83,9 @@ public class HostSettingsManager {
 	}
 
 	public String getHex(int index, int length) {
+		if (currentHex == null) {
+			return null;
+		}
 		String toreturn = "";
 		for (int i = (length / 8); i > 0; i--) {
 			toreturn += this.currentHex[index + i - 1];
@@ -116,5 +120,9 @@ public class HostSettingsManager {
 			new PopUp("Error writing to file!\n" + e.getMessage(), true);
 		}
 
+	}
+
+	public boolean exists() {
+		return this.exists;
 	}
 }

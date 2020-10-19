@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -19,9 +20,9 @@ import club.koupah.aue.utility.PopUp;
 public class GUIManager {
 
 	Editor instance;
-	
-	boolean alwaysOnTop = false; //Default
-	
+
+	boolean alwaysOnTop = false; // Default
+
 	public GUIManager(Editor instance) {
 		this.instance = instance;
 	}
@@ -30,7 +31,8 @@ public class GUIManager {
 		try {
 			UIManager.setLookAndFeel(instance.configManager.getLookAndFeel());
 			try {
-			SwingUtilities.updateComponentTreeUI(instance); //TODO find what causes this error: http://prntscr.com/uup2q6
+				SwingUtilities.updateComponentTreeUI(instance); // TODO find what causes this error:
+																				// http://prntscr.com/uup2q6
 			} catch (Exception e) {
 				System.out.println("Swing utils updateComponentTreeUI exception");
 			}
@@ -64,25 +66,27 @@ public class GUIManager {
 		int red = input.getRed();
 		int green = input.getGreen();
 		int blue = input.getBlue();
-		
+
 		if (red + green + blue < 140) {
 			red = Math.max(red, 70);
 			green = Math.max(red, 70);
 			blue = Math.max(red, 70);
-		
+
 			for (SettingType setting : SettingType.values()) {
-				if (setting.getPanel().hasWhite && !setting.getPanel().white) {
-					tabbedPanel.setIconAt(setting.getIndex(), setting.getPanel().getIcon(true));
+				int index = tabbedPanel.indexOfTab(setting.getPanel().getName());
+				if (index != -1 && setting.getPanel().hasWhite && !setting.getPanel().white) {
+					tabbedPanel.setIconAt(index, setting.getPanel().getIcon(true));
 				}
 			}
 		} else {
 			for (SettingType setting : SettingType.values()) {
-				if (setting.getPanel().white) {
-					tabbedPanel.setIconAt(setting.getIndex(), setting.getPanel().getIcon(false));
+				int index = tabbedPanel.indexOfTab(setting.getPanel().getName());
+				if (index != -1 && setting.getPanel().white) {
+					tabbedPanel.setIconAt(index, setting.getPanel().getIcon(false));
 				}
 			}
 		}
-				
+
 		return new Color(red, green, blue);
 	}
 
@@ -92,8 +96,9 @@ public class GUIManager {
 		instance.configManager.setScheme(scheme);
 		instance.contentPanel.setForeground(scheme.getForeground());
 		instance.contentPanel.setBackground(scheme.getBackground());
-		
-		Color noBlack = !scheme.isRGB() || update ? noBlack(scheme.getBackground(), instance.tabbedPanel) : scheme.getBackground();
+
+		Color noBlack = !scheme.isRGB() || update ? noBlack(scheme.getBackground(), instance.tabbedPanel)
+				: scheme.getBackground();
 
 		// Bunch of UI manager stuff
 		UIManager.put("TabbedPane.contentOpaque", true);
@@ -131,7 +136,7 @@ public class GUIManager {
 					SwingUtilities.updateComponentTreeUI(instance);
 				// This needs to be set after the swing update
 				try {
-				instance.tabbedPanel.updateUI(scheme.getForeground());
+					instance.tabbedPanel.updateUI(scheme.getForeground());
 				} catch (Exception e) {
 				}
 			}
@@ -162,10 +167,14 @@ public class GUIManager {
 				c.setBackground(Color.WHITE);
 			else c.setBackground(scheme.getBackground());
 
-		} else if (c instanceof JTextField) {
-			if (lnfName.equals("Nimbus")) // Fixes nimbus text fields
-				c.setBounds(c.getX(), c.getY(), c.getWidth(), GUIComponent.componentHeight + 4);
-			else if (c.getHeight() != GUIComponent.componentHeight)
+		} else if (c instanceof JTextField || c instanceof JSpinner) {
+			if (lnfName.equals("Nimbus")) { // Fixes nimbus text fields & jspinner background
+				if (c.getHeight() == GUIComponent.componentHeight) // This if statement fixes glitchyness
+					c.setBounds(c.getX(), c.getY(), c.getWidth(), GUIComponent.componentHeight + 4);
+				c.setBackground(Color.WHITE);
+				c.setForeground(Color.BLACK);
+
+			} else if (c.getHeight() != GUIComponent.componentHeight)
 				c.setBounds(c.getX(), c.getY(), c.getWidth(), GUIComponent.componentHeight);
 		}
 

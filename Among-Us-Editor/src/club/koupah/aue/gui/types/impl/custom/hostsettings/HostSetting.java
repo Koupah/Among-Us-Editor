@@ -5,6 +5,7 @@ import javax.swing.JSpinner;
 
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.types.GUIComponent;
+import club.koupah.aue.utility.PopUp;
 
 public class HostSetting extends GUIComponent {
 
@@ -21,7 +22,6 @@ public class HostSetting extends GUIComponent {
 		this.length = length;
 
 		this.currentHex = Editor.getInstance().hostSettingsManager.getHex(index, length);
-		System.out.println("Current Hex: " + this.currentHex);
 	}
 
 	public int getInt() {
@@ -29,10 +29,8 @@ public class HostSetting extends GUIComponent {
 	}
 
 	public float getFloat() {
-
 		Long i = Long.parseLong(currentHex, 16);
-      float f = Float.intBitsToFloat(i.intValue());
-		System.out.println(f);
+		float f = Float.intBitsToFloat(i.intValue());
 		return f;
 	}
 
@@ -46,23 +44,28 @@ public class HostSetting extends GUIComponent {
 		String value = ((JSpinner) component).getValue().toString();
 
 		for (Character c : value.toCharArray()) {
-			if (!Character.isDigit(c) && !c.equals('.')) {
-				System.out.println(value + " is invalid, char: " + c);
+			if (!Character.isDigit(c) && !c.equals('.') && !c.equals('-')) {
+				System.out.println("Invalid character: " + c);
+				new PopUp("The value for " + this.getLabelText().split(":")[0]
+						+ " wasn't valid!\nUsing the previous value instead.", false);
+				return this.currentHex;
 			}
 		}
-		
-		if (length == 32) { 
-			
-			
-			System.out.println("The float value is: " + String.format("%0" + (this.length / 4) + "X", (Integer) Float.floatToIntBits(Float.valueOf(value))).substring(0, (this.length/4)));
-			return String.format("%0" + (this.length / 4) + "X", (Integer) Float.floatToIntBits(Float.valueOf(value))).substring(0, (this.length/4));
-		}
-		System.out.println("Length of non 32 is: " + String.format("%0" + (this.length / 4) + "X", (Integer) ((JSpinner) component).getValue()).length());
-		return String.format("%0" + (this.length / 4) + "X", (Integer) ((JSpinner) component).getValue()).substring(0, (this.length/4));
+
+		if (length == 32)
+			return String.format("%0" + (this.length / 4) + "X", (Integer) Float.floatToIntBits(Float.valueOf(value)))
+					.substring(0, (this.length / 4));
+
+		return String.format("%0" + (this.length / 4) + "X", (Integer) ((JSpinner) component).getValue()).substring(0,
+				(this.length / 4));
 	}
 
 	public int getIndex() {
 		return this.index;
+	}
+
+	public boolean update() {
+		return Editor.getInstance().hostSettingsManager.exists();
 	}
 
 }

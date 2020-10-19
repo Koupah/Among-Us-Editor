@@ -2,16 +2,23 @@ package club.koupah.aue.gui.types.impl.custom.hostsettings;
 
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class Int16Setting extends HostSetting {
 
 	public Int16Setting(JLabel label, JSpinner component, int index) {
 		super(label, component, index, 16);
 		
-		component.setValue(getInt());
+		component.setModel(new SpinnerNumberModel(1, -32767, 32766, 1));
 		
+		update();
 	}
 
-	
+	@Override
+	public boolean update() {
+		if (super.update())
+		((JSpinner)component).setValue(getInt());
+		return true;
+	}
 	
 }

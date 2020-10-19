@@ -6,15 +6,21 @@ import javax.swing.SpinnerNumberModel;
 
 public class Int32Setting extends HostSetting {
 
-	public Int32Setting(JLabel label, JSpinner component, int index) {
+	public Int32Setting(JLabel label, JSpinner component, int index, String zeroes) {
 		super(label, component, index, 32);
 
-		SpinnerNumberModel model = new SpinnerNumberModel(1.0, -2147483647, 2147483646, 0.05); 
-		component.setModel(model);
-		component.setValue(getFloat());
-		
-	}
+		component.setModel(new SpinnerNumberModel(1.0, -2147483647, 2147483646, 0.05));
+		component.setEditor(new JSpinner.NumberEditor(component, "0." + zeroes));
+		update();
 
+	}
 	
+	@Override
+	public boolean update() {
+		if (super.update())
+		((JSpinner)component).setValue(getFloat());
+		return true;
+	}
 	
+
 }
