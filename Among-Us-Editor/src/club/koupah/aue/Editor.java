@@ -1,10 +1,11 @@
 package club.koupah.aue;
 
 import static club.koupah.aue.gui.types.SettingType.COSMETIC;
+import static club.koupah.aue.gui.types.SettingType.HOST_SETTINGS;
 import static club.koupah.aue.gui.types.SettingType.OTHER;
 import static club.koupah.aue.gui.types.SettingType.PREFERENCES;
-import static club.koupah.aue.gui.types.SettingType.SETTING;
 import static club.koupah.aue.gui.types.SettingType.RAT;
+import static club.koupah.aue.gui.types.SettingType.SETTING;
 import static club.koupah.aue.utility.playerprefs.Indexes.censorChat;
 import static club.koupah.aue.utility.playerprefs.Indexes.color;
 import static club.koupah.aue.utility.playerprefs.Indexes.control;
@@ -24,7 +25,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,6 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -51,6 +52,10 @@ import club.koupah.aue.gui.types.impl.SliderSetting;
 import club.koupah.aue.gui.types.impl.TextSetting;
 import club.koupah.aue.gui.types.impl.custom.cosmetics.CosmeticFilter;
 import club.koupah.aue.gui.types.impl.custom.cosmetics.InvisibleName;
+import club.koupah.aue.gui.types.impl.custom.hostsettings.HostSetting;
+import club.koupah.aue.gui.types.impl.custom.hostsettings.Int16Setting;
+import club.koupah.aue.gui.types.impl.custom.hostsettings.Int32Setting;
+import club.koupah.aue.gui.types.impl.custom.hostsettings.Int8Setting;
 import club.koupah.aue.gui.types.impl.custom.other.DiscordButton;
 import club.koupah.aue.gui.types.impl.custom.other.UpdateChecker;
 import club.koupah.aue.gui.types.impl.custom.preferences.AlwaysOnTop;
@@ -70,6 +75,7 @@ import club.koupah.aue.utility.PopUp;
 import club.koupah.aue.utility.Utility;
 import club.koupah.aue.utility.config.ConfigManager;
 import club.koupah.aue.utility.config.Profile;
+import club.koupah.aue.utility.gamehostoptions.HostSettingsManager;
 import club.koupah.aue.utility.playerprefs.PlayerPrefsFinder;
 import club.koupah.aue.utility.playerprefs.PlayerPrefsManager;
 
@@ -111,6 +117,8 @@ public class Editor extends JFrame {
 	 * Managers (and Finder)
 	 */
 	public ConfigManager configManager;
+
+	public HostSettingsManager hostSettingsManager;
 
 	// Default settings for when a user has no settings
 	public String defaultSettings = "Username,1,0,1,False,False,False,0,False,False,0,255,94,0.5,0,0,0,True,0,False";
@@ -212,6 +220,8 @@ public class Editor extends JFrame {
 			new PopUp(
 					"The playerPrefs file doesn't exist!\nPlease make sure you aren't using someone elses AUEConfig file!\nError #1932\nMessage Koupah#5129 on discord.");
 		}
+
+		hostSettingsManager = new HostSettingsManager(configManager.getGameHostOptionsFile());
 
 		// load playerPrefs settings (Commented out, we don't need to read twice on
 		// launch (We read it below))
@@ -377,12 +387,12 @@ public class Editor extends JFrame {
 		// No checking if it's null, because there's a default value it can never be
 		// null
 		guiManager.updateColorScheme(false); // false because we dont need to save because we just read from save lol
-		
+
 		if (configManager.getIsCustomResolution()) {
 			this.setResizable(true);
 			this.setBounds(this.getX(), this.getY(), configManager.getCustomWidth(), configManager.getCustomHeight());
 		}
-		
+
 		Profile current = Profile.getProfileByConfig(profileManager.makeProfileConfig("random"));
 		if (current != null) {
 			profileManager.updateProfiles(current.getProfileName());
@@ -390,7 +400,6 @@ public class Editor extends JFrame {
 
 		// After everything, save the config
 		configManager.saveConfig();
-		System.out.println(configManager.getGameHostOptionsFile());
 	}
 
 	public void saveSettings() {
@@ -403,10 +412,31 @@ public class Editor extends JFrame {
 				if (setting.getComponentValue(false) != null)
 					prefsManager.newSettings[setting.getSettingIndex()] = setting.getComponentValue(false);
 
+			} else if (guicomponent instanceof HostSetting) {
+				HostSetting hs = ((HostSetting) guicomponent);
+				String save = hs.getSaveValue();
+				
+				int index = 0;
+				for (int i = save.length(); i > 0; i -= 2) {
+					System.out.println("Setting index: " + (hs.getIndex()+index) + " to " + save.substring(i - 2, i));
+					hostSettingsManager.setIndex(hs.getIndex() + index, save.substring(i - 2, i));
+					index++;
+				}
+				
 			}
 		}
+
 		prefsManager.savePlayerPrefs();
+		hostSettingsManager.saveHostSettings();
 		refresh();
+	}
+
+	public static String[] reverseAll(String[] originals) {
+		String[] reversed = new String[originals.length];
+		for (int i = 0; i < originals.length; ++i) {
+			reversed[i] = originals[originals.length - 1 - i];
+		}
+		return reversed;
 	}
 
 	// Made this cause it's smaller than writing allGUISettings.add()
@@ -434,14 +464,14 @@ public class Editor extends JFrame {
 	public static ProfileManager getProfileManager() {
 		return editor.profileManager;
 	}
-	
+
 	public void updateWidth(int width) {
 		this.width = width;
-		tabbedPanel.setBounds(tabbedPanel.getX(),tabbedPanel.getY(),this.width,tabbedPanel.getHeight());
+		tabbedPanel.setBounds(tabbedPanel.getX(), tabbedPanel.getY(), this.width, tabbedPanel.getHeight());
 		this.setBounds(this.getX(), this.getY(), width, this.getHeight());
 		this.repaint();
 	}
-	
+
 	public void addComponents() {
 		/*
 		 * COSMETIC SETTINGS!
@@ -504,8 +534,28 @@ public class Editor extends JFrame {
 		add(new ProfileSharer(new JLabel("Profile Sharer:"), new JButton("Import Profile")), PREFERENCES);
 
 		add(new AlwaysOnTop(new JLabel("Always On Top: "), new JCheckBox(), -1), PREFERENCES);
-		
+
 		add(new ResizableGUIOption(new JLabel("Resizable GUI: "), new JCheckBox(), -1), PREFERENCES);
+
+		/*
+		 * HOST SETTINGS!
+		 */
+
+		add(new Int32Setting(new JLabel("Player Speed"), new JSpinner(), 0x7), HOST_SETTINGS);
+		add(new Int32Setting(new JLabel("Crewmate Vision"), new JSpinner(), 0xB), HOST_SETTINGS);
+		add(new Int32Setting(new JLabel("Impostor Vision"), new JSpinner(), 0xF), HOST_SETTINGS);
+		
+		add(new Int32Setting(new JLabel("Kill Cooldown"), new JSpinner(), 0x13), HOST_SETTINGS);
+
+		add(new Int8Setting(new JLabel("Common Tasks"), new JSpinner(), 0x17), HOST_SETTINGS);
+		add(new Int8Setting(new JLabel("Long Tasks"), new JSpinner(), 0x18), HOST_SETTINGS);
+		add(new Int8Setting(new JLabel("Short Tasks"), new JSpinner(), 0x19), HOST_SETTINGS);
+		
+		add(new Int8Setting(new JLabel("Emergency Meetings"), new JSpinner(), 0x1A), HOST_SETTINGS);
+		
+		
+		//add(new Int16Setting(new JLabel("Max Players"), new JSpinner(), 1), HOST_SETTINGS);
+		
 		
 		/*
 		 * OTHER SETTINGS!

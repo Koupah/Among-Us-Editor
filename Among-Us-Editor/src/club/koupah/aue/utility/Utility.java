@@ -121,28 +121,4 @@ public class Utility {
 		return lines;
 	}
 
-	public static String[] readHex(File file) throws IOException {
-		ArrayList<String> hexValues = new ArrayList<String>();
-		FileInputStream fin = new FileInputStream(file);
-
-		int len;
-		byte data[] = new byte[16];
-		int index = 0;
-
-		while ((len = fin.read(data)) != -1) {
-			for (int j = 0; j < len; j++) {
-				hexValues.add(String.format("%02X", data[j]));
-				index++;
-			}
-		}
-		String[] hex = new String[index];
-		index = 0;
-		for (String h : hexValues) {
-			hex[index] = h;
-			index++;
-		}
-
-		return hex;
-	}
-
 }

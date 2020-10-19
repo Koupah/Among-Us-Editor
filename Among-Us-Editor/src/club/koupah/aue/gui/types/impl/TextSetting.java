@@ -28,7 +28,7 @@ public class TextSetting extends Setting {
 	}
 
 	public TextSetting(JLabel label, final JTextField component, int maxLength, final String warning, int settingIndex, String message, String... symbols) {
-		this(label, component, settingIndex, warning, settingIndex);
+		this(label, component, maxLength, warning, settingIndex);
 		this.disallowed = symbols;
 		this.disallowedMessage = message;
 	}
