@@ -22,12 +22,14 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	static double version = 1.515;
+	static double version = 1.516;
 
 	public static String title = "Among Us Editor";
 
 	public static String discordLink = "https://www.koupah.club/aueditor";
-
+	
+	public static String amongUsPlusDiscordInvite = "https://discord.gg/jAyHbqn";
+	
 	public static void main(String[] args) {
 		
 		System.out.println(String.format("Starting up %s version %s", title, version));

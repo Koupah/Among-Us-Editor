@@ -10,14 +10,17 @@ import club.koupah.aue.gui.types.GUIComponent;
 import club.koupah.aue.utility.PopUp;
 
 public class DiscordButton extends GUIComponent {
-
-	public DiscordButton(JLabel label, JButton component) {
+	
+	String link;
+	
+	public DiscordButton(JLabel label, JButton component, String discordLink) {
 		super(label, component);
-
+		this.link = discordLink;
+		
 		component.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				PopUp.discordPopUp();
+				PopUp.discordPopUp(link);
 			}
 		});
 	}

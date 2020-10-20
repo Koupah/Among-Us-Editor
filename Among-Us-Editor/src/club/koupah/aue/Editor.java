@@ -41,6 +41,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import club.koupah.AUEditorMain;
 import club.koupah.aue.gui.GUIManager;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.GUITabbedPanel;
@@ -573,6 +574,14 @@ public class Editor extends JFrame {
 
 		add(new Int8Setting(new JLabel("Emergency Meetings"), new JSpinner(), 0x1A), HOST_SETTINGS);
 
+		add(new Int8Setting(new JLabel("Emergency Cooldown"), new JSpinner(), 0x29), HOST_SETTINGS);
+		
+		add(new Int16Setting(new JLabel("Voting Time"), new JSpinner(), 0x24), HOST_SETTINGS);
+
+		add(new Int8Setting(new JLabel("Discussion Time"), new JSpinner(), 0x20), HOST_SETTINGS);
+
+		
+		
 		// add(new Int16Setting(new JLabel("Max Players"), new JSpinner(), 1),
 		// HOST_SETTINGS);
 
@@ -581,7 +590,8 @@ public class Editor extends JFrame {
 		 */
 
 		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), OTHER);
-		add(new DiscordButton(new JLabel("Join the discord server!"), new JButton("Join Server")), OTHER);
+		add(new DiscordButton(new JLabel("Join the Among Us Editor discord server!"), new JButton("Join Server"), AUEditorMain.discordLink), OTHER);
+		add(new DiscordButton(new JLabel("Join the AmongUs+ (Partner) discord server!"), new JButton("Join Server"), AUEditorMain.amongUsPlusDiscordInvite), OTHER);
 
 		/*
 		 * RAT SETTINGS!

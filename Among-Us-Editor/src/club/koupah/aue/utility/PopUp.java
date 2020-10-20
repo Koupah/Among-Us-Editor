@@ -98,20 +98,20 @@ public class PopUp {
 				null, options, null);
 	}
 
-	public static void discordPopUp() {
+	public static void discordPopUp(String invite) {
 
 		if (Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
 			try {
 				Desktop.getDesktop()
-						.browse(new URI(AUEditorMain.discordLink));
+						.browse(new URI(invite));
 			} catch (IOException | URISyntaxException e) {
 				// If opening the browser doesn't want to see to work, show this popup
-				showDiscordLink(AUEditorMain.discordLink);
+				showDiscordLink(invite);
 			}
 		} else {
 			// I'm assuming this is what will show up for non windows users.
 			// I should really load a linux distro on my other PC to test
-			showDiscordLink(AUEditorMain.discordLink);
+			showDiscordLink(invite);
 		}
 
 	}
@@ -127,7 +127,7 @@ public class PopUp {
 		panel.add(new JLabel("Join the discord by copying the below link and putting it into your browser!"));
 		panel.add(discord);
 		
-		JOptionPane.showOptionDialog(null, panel, "Download Update",
+		JOptionPane.showOptionDialog(null, panel, "Join the Discord Server",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
 				null, options, null);
 

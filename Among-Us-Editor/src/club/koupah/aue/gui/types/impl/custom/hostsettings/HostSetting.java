@@ -24,13 +24,14 @@ public class HostSetting extends GUIComponent {
 	}
 
 	public int getInt() {
-		this.currentHex = Editor.getInstance().hostSettingsManager.getHex(index, length);
+		this.currentHex = Editor.getInstance().hostSettingsManager.getHex(index, length); //This is here so we always have the most up to date value
 		return Integer.parseInt(currentHex, 16);
 	}
 
 	public float getFloat() {
-		this.currentHex = Editor.getInstance().hostSettingsManager.getHex(index, length);
-		Long i = Long.parseLong(currentHex, 16);
+		this.currentHex = Editor.getInstance().hostSettingsManager.getHex(index, length); //Read above comment
+		
+		Long i = Long.parseLong(currentHex, 16); //Long process to convert Hexadecimal to a float value, it's dumb
 		float f = Float.intBitsToFloat(i.intValue());
 		return f;
 	}
@@ -45,11 +46,11 @@ public class HostSetting extends GUIComponent {
 		String value = ((JSpinner) component).getValue().toString();
 
 		for (Character c : value.toCharArray()) {
-			if (!Character.isDigit(c) && !c.equals('.') && !c.equals('-')) {
+			if (!Character.isDigit(c) && !c.equals('.') && !c.equals('-')) { //TODO, count how many '-' are in the String, if it's more than 1 then it should be an error
 				System.out.println("Invalid character: " + c);
 				new PopUp("The value for " + this.getLabelText().split(":")[0]
 						+ " wasn't valid!\nUsing the previous value instead.", false);
-				return this.currentHex;
+				return this.currentHex; //Return the current hex value, instead of our custom one
 			}
 		}
 

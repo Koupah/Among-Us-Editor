@@ -2,6 +2,7 @@
 ### DISCORD: https://koupah.club/aueditor ###  
 #### ( https://discord.com/invite/HTm3mwK ) ####    
 Join the discord to share your profiles, make suggestions and many other things!  
+### Partnered with https://github.com/AmongUsPlus/among-plus-installer, their discord: https://discord.gg/jAyHbqn ###  
   
 ## Download Instructions ##  
 ### Video Tutorial: https://youtu.be/OS1px12PtGQ ###  
