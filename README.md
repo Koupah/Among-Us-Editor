@@ -73,3 +73,33 @@ Indexes of playerPrefs file
 |17|censorChat|bool||
 |18|lastLanguage|uint|0-4, 0: English, 1: Spanish, 2: Portuguese, 3: Korean, 4: Russian|
 |19|vsync|bool||
+
+Indexes of gameHostOptions file
+|Byte offset/range|Name of setting displayed in Among Us|Type|Value from Recommended Settings|Value shown in Among Us|Comments|
+|--|--|--|--|--|--|
+|0x0||||||
+|0x1|Max Players|8 bit value|`0A` or 10|10||
+|0x2-0x3|Language|16 bit value?|`00 01`|English|`00 01` for English, `02 00` for Spanish, `04 00` for Korean, `08 00` for Russian, `10 00` for Portuguese, `20 00` for Arabic, `40 00` for Filipino/Tagalog, `80 00` for Polish, `01 00` for Other|
+|0x4-0x5||Unknown|`00 00`|||
+|0x6|Map|8 bit value|0|The Skeld/Mira HQ/Polus|0 for The Skeld, 1 for Mira HQ, 2 for Polus|
+|0x7-0xA or 7-10|Player Speed|Float 32 bit|`00 00 80 3F` or 1.0|1.0x|All values are in Little Endian.|
+|0xB-0xE or 11-14|Crewmate Vision|Float 32 bit|`00 00 80 3F` or 1.0|1.0x||
+|0xF-0x12 or 15-18|Impostor Vision|Float 32 bit|`00 00 C0 3F` or 1.5|1.5x||
+|0x13-0x16 or 19-22|Kill Cooldown|Float 32 bit|`00 00 34 42` or 45.0|45.0s||
+|0x17 or 23|# Common Tasks|8 bit value|`01` or 1|1||
+|0x18 or 24|# Long Tasks|8 bit value|`01` or 1|1||
+|0x19 or 25|# Short Tasks|8 bit value|`02` or 2|2||
+|0x1A or 26|# Emergency Meetings|8 bit value|01 or 1|1||
+|0x1B-0x1D or 27-29||Unknown|`00 00 00`|||
+|0x1E or 30|Impostors|8 bit value|`02` or 2|2||
+|0x1F or 31|Kill Distance|8 bit value|`01` or 1|Medium|0 for short, 1 for medium, and 2 for long.|
+|0x20 or 32|Discussion Time|8 bit value|`0F` or 15|15s||
+|0x21-0x23 or 33-35||Unknown|`00 00 00`|||
+|0x24-0x25 or 36-37|Voting Time|16 bit value|`78 00` or 120|120s||
+|0x26-0x27 or 38-39||Unknown|`00 00`||Maybe Voting Time is a 32 bit value.|
+|0x28 or 40|Recommended Settings|8 bit value|`01` or 1|A checked checkbox|01 for true, 00 for false|
+|0x29 or 41|Emergency Cooldown|8 bit value|`0F` or 15|15s||
+|0x2A or 42|Confirm Ejects|8 bit value|`01` or 1|A checked checkbox|01 for true, 00 for false|
+|0x2B or 43|Visual Tasks|8 bit value|`01` or 1|A checked checkbox|01 for true, 00 for false|
+|0x2C or 44|Anonymous Votes|8 bit value|`00` or 0|A checked checkbox|01 for true, 00 for false|
+|0x2D or 45|Task Bar Updates|8 bit value|`01` or 1|A checked checkbox|0 for always, 1 for meetings, 2 for never|

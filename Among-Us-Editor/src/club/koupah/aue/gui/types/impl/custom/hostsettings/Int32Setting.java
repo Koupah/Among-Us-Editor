@@ -11,8 +11,8 @@ public class Int32Setting extends HostSetting {
 
 		component.setModel(new SpinnerNumberModel(1.0, -2147483647, 2147483646, 0.05));
 		component.setEditor(new JSpinner.NumberEditor(component, "0." + zeroes));
+		
 		update();
-
 	}
 	
 	@Override
