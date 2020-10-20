@@ -9,7 +9,7 @@ public class Int8Setting extends HostSetting {
 	public Int8Setting(JLabel label, JSpinner component, int index) {
 		super(label, component, index, 8);
 		
-		component.setModel(new SpinnerNumberModel(1, -127, 126, 1));
+		component.setModel(new SpinnerNumberModel(1, 0, 255, 1));
 		
 		update();
 

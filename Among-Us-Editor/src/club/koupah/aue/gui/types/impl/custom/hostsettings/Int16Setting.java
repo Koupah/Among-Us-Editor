@@ -9,7 +9,7 @@ public class Int16Setting extends HostSetting {
 	public Int16Setting(JLabel label, JSpinner component, int index) {
 		super(label, component, index, 16);
 		
-		component.setModel(new SpinnerNumberModel(1, -32767, 32766, 1));
+		component.setModel(new SpinnerNumberModel(1, 0, 65535, 1));
 		
 		update();
 	}
