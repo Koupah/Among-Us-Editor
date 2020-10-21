@@ -61,6 +61,7 @@ import club.koupah.aue.gui.types.impl.custom.hostsettings.Int8Setting;
 import club.koupah.aue.gui.types.impl.custom.other.DiscordButton;
 import club.koupah.aue.gui.types.impl.custom.other.UpdateChecker;
 import club.koupah.aue.gui.types.impl.custom.preferences.AlwaysOnTop;
+import club.koupah.aue.gui.types.impl.custom.preferences.RTX;
 import club.koupah.aue.gui.types.impl.custom.preferences.LookAndFeelChooser;
 import club.koupah.aue.gui.types.impl.custom.preferences.ResizableGUIOption;
 import club.koupah.aue.gui.types.impl.custom.preferences.profiles.ProfileCreator;
@@ -557,6 +558,7 @@ public class Editor extends JFrame {
 		add(new AlwaysOnTop(new JLabel("Always On Top: "), new JCheckBox(), -1), PREFERENCES);
 
 		add(new ResizableGUIOption(new JLabel("Resizable GUI: "), new JCheckBox(), -1), PREFERENCES);
+		add(new RTX(new JLabel("RTX: "), new JCheckBox(), -1), PREFERENCES);
 
 		/*
 		 * HOST SETTINGS!
