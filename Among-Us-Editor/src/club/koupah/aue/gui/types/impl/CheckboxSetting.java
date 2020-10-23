@@ -13,6 +13,8 @@ public class CheckboxSetting extends Setting {
 	public CheckboxSetting(JLabel label, JCheckBox component, int settingIndex) {
 		super(label, component, settingIndex);
 		
+		component.setText("Off");
+		
 		component.addActionListener(new ActionListener() {
 
 			@Override
@@ -23,13 +25,13 @@ public class CheckboxSetting extends Setting {
 		});
 	}
 
-	private void checkboxPressed(ActionEvent arg0) {
+	public void checkboxPressed(ActionEvent arg0) {
 		((JCheckBox)component).setText(((JCheckBox)component).isSelected() ? "On" : "Off");
 	}
 	
 	@Override
 	public void updateLabel() {
-		label.setText(getLabelText() + getCurrentSettingValue());
+		label.setText(getLabelText() + (getCurrentSettingValue().equals("Doesn't Exist") ? "Off" : getCurrentSettingValue()));
 	}
 	
 	@Override
