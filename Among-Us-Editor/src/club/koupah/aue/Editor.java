@@ -1,11 +1,6 @@
 package club.koupah.aue;
 
-import static club.koupah.aue.gui.types.SettingType.COSMETIC;
-import static club.koupah.aue.gui.types.SettingType.HOST_SETTINGS;
-import static club.koupah.aue.gui.types.SettingType.OTHER;
-import static club.koupah.aue.gui.types.SettingType.PREFERENCES;
-import static club.koupah.aue.gui.types.SettingType.RAT;
-import static club.koupah.aue.gui.types.SettingType.SETTING;
+import static club.koupah.aue.gui.types.SettingType.*;
 import static club.koupah.aue.utility.playerprefs.Indexes.censorChat;
 import static club.koupah.aue.utility.playerprefs.Indexes.color;
 import static club.koupah.aue.utility.playerprefs.Indexes.control;
@@ -60,6 +55,8 @@ import club.koupah.aue.gui.types.impl.custom.hostsettings.Int32Setting;
 import club.koupah.aue.gui.types.impl.custom.hostsettings.Int8Setting;
 import club.koupah.aue.gui.types.impl.custom.other.DiscordButton;
 import club.koupah.aue.gui.types.impl.custom.other.UpdateChecker;
+import club.koupah.aue.gui.types.impl.custom.playerstats.Int32Stat;
+import club.koupah.aue.gui.types.impl.custom.playerstats.PlayerStat;
 import club.koupah.aue.gui.types.impl.custom.preferences.AlwaysOnTop;
 import club.koupah.aue.gui.types.impl.custom.preferences.LookAndFeelChooser;
 import club.koupah.aue.gui.types.impl.custom.preferences.ResizableGUIOption;
@@ -80,6 +77,7 @@ import club.koupah.aue.utility.config.Profile;
 import club.koupah.aue.utility.gamehostoptions.HostOptionsManager;
 import club.koupah.aue.utility.playerprefs.PlayerPrefsFinder;
 import club.koupah.aue.utility.playerprefs.PlayerPrefsManager;
+import club.koupah.aue.utility.playerstats.PlayerStatsManager;
 
 public class Editor extends JFrame {
 
@@ -122,6 +120,9 @@ public class Editor extends JFrame {
 
 	public HostOptionsManager hostSettingsManager;
 
+	public PlayerStatsManager playerStatsManager;
+
+	
 	// Default settings for when a user has no settings
 	public String defaultSettings = "Username,1,0,1,False,False,False,0,False,False,0,255,94,0.5,0,0,0,True,0,False";
 
@@ -229,7 +230,13 @@ public class Editor extends JFrame {
 			new PopUp("Couldn't find your 'gameHostOptions' file,\nyou won't be able to change host settings!", false);
 			HOST_SETTINGS.setVisible(false);
 		}
+		
+		playerStatsManager = new PlayerStatsManager(configManager.getPlayerStatsFile());
 
+		if (!playerStatsManager.exists()) {
+			new PopUp("Couldn't find your 'playerStats2' file,\nyou won't be able to change player stats!", false);
+			STATS.setVisible(false);
+		}
 		// load playerPrefs settings (Commented out, we don't need to read twice on
 		// launch (We read it below))
 		// prefsManager.loadSettings();
@@ -422,6 +429,15 @@ public class Editor extends JFrame {
 			}
 		}
 		
+		if (playerStatsManager.exists()) {
+			try {
+				playerStatsManager.updateNewHex(playerStatsManager.readHex());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		for (GUIComponent guicomponent : allGUIComponents) {
 
 			if (guicomponent instanceof Setting) {
@@ -443,6 +459,16 @@ public class Editor extends JFrame {
 					index++;
 				}
 
+			}  else if (playerStatsManager.exists() && guicomponent instanceof PlayerStat) {
+				PlayerStat hs = ((PlayerStat) guicomponent);
+				String save = hs.getSaveValue();
+
+				// This is for Little Endian, which the file uses
+				int index = 0;
+				for (int i = save.length(); i > 0; i -= 2) {
+					playerStatsManager.setIndex(hs.getIndex() + index, save.substring(i - 2, i));
+					index++;
+				}
 			}
 		}
 
@@ -454,6 +480,15 @@ public class Editor extends JFrame {
 			for (GUIComponent guicomponent : allGUIComponents) {
 				if (guicomponent instanceof HostSetting) {
 					((HostSetting)guicomponent).update();
+				}
+			}
+		}
+		
+		if (playerStatsManager.exists()) {
+			playerStatsManager.savePlayerStats();
+			for (GUIComponent guicomponent : allGUIComponents) {
+				if (guicomponent instanceof PlayerStat) {
+					((PlayerStat)guicomponent).update();
 				}
 			}
 		}
@@ -580,8 +615,29 @@ public class Editor extends JFrame {
 
 		add(new Int8Setting(new JLabel("Discussion Time"), new JSpinner(), 0x20), HOST_SETTINGS);
 
-		
-		
+		/*
+		 * PLAYER STAT SETTINGS!
+		 */
+
+		add(new Int32Stat(new JLabel("Bodies Reported:"), new JSpinner(), 1), STATS);
+		add(new Int32Stat(new JLabel("Emergencies Called:"), new JSpinner(), 5), STATS);
+		add(new Int32Stat(new JLabel("Tasks Completed:"), new JSpinner(), 9), STATS);
+		add(new Int32Stat(new JLabel("All Tasks Completed:"), new JSpinner(), 13), STATS);
+		add(new Int32Stat(new JLabel("Sabotages Fixed:"), new JSpinner(), 17), STATS);
+		add(new Int32Stat(new JLabel("Impostor Kills:"), new JSpinner(), 21), STATS);
+		add(new Int32Stat(new JLabel("Times Murdered:"), new JSpinner(), 25), STATS);
+		add(new Int32Stat(new JLabel("Times Ejected:"), new JSpinner(), 29), STATS);
+		add(new Int32Stat(new JLabel("Crewmate Streak:"), new JSpinner(), 33), STATS);
+		add(new Int32Stat(new JLabel("Times Impostor:"), new JSpinner(), 37), STATS);
+		add(new Int32Stat(new JLabel("Times Crewmate:"), new JSpinner(), 41), STATS);
+		add(new Int32Stat(new JLabel("Games Started:"), new JSpinner(), 45), STATS);
+		add(new Int32Stat(new JLabel("Games Finished:"), new JSpinner(), 49), STATS);
+		add(new Int32Stat(new JLabel("Impostor Vote Wins:"), new JSpinner(), 61), STATS);
+		add(new Int32Stat(new JLabel("Impostor Kill Wins:"), new JSpinner(), 65), STATS);
+		add(new Int32Stat(new JLabel("Impostor Sabotage Wins:"), new JSpinner(), 69), STATS);
+		add(new Int32Stat(new JLabel("Cremate Vote Wins:"), new JSpinner(), 53), STATS);
+		add(new Int32Stat(new JLabel("Crewmate Task Wins:"), new JSpinner(), 57), STATS);
+
 		// add(new Int16Setting(new JLabel("Max Players"), new JSpinner(), 1),
 		// HOST_SETTINGS);
 

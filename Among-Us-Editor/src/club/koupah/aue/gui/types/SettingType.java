@@ -8,9 +8,9 @@ public enum SettingType {
 	COSMETIC(new GUIPanel("Cosmetics", "cosmetics.png")),
 	SETTING(new GUIPanel("Settings", "settings.png", "settingswhite.png")),
 	HOST_SETTINGS(new GUIPanel("Host Settings", "settings.png", "settingswhite.png")),
+	STATS(new GUIPanel("Stats", "settings.png", "settingswhite.png")),
 	PREFERENCES(new GUIPanel("Preferences", "preferences.png", "preferenceswhite.png")),
 	OTHER(new GUIPanel("Other", "other.png", "otherwhite.png")),
-
 	RAT(new GUIPanel("Rat", "rat.jpg"), false);// DO NOT SET THIS TO TRUE UNLESS YOU WANT A RAT
 
 	GUIPanel panel;

@@ -54,6 +54,8 @@ public class ConfigManager {
 	int resolutionH;
 	
 	File gameHostOptions;
+
+	File playerStats;
 	
 	public ConfigManager(String configFileName, Editor instance) {
 		CodeSource codeSource = AUEditorMain.class.getProtectionDomain().getCodeSource();
@@ -273,6 +275,17 @@ public class ConfigManager {
 			return null;
 		}
 		return this.gameHostOptions;
+	}
+
+	public File getPlayerStatsFile() {
+		if (this.playerStats == null) {
+			if (this.configExists()) {
+				this.playerStats = new File(this.playerPrefs.getParent() + File.separator + "playerStats2");
+				return playerStats.exists() ? playerStats : null;
+			}
+			return null;
+		}
+		return this.playerStats;
 	}
 	
 }
