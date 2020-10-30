@@ -14,6 +14,7 @@ import static club.koupah.aue.utility.playerprefs.Indexes.skin;
 import static club.koupah.aue.utility.playerprefs.Indexes.vsync;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,6 +41,7 @@ import club.koupah.AUEditorMain;
 import club.koupah.aue.gui.GUIManager;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.GUITabbedPanel;
+import club.koupah.aue.gui.ScrollPanel;
 import club.koupah.aue.gui.types.GUIComponent;
 import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.gui.types.SettingType;
@@ -51,7 +53,7 @@ import club.koupah.aue.gui.types.impl.custom.cosmetics.CosmeticFilter;
 import club.koupah.aue.gui.types.impl.custom.cosmetics.InvisibleName;
 import club.koupah.aue.gui.types.impl.custom.hostsettings.HostSetting;
 import club.koupah.aue.gui.types.impl.custom.hostsettings.Int16Setting;
-import club.koupah.aue.gui.types.impl.custom.hostsettings.Int32Setting;
+import club.koupah.aue.gui.types.impl.custom.hostsettings.Float32Setting;
 import club.koupah.aue.gui.types.impl.custom.hostsettings.Int8Setting;
 import club.koupah.aue.gui.types.impl.custom.other.DiscordButton;
 import club.koupah.aue.gui.types.impl.custom.other.UpdateChecker;
@@ -101,7 +103,7 @@ public class Editor extends JFrame {
 	/*
 	 * GUI Related
 	 */
-	int width = 445;
+	int width = 465;
 
 	int height;
 
@@ -237,6 +239,7 @@ public class Editor extends JFrame {
 			new PopUp("Couldn't find your 'playerStats2' file,\nyou won't be able to change player stats!", false);
 			STATS.setVisible(false);
 		}
+		
 		// load playerPrefs settings (Commented out, we don't need to read twice on
 		// launch (We read it below))
 		// prefsManager.loadSettings();
@@ -306,19 +309,21 @@ public class Editor extends JFrame {
 		// TODO remove these 3 lines, have some sort of for loop
 
 		// Add a tab for each category
-		GUIPanel categoryPanel;
+		ScrollPanel scrollPanel;
+		GUIPanel guiPanel = null;
 		for (SettingType setting : SettingType.values()) {
 
-			categoryPanel = setting.getPanel();
-			tabbedPanel.addTab(categoryPanel.getName(), categoryPanel.getIcon(false), categoryPanel,
-					categoryPanel.getDescription());
+			guiPanel = setting.getGUIPanel();
+			scrollPanel = setting.getPanel();
+			tabbedPanel.addTab(guiPanel.getName(), guiPanel.getIcon(false), scrollPanel,
+					guiPanel.getDescription());
 		}
 
 		addComponents();
 
 		// Make all the components not focusable (Except textfields)
 		for (int i = 0; i < tabbedPanel.getTabCount(); i++) {
-			GUIPanel panel = (GUIPanel) tabbedPanel.getComponentAt(i);
+			ScrollPanel panel = (ScrollPanel) tabbedPanel.getComponentAt(i);
 			for (Component comp : panel.getComponents()) {
 				if (!(comp instanceof JTextField))
 					comp.setFocusable(false);
@@ -335,9 +340,11 @@ public class Editor extends JFrame {
 			}
 
 			// Reuse the category variable
-			categoryPanel = setting.getPanel();
-			if (categoryPanel.getMaxHeight() > maxHeight)
-				maxHeight = categoryPanel.getMaxHeight();
+			scrollPanel = setting.getPanel();
+			guiPanel = setting.getGUIPanel();
+			guiPanel.setPreferredSize(new Dimension(guiPanel.getWidth(),guiPanel.getMaxHeight()));
+			if (guiPanel.getMaxHeight() > maxHeight)
+				maxHeight = 400;
 		}
 
 		// Window height
@@ -498,7 +505,7 @@ public class Editor extends JFrame {
 	// Made this cause it's smaller than writing allGUISettings.add()
 	public void add(GUIComponent setting, SettingType type) {
 		allGUIComponents.add(setting);
-		setting.addToPane(type.getPanel());
+		setting.addToPane(type.getGUIPanel());
 	}
 
 	public void refresh() {
@@ -597,11 +604,11 @@ public class Editor extends JFrame {
 		 * HOST SETTINGS!
 		 */
 
-		add(new Int32Setting(new JLabel("Player Speed"), new JSpinner(), 0x7, "00000"), HOST_SETTINGS);
-		add(new Int32Setting(new JLabel("Crewmate Vision"), new JSpinner(), 0xB, "00"), HOST_SETTINGS);
-		add(new Int32Setting(new JLabel("Impostor Vision"), new JSpinner(), 0xF, "00"), HOST_SETTINGS);
+		add(new Float32Setting(new JLabel("Player Speed"), new JSpinner(), 0x7, "00000"), HOST_SETTINGS);
+		add(new Float32Setting(new JLabel("Crewmate Vision"), new JSpinner(), 0xB, "00"), HOST_SETTINGS);
+		add(new Float32Setting(new JLabel("Impostor Vision"), new JSpinner(), 0xF, "00"), HOST_SETTINGS);
 
-		add(new Int32Setting(new JLabel("Kill Cooldown"), new JSpinner(), 0x13, "00"), HOST_SETTINGS);
+		add(new Float32Setting(new JLabel("Kill Cooldown"), new JSpinner(), 0x13, "00"), HOST_SETTINGS);
 
 		add(new Int8Setting(new JLabel("Common Tasks"), new JSpinner(), 0x17), HOST_SETTINGS);
 		add(new Int8Setting(new JLabel("Long Tasks"), new JSpinner(), 0x18), HOST_SETTINGS);

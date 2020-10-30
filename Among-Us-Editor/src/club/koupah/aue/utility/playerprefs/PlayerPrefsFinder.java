@@ -44,13 +44,14 @@ public class PlayerPrefsFinder {
 		// Where my playerPrefs was
 		File standardLocation = new File(
 				System.getProperty("user.home") + "\\AppData\\LocalLow\\Innersloth\\Among Us\\playerPrefs");
-
+		
 		if (standardLocation.exists()) {
 			instance.configManager.setPlayerPrefs(standardLocation);
 			return standardLocation;
 		} else {
 			// Warn user we're going to scan their PC, don't have an option to deny it
 			// **yet**
+		
 			new PopUp(String.format(
 					"Your playerPrefs file wasn't in the expected folder nor the %s file!\nPress \"OK\" to begin scanning for it!",
 					instance.configManager.configName()),

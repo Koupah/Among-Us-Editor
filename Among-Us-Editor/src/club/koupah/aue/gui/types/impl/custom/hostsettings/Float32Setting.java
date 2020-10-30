@@ -4,9 +4,9 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-public class Int32Setting extends HostSetting {
+public class Float32Setting extends HostSetting {
 
-	public Int32Setting(JLabel label, JSpinner component, int index, String zeroes) {
+	public Float32Setting(JLabel label, JSpinner component, int index, String zeroes) {
 		super(label, component, index, 32);
 
 		component.setModel(new SpinnerNumberModel(1.0, -2147483647, 2147483646, 0.05));

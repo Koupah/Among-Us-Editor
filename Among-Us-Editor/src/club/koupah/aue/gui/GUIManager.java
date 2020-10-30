@@ -73,16 +73,16 @@ public class GUIManager {
 			blue = Math.max(red, 70);
 
 			for (SettingType setting : SettingType.values()) {
-				int index = tabbedPanel.indexOfTab(setting.getPanel().getName());
-				if (index != -1 && setting.getPanel().hasWhite && !setting.getPanel().white) {
-					tabbedPanel.setIconAt(index, setting.getPanel().getIcon(true));
+				int index = tabbedPanel.indexOfTab(setting.getGUIPanel().getName());
+				if (index != -1 && setting.getGUIPanel().hasWhite && !setting.getGUIPanel().white) {
+					tabbedPanel.setIconAt(index, setting.getGUIPanel().getIcon(true));
 				}
 			}
 		} else {
 			for (SettingType setting : SettingType.values()) {
-				int index = tabbedPanel.indexOfTab(setting.getPanel().getName());
-				if (index != -1 && setting.getPanel().white) {
-					tabbedPanel.setIconAt(index, setting.getPanel().getIcon(false));
+				int index = tabbedPanel.indexOfTab(setting.getGUIPanel().getName());
+				if (index != -1 && setting.getGUIPanel().white) {
+					tabbedPanel.setIconAt(index, setting.getGUIPanel().getIcon(false));
 				}
 			}
 		}
