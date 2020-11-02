@@ -15,6 +15,7 @@
 
   <p align="center">
     Edit the Among Us playerPrefs file (and now gameHostOptions!), allows for the changing of skins, pets, hats and even a secret/glitched color! 
+    Join the discord to share your profiles, make suggestions and many other things!  
     <br>
     <a href="https://github.com/Koupah/Among-Us-Editor/releases"><strong>Downloads »</strong></a>
     <br>
@@ -26,10 +27,6 @@
     <a href="https://github.com/Koupah/Among-Us-Editor/issues">Request Feature</a>
   </p>
 </p>
-
-### DISCORD: https://koupah.club/aueditor ###  
-  
-Join the discord to share your profiles, make suggestions and many other things!  
   
 ## Download Instructions ##  
 ### Video Tutorial: https://youtu.be/OS1px12PtGQ ###  
@@ -136,15 +133,15 @@ Indexes of gameHostOptions file
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/Koupah/repo.svg?style=flat-square
+[contributors-shield]: https://img.shields.io/github/contributors/Koupah/Among-Us-Editor.svg?style=flat-square
 [contributors-url]: https://github.com/Koupah/Among-Us-Editor/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Koupah/repo.svg?style=flat-square
+[forks-shield]: https://img.shields.io/github/forks/Koupah/Among-Us-Editor.svg?style=flat-square
 [forks-url]: https://github.com/Koupah/Among-Us-Editor/network/members
-[stars-shield]: https://img.shields.io/github/stars/Koupah/repo.svg?style=flat-square
+[stars-shield]: https://img.shields.io/github/stars/Koupah/Among-Us-Editor.svg?style=flat-square
 [stars-url]: https://github.com/Koupah/Among-Us-Editor/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Koupah/repo.svg?style=flat-square
+[issues-shield]: https://img.shields.io/github/issues/Koupah/Among-Us-Editor.svg?style=flat-square
 [issues-url]: https://github.com/Koupah/Among-Us-Editor/issues
-[license-shield]: https://img.shields.io/github/license/Koupah/repo.svg?style=flat-square
+[license-shield]: https://img.shields.io/github/license/Koupah/Among-Us-Editor.svg?style=flat-square
 [license-url]: https://github.com/Koupah/Among-Us-Editor/blob/master/LICENSE.txt
 [discord-shield]:https://img.shields.io/badge/discord-join-HTm3mwK.svg?logo=discord&longCache=true&style=flat-square
 [discord-url]:https://discord.com/invite/HTm3mwK
