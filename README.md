@@ -1,8 +1,34 @@
-# Among-Us-Editor
-### DISCORD: https://koupah.club/aueditor ###  
-<a href="https://discord.com/invite/HTm3mwK">
-    <img src="https://img.shields.io/badge/discord-join-7289DA.svg?logo=discord&longCache=true&style=flat" />
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![Discord][discord-shield]][discord-url]
+
+<br>
+<p align="center">
+  <a href="https://github.com/Koupah/Among-Us-Editor">
+    <img src="images/AUEditor.png" alt="Logo" width="80" height="80">
   </a>
+
+  <h3 align="center">AUEditor</h3>
+
+  <p align="center">
+    Edit the Among Us playerPrefs file (and now gameHostOptions!), allows for the changing of skins, pets, hats and even a secret/glitched color! 
+    <br>
+    <a href="https://github.com/Koupah/Among-Us-Editor/releases"><strong>Downloads »</strong></a>
+    <br>
+    <br>
+    <a href="https://youtu.be/OS1px12PtGQ">View Demo</a>
+    ·
+    <a href="https://github.com/Koupah/Among-Us-Editor/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/Koupah/Among-Us-Editor/issues">Request Feature</a>
+  </p>
+</p>
+
+### DISCORD: https://koupah.club/aueditor ###  
+  
 Join the discord to share your profiles, make suggestions and many other things!  
   
 ## Download Instructions ##  
@@ -39,7 +65,9 @@ My Discord: Koupah#5129
 
 ## Credits ##  
 All Contributors in the discord!
+
 Slymeball: Has helped me bring support to mac/linux via his issues. Thank you.
+
 camas: Created the playerPrefs index table  
 
 If you'd like to help w/ something or receive credit, you can contact me on my discord listed above 
@@ -104,3 +132,19 @@ Indexes of gameHostOptions file
 |0x2B or 43|Visual Tasks|8 bit value|`01` or 1|A checked checkbox|01 for true, 00 for false|
 |0x2C or 44|Anonymous Votes|8 bit value|`00` or 0|A checked checkbox|01 for true, 00 for false|
 |0x2D or 45|Task Bar Updates|8 bit value|`01` or 1|A checked checkbox|0 for always, 1 for meetings, 2 for never|
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/Koupah/repo.svg?style=flat-square
+[contributors-url]: https://github.com/Koupah/Among-Us-Editor/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Koupah/repo.svg?style=flat-square
+[forks-url]: https://github.com/Koupah/Among-Us-Editor/network/members
+[stars-shield]: https://img.shields.io/github/stars/Koupah/repo.svg?style=flat-square
+[stars-url]: https://github.com/Koupah/Among-Us-Editor/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Koupah/repo.svg?style=flat-square
+[issues-url]: https://github.com/Koupah/Among-Us-Editor/issues
+[license-shield]: https://img.shields.io/github/license/Koupah/repo.svg?style=flat-square
+[license-url]: https://github.com/Koupah/Among-Us-Editor/blob/master/LICENSE.txt
+[discord-shield]:https://img.shields.io/badge/discord-join-HTm3mwK.svg?logo=discord&longCache=true&style=flat-square
+[discord-url]:https://discord.com/invite/HTm3mwK
