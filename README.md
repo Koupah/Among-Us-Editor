@@ -25,6 +25,8 @@
     <a href="https://github.com/Koupah/Among-Us-Editor/issues">Report Bug</a>
     ·
     <a href="https://github.com/Koupah/Among-Us-Editor/issues">Request Feature</a>
+    ·
+    <a href="https://discord.com/invite/HTm3mwK">Discord Server</a>
   </p>
 </p>
 
@@ -110,6 +112,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
 
 Discord: Koupah#5129
+  
+Among Us Editor Discord Server: [https://discord.com/invite/HTm3mwK](https://discord.com/invite/HTm3mwK)
 
 Project Link: [https://github.com/Koupah/Among-Us-Editor](https://github.com/Koupah/Among-Us-Editor)
 
