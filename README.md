@@ -1,8 +1,9 @@
 # Among-Us-Editor
 ### DISCORD: https://koupah.club/aueditor ###  
-#### ( https://discord.com/invite/HTm3mwK ) ####    
+<a href="https://discord.com/invite/HTm3mwK">
+    <img src="https://img.shields.io/badge/discord-join-7289DA.svg?logo=discord&longCache=true&style=flat" />
+  </a>
 Join the discord to share your profiles, make suggestions and many other things!  
-### Partnered with https://github.com/AmongUsPlus/among-plus-installer, their discord: https://discord.gg/jAyHbqn ###  
   
 ## Download Instructions ##  
 ### Video Tutorial: https://youtu.be/OS1px12PtGQ ###  
