@@ -27,55 +27,103 @@
     <a href="https://github.com/Koupah/Among-Us-Editor/issues">Request Feature</a>
   </p>
 </p>
-  
-## Download Instructions ##  
-### Video Tutorial: https://youtu.be/OS1px12PtGQ ###  
-### Requires Java 7 or above https://www.java.com/en/download/ ###  
-Download Link: https://github.com/Koupah/Among-Us-Editor/releases  
-Download the .jar file by clicking on it, then run it once it's finished downloading  
-From there, it's as simple as choosing your settings then applying & running the game  
-  
+
+<!-- TABLE OF CONTENTS -->
+## Table of Contents
+
+* [About the Project](#about-the-project)
+  * [Video Showcase](#video-showcase)
+* [Usage](#usage)
+* [Glitched Color](#secretglitched-color)
+* [Contributing](#contributing)
+* [License](#license)
+* [Contact](#contact)
+* [Acknowledgements](#acknowledgements)
+* [Among Us Config Files INFO](#information-about-among-us-config-files)
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+[![AUEditor Demo][product-screenshot]]()
+
+AUEditor is an Among Us Config Editor that allows you to easily modify the config that is used by Among Us for your Outfits and Game Host Settings.
+
+If you upload a video showing or using this please give credit or atleast link this GitHub page!
+
+### Video Showcase
+
+* 1.51 (Latest) by Koupah: https://youtu.be/OS1px12PtGQ  
+* 1.51 by Discord Member: https://youtu.be/7KABvBbP1hM  
+* 1.45 by Koupah: https://youtu.be/rlv_1qFbZFM  
+* 1.0 by Koupah: https://youtu.be/2wRJmS7DKpc 
+ 
+ 
+<!-- USAGE EXAMPLES -->
+## Usage
+
+Custom names that include "\\", ")" or "\[" will result in a "Banned from Room" message and you also cannot include "," in your name as it breaks the config file.  
+Names longer than 10 characters will also not work in online games, local play lets you make a lobby but I'm not sure if others can join.
+
+Video Tutorial: https://youtu.be/OS1px12PtGQ
+
+1) Download the latest .jar from [here.](https://github.com/Koupah/Among-Us-Editor/releases)
+2) Make sure to download the correct Java (JRE) for your operating system from [here.](https://www.java.com/en/download/)
+3) Run the .jar you downloaded in Step 1
+4) Modify your settings to what you please!
+
 NOTE: You need to relaunch/have your game closed when using this! 
 The game only seems to read settings on launch, so use this then launch your game!  
 
-## Videos ##  
-1.51 (Latest) by Koupah: https://youtu.be/OS1px12PtGQ  
-1.51 by Discord Member: https://youtu.be/7KABvBbP1hM  
-1.45 by Koupah: https://youtu.be/rlv_1qFbZFM  
-1.0 by Koupah: https://youtu.be/2wRJmS7DKpc  
   
-## Secret/Glitched Color (Fortegreen) ##
+## Secret/Glitched Color ##
 The secret color is a lighter version of the dark green, in lobbies chat normally won't work, you can't customize your character. People also see your name as "???".  
 In game, your dead body will be red, in meetings you'll be red and in chat you'll be red.
 Therefore there can be 3 greens and 2 reds, and I believe if multiple people have a different color value above 12, there can be multiple glitched greens (Untested).  
 ![](images/differences.png)
 
-#### This glitched color is referenced in this wiki page https://among-us.fandom.com/wiki/Fortegreen ~~https://among-us.fandom.com/wiki/Player~~ ####
+#### This glitched color is referenced in this wiki page https://among-us.fandom.com/wiki/Fortegreen ####
 ![](images/fortegreen.png)  
 ![](images/fortegreen1.png)  
   
 
+<!-- CONTRIBUTING -->
+## Contributing
 
-If you upload a video showing or using this please give credit or atleast link this GitHub page!
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-My Discord: Koupah#5129
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## Credits ##  
-All Contributors in the discord!
 
-Slymeball: Has helped me bring support to mac/linux via his issues. Thank you.
 
-camas: Created the playerPrefs index table  
+<!-- LICENSE -->
+## License
 
-If you'd like to help w/ something or receive credit, you can contact me on my discord listed above 
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## Information for those interested: ##  
 
-There were originally a bunch more commits (50+ lost) but I messed up and forced my whole workspace and it messed everything up  
 
-Custom names that include "\\", ")" or "\[" will result in a "Banned from Room" message and you also cannot include "," in your name as it breaks the file.  
-Names longer than 10 characters will also not work in online games, local play lets you make a lobby but I'm not sure if others can join.
+<!-- CONTACT -->
+## Contact
 
+Discord: Koupah#5129
+
+Project Link: [https://github.com/Koupah/Among-Us-Editor](https://github.com/Koupah/Among-Us-Editor)
+
+
+
+<!-- ACKNOWLEDGEMENTS -->
+## Acknowledgements
+
+* Slymeball - Helped me bring support to Mac/Linux via his issues.
+* camas - Created the playerPrefs index table 
+
+If you'd like to help with something or recieve credit for something you've done, [contact me!](#contact)
+
+## Information about Among Us config files ##  
 Indexes of playerPrefs file
 |Index|Name used by Among Us|Type|Comment|
 |--|--|--|--|
@@ -145,3 +193,4 @@ Indexes of gameHostOptions file
 [license-url]: https://github.com/Koupah/Among-Us-Editor/blob/master/LICENSE.txt
 [discord-shield]:https://img.shields.io/badge/discord-join-HTm3mwK.svg?logo=discord&longCache=true&style=flat-square
 [discord-url]:https://discord.com/invite/HTm3mwK
+[product-screenshot]: images/AUEditorShowcase.PNG
