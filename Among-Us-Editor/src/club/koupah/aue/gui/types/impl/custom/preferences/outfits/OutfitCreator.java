@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.impl.custom.preferences.profiles;
+package club.koupah.aue.gui.types.impl.custom.preferences.outfits;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,17 +11,17 @@ import club.koupah.aue.Editor;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.types.GUIComponent;
 import club.koupah.aue.utility.PopUp;
-import club.koupah.aue.utility.config.Profile;
+import club.koupah.aue.utility.config.Outfit;
 
-public class ProfileCreator extends GUIComponent {
+public class OutfitCreator extends GUIComponent {
 
-	String[] allProfileNames;
+	String[] allOutfitNames;
 
 	JButton create;
 
 	// Going to use this to load and delete profiles, saving/sharing will be another
 	// class
-	public ProfileCreator(final JLabel label, JTextField component) {
+	public OutfitCreator(final JLabel label, JTextField component) {
 		super(label, component);
 	}
 
@@ -29,8 +29,8 @@ public class ProfileCreator extends GUIComponent {
 	public void addToPane(GUIPanel contentPane) {
 		index = contentPane.getSettingCount();
 
-		create = new JButton("Create Profile");
-		create.setToolTipText("Creates a profile with the current cosmetic settings!");
+		create = new JButton("Create Outfit");
+		create.setToolTipText("Creates an Outfit with the current cosmetic settings!");
 
 		label.setBounds(10, 15 + (index * Editor.guiSpacing), 100, 30);
 		component.setBounds(260, 20 + (index * Editor.guiSpacing), 160, 20);
@@ -39,22 +39,22 @@ public class ProfileCreator extends GUIComponent {
 		create.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String name = (String) ((JTextField) ProfileCreator.this.component).getText();
+				String name = (String) ((JTextField) OutfitCreator.this.component).getText();
 
-				if (Profile.profileExists(name)) {
-					((JTextField) ProfileCreator.this.component).setText("");
-					new PopUp("That profile already exists!", false);
+				if (Outfit.outfitExists(name)) {
+					((JTextField) OutfitCreator.this.component).setText("");
+					new PopUp("That outfit already exists!", false);
 					return;
 				} else {
 					// the name but with spaces replaced to check true length
 
-					if (Editor.getProfileManager().profileNameChecks(name, false)) {
+					if (Editor.getOutfitManager().outfitNameChecks(name, false)) {
 
-						((JTextField) ProfileCreator.this.component).setText("");
-						String[] settings = Editor.getInstance().profileManager.makeProfileConfig(name);
-						new Profile(settings);
+						((JTextField) OutfitCreator.this.component).setText("");
+						String[] settings = Editor.getInstance().outfitManager.makeOutfitConfig(name);
+						new Outfit(settings);
 
-						Editor.getInstance().profileManager.updateProfiles(name);
+						Editor.getInstance().outfitManager.updateOutfits(name);
 						Editor.getInstance().configManager.saveConfig();
 					}
 				}

@@ -70,5 +70,5 @@ public class GUIPanel extends JLayeredPane {
 	public String getName() {
 		return this.name;
 	}
-
+	
 }

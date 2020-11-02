@@ -1,4 +1,4 @@
-package club.koupah.aue.gui.types.impl.custom.preferences.profiles;
+package club.koupah.aue.gui.types.impl.custom.preferences.outfits;
 
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
@@ -24,21 +24,21 @@ import club.koupah.aue.Editor;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.types.GUIComponent;
 import club.koupah.aue.utility.PopUp;
-import club.koupah.aue.utility.config.Profile;
+import club.koupah.aue.utility.config.Outfit;
 
-public class ProfileSharer extends GUIComponent {
+public class OutfitSharer extends GUIComponent {
 
-	String[] allProfileNames;
+	String[] allOutfitNames;
 
 	JButton share;
 
-	// Going to use this to load and delete profiles, saving/sharing will be another
+	// Going to use this to load and delete outfits, saving/sharing will be another
 	// component
-	public ProfileSharer(final JLabel label, JButton component) {
+	public OutfitSharer(final JLabel label, JButton component) {
 		super(label, component);
 
-		component.setToolTipText("Let's you import and use other peoples profiles!");
-		// component is the import profile button
+		component.setToolTipText("Let's you import and use other peoples outfits!");
+		// component is the import outfit button
 		component.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -47,24 +47,24 @@ public class ProfileSharer extends GUIComponent {
 
 				if (config != null) {
 					String importName = config.split(",")[0];
-					if (Profile.profileExists(importName)) {
-						new PopUp("You already have a profile with the name \"" + importName
-								+ "\"\nDelete it in order to import this profile!", false);
+					if (Outfit.outfitExists(importName)) {
+						new PopUp("You already have a outfit with the name \"" + importName
+								+ "\"\nDelete it in order to import this outfit!", false);
 						return;
 					}
 
-					Profile imported = new Profile(config);
-					if (imported.getProfileName() != null) {
-						if (Editor.getProfileManager().profileNameChecks(imported.getProfileName(), true)) { //Separate if statement, as this check shows it's own popups
-							Editor.getInstance().profileManager.updateProfiles(imported.getProfileName());
+					Outfit imported = new Outfit(config);
+					if (imported.getOutfitName() != null) {
+						if (Editor.getOutfitManager().outfitNameChecks(imported.getOutfitName(), true)) { //Separate if statement, as this check shows it's own popups
+							Editor.getInstance().outfitManager.updateOutfits(imported.getOutfitName());
 							Editor.getInstance().configManager.saveConfig();
-							new PopUp("Successfully imported the profile \"" + imported.getProfileName() + "\"!", false);
+							new PopUp("Successfully imported the outfit \"" + imported.getOutfitName() + "\"!", false);
 						} else {
 							imported.delete(); //Delete it from existence 
 						}
 					} else {
 						new PopUp(
-								"The profile you tried importing seemed to be corrupted!\nIf this is a mistake:\ntry again and make sure you copied the share code properly!",
+								"The outfit you tried importing seemed to be corrupted!\nIf this is a mistake:\ntry again and make sure you copied the share code properly!",
 								false);
 					}
 				}
@@ -76,8 +76,8 @@ public class ProfileSharer extends GUIComponent {
 	public void addToPane(GUIPanel contentPane) {
 		index = contentPane.getSettingCount();
 
-		share = new JButton("Share Profile");
-		share.setToolTipText("Share the current selected profile!");
+		share = new JButton("Share Outfit");
+		share.setToolTipText("Share the current selected outfit!");
 
 		label.setBounds(10, 15 + (index * Editor.guiSpacing), 100, 30);
 		component.setBounds(260, 20 + (index * Editor.guiSpacing), 160, 20);
@@ -86,11 +86,11 @@ public class ProfileSharer extends GUIComponent {
 		share.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Profile profile;
-				if ((profile = Editor.getInstance().profileManager.current) != null) {
-					showShareCode(profile.getConfigLine(), profile.getProfileName());
+				Outfit outfit;
+				if ((outfit = Editor.getInstance().outfitManager.current) != null) {
+					showShareCode(outfit.getConfigLine(), outfit.getOutfitName());
 				} else {
-					new PopUp("This profile isn't shareable!", false);
+					new PopUp("This outfit isn't shareable!", false);
 				}
 			}
 		});
@@ -102,7 +102,7 @@ public class ProfileSharer extends GUIComponent {
 		contentPane.add(share);
 	}
 
-	static void showShareCode(String share, String profileName) {
+	static void showShareCode(String share, String outfitName) {
 
 		share = Base64.getEncoder().encodeToString(share.getBytes()).replaceAll("=", "AUEQL").replaceAll("/", "AUESLASH");
 
@@ -143,15 +143,15 @@ public class ProfileSharer extends GUIComponent {
 		});
 		shareText.setHorizontalAlignment(JTextField.CENTER);
 		shareText.setEditable(false);
-		panel.add(new JLabel("Sharing Profile: " + profileName));
-		panel.add(new JLabel("Copy the text below, anyone can import it to get your profile!"));
+		panel.add(new JLabel("Sharing Outfit: " + outfitName));
+		panel.add(new JLabel("Copy the text below, anyone can import it to get your outfit!"));
 
 		if (Editor.getInstance().windowsOS)
 			panel.add(new JLabel("You can also right click the text box to copy the share code"));
 
 		panel.add(shareText);
 
-		JOptionPane.showOptionDialog(null, panel, "Sharing " + profileName, JOptionPane.DEFAULT_OPTION,
+		JOptionPane.showOptionDialog(null, panel, "Sharing " + outfitName, JOptionPane.DEFAULT_OPTION,
 				JOptionPane.PLAIN_MESSAGE, null, options, null);
 	}
 
@@ -205,7 +205,7 @@ public class ProfileSharer extends GUIComponent {
 
 		panel.add(shareText);
 
-		JOptionPane.showOptionDialog(null, panel, "Importing Profile", JOptionPane.DEFAULT_OPTION,
+		JOptionPane.showOptionDialog(null, panel, "Importing Outfit", JOptionPane.DEFAULT_OPTION,
 				JOptionPane.PLAIN_MESSAGE, null, options, null);
 
 		String input = shareText.getText().replaceAll(" ", "").replaceAll("\n", ""); // sanitize the string

@@ -31,7 +31,7 @@ public class ConfigManager {
 
 	String lookAndFeel;
 
-	String[] profiles;
+	String[] outfits;
 
 	Editor instance;
 
@@ -124,7 +124,7 @@ public class ConfigManager {
 
 				} else if (config.contains(",") && config.split(",").length > 5) {
 
-					new Profile(config);
+					new Outfit(config);
 				}
 
 				lineNum++;
@@ -177,7 +177,7 @@ public class ConfigManager {
 			// Write profiles here
 			writer.write("[profiles]");
 			writer.newLine();
-			for (Profile profile : Profile.profiles) {
+			for (Outfit profile : Outfit.profiles) {
 				writer.write(profile.getConfigLine());
 				writer.newLine();
 			}

@@ -16,6 +16,9 @@ import static club.koupah.aue.utility.playerprefs.Indexes.vsync;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -62,9 +65,9 @@ import club.koupah.aue.gui.types.impl.custom.playerstats.PlayerStat;
 import club.koupah.aue.gui.types.impl.custom.preferences.AlwaysOnTop;
 import club.koupah.aue.gui.types.impl.custom.preferences.LookAndFeelChooser;
 import club.koupah.aue.gui.types.impl.custom.preferences.ResizableGUIOption;
-import club.koupah.aue.gui.types.impl.custom.preferences.profiles.ProfileCreator;
-import club.koupah.aue.gui.types.impl.custom.preferences.profiles.ProfileManager;
-import club.koupah.aue.gui.types.impl.custom.preferences.profiles.ProfileSharer;
+import club.koupah.aue.gui.types.impl.custom.preferences.outfits.OutfitCreator;
+import club.koupah.aue.gui.types.impl.custom.preferences.outfits.OutfitManager;
+import club.koupah.aue.gui.types.impl.custom.preferences.outfits.OutfitSharer;
 import club.koupah.aue.gui.types.impl.custom.preferences.schemes.CustomSchemeEditor;
 import club.koupah.aue.gui.types.impl.custom.preferences.schemes.SchemeChooser;
 import club.koupah.aue.gui.types.impl.custom.rat.HiddenRat;
@@ -75,7 +78,7 @@ import club.koupah.aue.utility.ImageUtil;
 import club.koupah.aue.utility.PopUp;
 import club.koupah.aue.utility.Utility;
 import club.koupah.aue.utility.config.ConfigManager;
-import club.koupah.aue.utility.config.Profile;
+import club.koupah.aue.utility.config.Outfit;
 import club.koupah.aue.utility.gamehostoptions.HostOptionsManager;
 import club.koupah.aue.utility.playerprefs.PlayerPrefsFinder;
 import club.koupah.aue.utility.playerprefs.PlayerPrefsManager;
@@ -137,7 +140,7 @@ public class Editor extends JFrame {
 	// Vertical spacing between gui components
 	public static int guiSpacing = 40;
 
-	public ProfileManager profileManager;
+	public OutfitManager outfitManager;
 
 	public Editor(double ver) {
 
@@ -177,7 +180,7 @@ public class Editor extends JFrame {
 
 		guiManager = new GUIManager(this);
 
-		profileManager = new ProfileManager(new JLabel("Manage Profile:"), new JComboBox<String>());
+		outfitManager = new OutfitManager(new JLabel("Manage Outfit:"), new JComboBox<String>());
 
 		configManager = new ConfigManager("AUEConfig", this);
 
@@ -286,7 +289,7 @@ public class Editor extends JFrame {
 		// Set the title to the middle
 		titleText.setBounds(width / 2 - (titleWidth / 2) - 10, 5, titleWidth + 20, 42);
 		contentPanel.add(titleText);
-
+		
 		// Reuse the font
 		font = new Font("Tahoma", Font.PLAIN, 12);
 		String versionString = "v" + version;
@@ -416,9 +419,9 @@ public class Editor extends JFrame {
 
 		// Make random config, just use this to set the current from none to whatever
 		// we're using currently
-		Profile current = Profile.getProfileByConfig(profileManager.makeProfileConfig("random"));
+		Outfit current = Outfit.getOutfitByConfig(outfitManager.makeOutfitConfig("random"));
 		if (current != null) {
-			profileManager.updateProfiles(current.getProfileName());
+			outfitManager.updateOutfits(current.getOutfitName());
 		}
 
 		// After everything, save the config
@@ -524,8 +527,8 @@ public class Editor extends JFrame {
 		return editor;
 	}
 
-	public static ProfileManager getProfileManager() {
-		return editor.profileManager;
+	public static OutfitManager getOutfitManager() {
+		return editor.outfitManager;
 	}
 
 	public void updateWidth(int width) {
@@ -592,9 +595,9 @@ public class Editor extends JFrame {
 		add(new SchemeChooser(new JLabel("GUI Mode: "), new JComboBox<String>()), PREFERENCES);
 		add(new CustomSchemeEditor(new JLabel("Custom Colors: "), new JButton("Background")), PREFERENCES);
 
-		add(new ProfileCreator(new JLabel("Create Profile:"), new JTextField()), PREFERENCES);
-		add(profileManager, PREFERENCES);
-		add(new ProfileSharer(new JLabel("Profile Sharer:"), new JButton("Import Profile")), PREFERENCES);
+		add(new OutfitCreator(new JLabel("Create Outfit:"), new JTextField()), PREFERENCES);
+		add(outfitManager, PREFERENCES);
+		add(new OutfitSharer(new JLabel("Outfit Sharer:"), new JButton("Import Profile")), PREFERENCES);
 
 		add(new AlwaysOnTop(new JLabel("Always On Top: "), new JCheckBox(), -1), PREFERENCES);
 
@@ -654,13 +657,12 @@ public class Editor extends JFrame {
 
 		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), OTHER);
 		add(new DiscordButton(new JLabel("Join the Among Us Editor discord server!"), new JButton("Join Server"), AUEditorMain.discordLink), OTHER);
-		add(new DiscordButton(new JLabel("Join the AmongUs+ (Partner) discord server!"), new JButton("Join Server"), AUEditorMain.amongUsPlusDiscordInvite), OTHER);
-
+		
 		/*
 		 * RAT SETTINGS!
 		 */
 
 		add(new HiddenRat(), RAT);
 	}
-
+	
 }

@@ -1,5 +1,7 @@
 package club.koupah;
 
+import java.util.HashMap;
+
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -22,20 +24,20 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	static double version = 1.523;
+	static double version = 1.55;
 
 	public static String title = "Among Us Editor";
 
 	public static String discordLink = "https://www.koupah.club/aueditor";
-	
-	public static String amongUsPlusDiscordInvite = "https://discord.gg/jAyHbqn";
+
+	public static HashMap<String, String> warnings = new HashMap<String, String>();
 
 	public static void main(String[] args) {
-		
+
 		System.out.println(String.format("Starting up %s version %s", title, version));
 
 		try {
-			
+
 			// Idk how to get them to initialize their values cause am big noob
 			Hats.values();
 			Pets.values();
@@ -97,7 +99,7 @@ public class AUEditorMain {
 			// Catch any exception that, for whatever reason wasn't already caught
 		} catch (Exception e) {
 			StackTraceElement cause = e.getStackTrace()[0];
-			
+
 			StackTraceElement origin = null;
 			for (StackTraceElement ste : e.getStackTrace()) {
 				if (ste.getClassName().contains("koupah")) {
@@ -107,11 +109,18 @@ public class AUEditorMain {
 			}
 			System.out.println("Exception Type: " + cause.getClassName());
 			System.out.println("Method: " + cause.getMethodName());
-			System.out.println(origin == null ? "" : "\nOrigin Class: " + origin.getClassName() + "\nOrigin Method: " + origin.getMethodName() + "\nOrigin Line: " + origin.getLineNumber());
+			System.out.println(origin == null ? ""
+					: "\nOrigin Class: " + origin.getClassName() + "\nOrigin Method: " + origin.getMethodName()
+							+ "\nOrigin Line: " + origin.getLineNumber());
 			JOptionPane.showMessageDialog(null,
-					"Fatal error #0001, send this to Koupah#5129 on discord or open an issue on the GitHub with the below!\nVersion: " + version + "\nMessage: " + e.getMessage()
-							+ "\nException Type: " + cause.getClassName() + "\nMethod: " + cause.getMethodName() + (origin == null ? "" : "\nOrigin Class: " + origin.getClassName() + "\nOrigin Method: " + origin.getMethodName() + "\nOrigin Line: " + origin.getLineNumber()) + "\n\nNote: There is a chance you can fix this error yourself by deleting your AUEConfig file\nand by also deleting your playerPrefs file (If you know where it is)");
-			
+					"Fatal error #0001, send this to Koupah#5129 on discord or open an issue on the GitHub with the below!\nVersion: "
+							+ version + "\nMessage: " + e.getMessage() + "\nException Type: " + cause.getClassName()
+							+ "\nMethod: " + cause.getMethodName()
+							+ (origin == null ? ""
+									: "\nOrigin Class: " + origin.getClassName() + "\nOrigin Method: " + origin.getMethodName()
+											+ "\nOrigin Line: " + origin.getLineNumber())
+							+ "\n\nNote: There is a chance you can fix this error yourself by deleting your AUEConfig file\nand by also deleting your playerPrefs file (If you know where it is)");
+
 			e.printStackTrace();
 			System.exit(0);
 		}

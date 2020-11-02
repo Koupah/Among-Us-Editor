@@ -1,6 +1,9 @@
 package club.koupah.aue.gui;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JTabbedPane;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
@@ -47,5 +50,15 @@ public class GUITabbedPanel extends JTabbedPane {
 				return i;
 		}
 		return -1;
+	}
+
+	@Override
+	public void paint(Graphics g) {
+      Graphics2D g2d = (Graphics2D) g;
+      g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+            RenderingHints.VALUE_ANTIALIAS_ON);
+      g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+            RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+      super.paint(g2d);
 	}
 }

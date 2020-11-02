@@ -1,6 +1,9 @@
 package club.koupah.aue.gui;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
@@ -32,7 +35,7 @@ public class ScrollPanel extends JScrollPane {
 	}
 
 	Rectangle current;
-	
+
 	/*
 	 * Shoutout to the stack overflow post that helped me
 	 */
@@ -71,5 +74,14 @@ public class ScrollPanel extends JScrollPane {
 		scrollTimer.setInitialDelay(0);
 		scrollTimer.start();
 	}
-
+	
+	@Override
+	public void paint(Graphics g) {
+      Graphics2D g2d = (Graphics2D) g;
+      g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+            RenderingHints.VALUE_ANTIALIAS_ON);
+      g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+            RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+      super.paint(g2d);
+	}
 }
