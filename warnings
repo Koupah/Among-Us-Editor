@@ -1,4 +1,5 @@
-Hat|53=This hat is disabled simply because I am testing warnings\n\nIt's note actually disabled\nTesting newlines too
-Hat|54=This is another test disabled message
-Hat|55=Final test warning message\n\nTest\nt
-Hat|Index:1=This version of Among Us Editor has the wrong index for hats
+AUEVersion=1.6
+InvisibleName|True=Invisible Name currently doesn't work\nIt may work every now and again but for now I wouldn't use it\nYou can join the discord server for updates on when I make a workaround!
+
+AUEVersion=1.4
+Hat|0=This is just a test message for when you select "None", you can safely ignore this!\n\n\nThere should be space before this line.

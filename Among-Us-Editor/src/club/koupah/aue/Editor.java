@@ -456,7 +456,10 @@ public class Editor extends JFrame {
 				if (setting.getComponentValue(false) != null) {
 					String value = setting.getComponentValue(false);
 					prefsManager.newSettings[setting.getSettingIndex()] = value;
-
+					
+					if (guicomponent instanceof CheckboxSetting)
+						AUEditorMain.checkWarning((CheckboxSetting)setting);
+					else
 					AUEditorMain.checkWarning(setting, value);
 				}
 			} else if (hostSettingsManager.exists() && guicomponent instanceof HostSetting) {

@@ -11,6 +11,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.gui.types.SettingType;
+import club.koupah.aue.gui.types.impl.CheckboxSetting;
 import club.koupah.aue.gui.types.impl.custom.hostsettings.HostSetting;
 import club.koupah.aue.gui.types.impl.custom.playerstats.PlayerStat;
 import club.koupah.aue.gui.values.GUIScheme;
@@ -27,7 +28,7 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	static double version = 1.55;
+	public static double version = 1.55;
 
 	public static String title = "Among Us Editor";
 
@@ -139,7 +140,13 @@ public class AUEditorMain {
 	public static void checkWarning(String input) {
 		System.out.println("Checking warning for: " + input);
 		if (warnings.containsKey(input)) {
-			new PopUp("Warning Message\n" + warnings.get(input), false);
+			String warning = "";
+			System.out.println(input.contains("\\\\n"));
+			for (String warningLine : warnings.get(input).split("\\\\n")) {
+				warning += warningLine + "\n";
+				System.out.println("line: " + warningLine);
+			}
+			new PopUp("Warning Message\n" + warning, false);
 
 			warnings.remove(input); // We only want to show warnings once
 		}
@@ -151,5 +158,9 @@ public class AUEditorMain {
 
 	public static void checkWarning(PlayerStat ps) {
 		checkWarning(ps.getLabelText().replaceAll(" ", "").replaceAll(":", "") + "|Index:" + ps.getIndex());
+	}
+
+	public static void checkWarning(CheckboxSetting setting) {
+		checkWarning(setting.getLabelText().replaceAll(" ", "").replaceAll(":", "") + "|" + setting.isCheckboxSelected());
 	}
 }

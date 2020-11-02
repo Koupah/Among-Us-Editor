@@ -49,4 +49,8 @@ public class CheckboxSetting extends Setting {
 		return input.substring(0,1).toUpperCase() + input.substring(1).toLowerCase();
 	}
 
+	public String isCheckboxSelected() {
+		return capitalFirst(String.valueOf(((JCheckBox)component).isSelected()));
+	}
+
 }

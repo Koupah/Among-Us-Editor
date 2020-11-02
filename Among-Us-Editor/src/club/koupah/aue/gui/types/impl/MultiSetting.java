@@ -78,13 +78,12 @@ public class MultiSetting extends Setting {
 		// Essentially, if it's cosmetic then add keep current
 		if (addKeepCurrent)
 			component.addItem("Keep Current");
-		
+
 		Collections.sort(values);
 
 		for (String value : values)
 			component.addItem(value);
-		
-		
+
 		component.addActionListener(new ActionListener() {
 
 			@Override
@@ -209,7 +208,8 @@ public class MultiSetting extends Setting {
 			for (String value : MultiSetting.this.values) {
 				String ID = Cosmetic.getIDbyName(MultiSetting.this.cosmeticType, value);
 				if (!ID.equals("ErrorFinding")) {
-					images.put(value, new ImageIcon(ImageUtil.scaleProper(ImageUtil.getImage(Cosmetic.class, getCosmeticImagePath(ID)), 30, 30, true)));
+					images.put(value, new ImageIcon(ImageUtil
+							.scaleProper(ImageUtil.getImage(Cosmetic.class, getCosmeticImagePath(ID)), 30, 30, true)));
 				}
 			}
 		}

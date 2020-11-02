@@ -117,10 +117,6 @@ public class ImageUtil {
 		BufferedImage ret = (BufferedImage) img;
 		int w, h;
 		if (higherQuality) {
-			// Use multi-step technique: start with original size, then
-			// scale down in multiple passes with drawImage()
-			// until the target size is reached
-			System.out.println(img);
 			if (img.getWidth() <= 1)
 				w = targetWidth;
 			else w = img.getWidth();
@@ -129,8 +125,6 @@ public class ImageUtil {
 				h = targetHeight;
 			else h = img.getHeight();
 		} else {
-			// Use one-step technique: scale directly from original
-			// size to target size with a single drawImage() call
 			w = targetWidth;
 			h = targetHeight;
 		}
