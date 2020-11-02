@@ -9,7 +9,10 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import club.koupah.aue.Editor;
+import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.gui.types.SettingType;
+import club.koupah.aue.gui.types.impl.custom.hostsettings.HostSetting;
+import club.koupah.aue.gui.types.impl.custom.playerstats.PlayerStat;
 import club.koupah.aue.gui.values.GUIScheme;
 import club.koupah.aue.gui.values.cosmetics.Colors;
 import club.koupah.aue.gui.values.cosmetics.Hats;
@@ -95,6 +98,7 @@ public class AUEditorMain {
 			// Run update check, this is a seperate thread so it won't interrupt the main
 			// thread
 			Utility.runUpdateCheck(null);
+			Utility.getWarnings();
 
 			// Catch any exception that, for whatever reason wasn't already caught
 		} catch (Exception e) {
@@ -126,4 +130,26 @@ public class AUEditorMain {
 		}
 	}
 
+	public static void checkWarning(Setting setting, String value) {
+		String current = setting.getLabelText().replaceAll(" ", "").replaceAll(":", "");
+		checkWarning(current + "|" + value);
+		checkWarning(current + "|Index:" + setting.getSettingIndex());
+	}
+
+	public static void checkWarning(String input) {
+		System.out.println("Checking warning for: " + input);
+		if (warnings.containsKey(input)) {
+			new PopUp("Warning Message\n" + warnings.get(input), false);
+
+			warnings.remove(input); // We only want to show warnings once
+		}
+	}
+
+	public static void checkWarning(HostSetting hs) {
+		checkWarning(hs.getLabelText().replaceAll(" ", "").replaceAll(":", "") + "|Index:" + hs.getIndex());
+	}
+
+	public static void checkWarning(PlayerStat ps) {
+		checkWarning(ps.getLabelText().replaceAll(" ", "").replaceAll(":", "") + "|Index:" + ps.getIndex());
+	}
 }

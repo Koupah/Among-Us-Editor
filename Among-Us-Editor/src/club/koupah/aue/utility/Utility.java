@@ -94,6 +94,35 @@ public class Utility {
 		updateCheck.start();
 	}
 
+	public static void getWarnings() {
+
+		Thread getWarnings = new Thread() {
+			public void run() {
+
+				try {
+					URLConnection connection = new URL(
+							"https://raw.githubusercontent.com/Koupah/Among-Us-Editor/master/warnings").openConnection();
+					BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+					String line = "";
+
+					while ((line = in.readLine()) != null) {
+						if (line.contains("="))
+						AUEditorMain.warnings.put(line.split("=")[0], line.split("=")[1]);
+						else
+							System.out.println("There was a line in warnings without an '=': \n" + line);
+					}
+
+					in.close();
+				} catch (Exception e) {
+					System.out.println("Failed to get warnings: " + e.getMessage());
+				}
+			}
+		};
+
+		getWarnings.start();
+	}
+
 	public static String editorName() {
 		return AUEditorMain.title;
 	}

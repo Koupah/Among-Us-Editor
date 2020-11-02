@@ -3,6 +3,7 @@ package club.koupah.aue.utility;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
@@ -10,41 +11,43 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 public class ImageUtil {
-	
+
 	public static BufferedImage getImage(Class<?> relative, String imagePath, int width, int height) {
 		try {
 
 			final BufferedImage image = ImageIO.read(relative.getResource(imagePath));
-			
-			return scaleImage(image, width, height);
+
+			return scaleProper(image, width, height, true);
 		} catch (Exception e) {
 			// Popup message incase the image for some reason won't load
 			e.printStackTrace();
 			new PopUp("Failed to get Image");
-			
+
 		}
 		// return null, makes the image null
 		return null;
 	}
+
 	public static BufferedImage getImage(Class<?> relative, String imagePath) {
 		try {
 
 			final BufferedImage image = ImageIO.read(relative.getResource(imagePath));
-			
+
 			return image;
 		} catch (Exception e) {
 			// Popup message incase the image for some reason won't load
 			e.printStackTrace();
 			new PopUp("Failed to get Image");
-			
+
 		}
 		// return null, makes the image null
 		return null;
 	}
+
 	public static Icon getIcon(Class<?> relative, String imagePath) {
 		try {
 			final BufferedImage image = ImageIO.read(relative.getResource(imagePath));
-			
+
 			ImageIcon icon = new ImageIcon(image);
 
 			return icon;
@@ -56,48 +59,31 @@ public class ImageUtil {
 		// return null, makes the image null
 		return null;
 	}
-	
+
 	public static Icon getIcon(Class<?> relative, String imagePath, int width, int height) {
 		try {
 
 			final BufferedImage image = ImageIO.read(relative.getResource(imagePath));
-			
-			ImageIcon icon = new ImageIcon(scaleImage(image, width, height));
+
+			ImageIcon icon = new ImageIcon(scaleProper(image, width, height, true));
 
 			return icon;
 		} catch (Exception e) {
 			// Popup message incase the image for some reason won't load
 			e.printStackTrace();
 			new PopUp("Failed to get Image");
-			
+
 		}
 		// return null, makes the image null
 		return null;
 	}
-	
+
 	public static Icon makeIcon(BufferedImage image) {
 		return new ImageIcon(image);
 	}
-	
-	// Resize image to match new width and height
-	public static BufferedImage resize(BufferedImage img, int width, int height) {
-		final Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		final BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
-		// Have to do this for dimg to have graphics dude!!
-		Graphics2D g2d = dimg.createGraphics();
-		// I smacked these rendering hints in, I don't think they do anything but oh
-		// well
-		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g2d.drawImage(tmp, 0, 0, null);
-		g2d.dispose();
-
-		// Return the image
-		return dimg;
-	}
-	
 	// Scale the image to keep aspect ratio but fit new width and height
-	public static BufferedImage scaleImage(BufferedImage image, int w, int h) {
+	public static BufferedImage scaleProper(BufferedImage image, int w, int h, boolean hq) {
 
 		// Cast double to everything here so it doesnt return 0 from int dividing
 		double widthRatio = (double) w / (double) image.getWidth();
@@ -107,7 +93,73 @@ public class ImageUtil {
 		double ratio = Math.min(widthRatio, heightRatio);
 
 		// Return the resized image
-		return resize(image, (int) (image.getWidth() * ratio), (int) (image.getHeight() * ratio));
+		BufferedImage output = getScaledInstance(image, (int) (image.getWidth() * ratio),
+				(int) (image.getHeight() * ratio),
+				hq ? RenderingHints.VALUE_INTERPOLATION_BILINEAR : RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR, hq);
+
+		return output;
 	}
-	
+
+	// Scale the image to keep aspect ratio but fit new width and height
+	public static BufferedImage scaleFixed(BufferedImage image, int w, int h, boolean hq) {
+
+		// Return the resized image
+		BufferedImage output = getScaledInstance(image, w, h,
+				hq ? RenderingHints.VALUE_INTERPOLATION_BILINEAR : RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR, hq);
+
+		return output;
+	}
+
+	public static BufferedImage getScaledInstance(BufferedImage img, int targetWidth, int targetHeight, Object hint,
+			boolean higherQuality) {
+		int type = (img.getTransparency() == Transparency.OPAQUE) ? BufferedImage.TYPE_INT_RGB
+				: BufferedImage.TYPE_INT_ARGB;
+		BufferedImage ret = (BufferedImage) img;
+		int w, h;
+		if (higherQuality) {
+			// Use multi-step technique: start with original size, then
+			// scale down in multiple passes with drawImage()
+			// until the target size is reached
+			System.out.println(img);
+			if (img.getWidth() <= 1)
+				w = targetWidth;
+			else w = img.getWidth();
+
+			if (img.getHeight() <= 1)
+				h = targetHeight;
+			else h = img.getHeight();
+		} else {
+			// Use one-step technique: scale directly from original
+			// size to target size with a single drawImage() call
+			w = targetWidth;
+			h = targetHeight;
+		}
+
+		do {
+			if (higherQuality && w > targetWidth) {
+				w /= 2;
+				if (w < targetWidth) {
+					w = targetWidth;
+				}
+			}
+
+			if (higherQuality && h > targetHeight) {
+				h /= 2;
+				if (h < targetHeight) {
+					h = targetHeight;
+				}
+			}
+
+			BufferedImage tmp = new BufferedImage(w, h, type);
+			Graphics2D g2 = tmp.createGraphics();
+			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, hint);
+			g2.drawImage(ret, 0, 0, w, h, null);
+			g2.dispose();
+
+			ret = tmp;
+		} while (w != targetWidth || h != targetHeight);
+
+		return ret;
+	}
+
 }

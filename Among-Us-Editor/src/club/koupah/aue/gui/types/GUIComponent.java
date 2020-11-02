@@ -34,7 +34,7 @@ public class GUIComponent {
 		
 		contentPane.add(this.component);
 	}
-
+	
 	public String getLabelText() {
 		return labelText;
 	}

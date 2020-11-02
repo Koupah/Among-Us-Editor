@@ -1,16 +1,26 @@
 package club.koupah.aue.gui.types.impl;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.gui.values.cosmetics.Cosmetic;
 import club.koupah.aue.gui.values.cosmetics.Hats;
+import club.koupah.aue.gui.values.cosmetics.Cosmetic.CosmeticType;
 import club.koupah.aue.utility.ImageUtil;
 import club.koupah.aue.utility.PopUp;
 
@@ -30,21 +40,30 @@ public class MultiSetting extends Setting {
 	int[] bounds;
 
 	int[] currentBounds;
-	
+
 	int[] cosmeticOffset;
-	
+
+	CosmeticType cosmeticType;
+
 	public MultiSetting(JLabel label, JComboBox<String> component, List<String> values, boolean addKeepCurrent,
-			boolean imagePreview, int[] offset, int settingIndex) {
+			boolean imagePreview, int[] offset, CosmeticType ct, int settingIndex) {
 		this(label, component, values, addKeepCurrent, settingIndex);
+
+		this.cosmeticType = ct;
 		this.hasPreview = imagePreview;
+		if (hasPreview) {
+			ComboBoxRenderer renderer = new ComboBoxRenderer();
+
+			component.setRenderer(renderer);
+		}
 		this.imageLabel = new JLabel();
 
 		// Per instance offsets for displaying the image & the width/height of the image
 		this.imageSettings = offset;
-		
-		//Only hats are currently supporting custom offsets, so easy hard coded check
+
+		// Only hats are currently supporting custom offsets, so easy hard coded check
 		customOffsets = label.getText().split(":")[0].equals("Hat");
-		cosmeticOffset = new int[] {0,0,0,0};
+		cosmeticOffset = new int[] { 0, 0, 0, 0 };
 	}
 
 	public MultiSetting(JLabel label, JComboBox<String> component, List<String> values, boolean addKeepCurrent,
@@ -59,10 +78,13 @@ public class MultiSetting extends Setting {
 		// Essentially, if it's cosmetic then add keep current
 		if (addKeepCurrent)
 			component.addItem("Keep Current");
+		
+		Collections.sort(values);
 
 		for (String value : values)
 			component.addItem(value);
-
+		
+		
 		component.addActionListener(new ActionListener() {
 
 			@Override
@@ -70,8 +92,8 @@ public class MultiSetting extends Setting {
 				// Separate function to allow for future overrides
 				settingChanged(arg0);
 			}
-
 		});
+
 	}
 
 	@Override
@@ -87,7 +109,7 @@ public class MultiSetting extends Setting {
 					width + imageSettings[3] };
 
 			this.currentBounds = this.bounds.clone();
-			
+
 			this.imageLabel.setBounds(currentBounds[0], currentBounds[1], currentBounds[2], currentBounds[3]);
 
 			contentPane.add(this.imageLabel, imageSettings == null ? -1 : imageSettings[4]);
@@ -107,11 +129,13 @@ public class MultiSetting extends Setting {
 				this.currentBounds = this.bounds.clone();
 			}
 
-			this.imageLabel.setBounds(currentBounds[0] + cosmeticOffset[0], currentBounds[1] + cosmeticOffset[1], currentBounds[2] + cosmeticOffset[2], currentBounds[3] + cosmeticOffset[3]);
-			
-			this.imageLabel.setIcon(ImageUtil.getIcon(Cosmetic.class, getCosmeticImagePath(this.getComponentValue(false)), 50 + imageSettings[2] + cosmeticOffset[2], 40 + imageSettings[3] + cosmeticOffset[3]));
+			this.imageLabel.setBounds(currentBounds[0] + cosmeticOffset[0], currentBounds[1] + cosmeticOffset[1],
+					currentBounds[2] + cosmeticOffset[2], currentBounds[3] + cosmeticOffset[3]);
 
-		} 
+			this.imageLabel.setIcon(ImageUtil.getIcon(Cosmetic.class, getCosmeticImagePath(this.getComponentValue(false)),
+					50 + imageSettings[2] + cosmeticOffset[2], 40 + imageSettings[3] + cosmeticOffset[3]));
+
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -123,12 +147,11 @@ public class MultiSetting extends Setting {
 	private String getCosmeticImagePath(String cosmeticID) {
 		return "images/" // Images package
 				+ this.labelText.split(":")[0].toLowerCase() // Returns hat, pet, skin depending on the type. This is
-																// just an easy way to make this modular
+				// just an easy way to make this modular
 				+ "/" + cosmeticID + ".png"; // cosmeticID is easier to work with then naming the pictures proper names,
-												// and PNG is just so we have transparency (And source images are PNG
-												// :P)
+		// and PNG is just so we have transparency (And source images are PNG
+		// :P)
 	}
-	
 
 	@Override
 	public String getProperValue() {
@@ -149,6 +172,8 @@ public class MultiSetting extends Setting {
 		// Was the current item removed
 		boolean currentRemoved = !items.contains(getCurrentSettingValue());
 
+		Collections.sort(items);
+
 		((JComboBox<String>) component).removeAllItems();
 
 		// If new item size length is 0, add a Keep Current setting
@@ -163,7 +188,7 @@ public class MultiSetting extends Setting {
 
 	@SuppressWarnings("unchecked")
 	public void originalValues() {
-		// Remove all current 
+		// Remove all current
 		((JComboBox<String>) component).removeAllItems();
 
 		// Add all original
@@ -172,4 +197,52 @@ public class MultiSetting extends Setting {
 		}
 	}
 
+	class ComboBoxRenderer extends JLabel implements ListCellRenderer<Object> {
+
+		private static final long serialVersionUID = 1L;
+		private Font uhOhFont;
+
+		public ComboBoxRenderer() {
+			setOpaque(true);
+			setHorizontalAlignment(LEFT);
+			setVerticalAlignment(CENTER);
+			for (String value : MultiSetting.this.values) {
+				String ID = Cosmetic.getIDbyName(MultiSetting.this.cosmeticType, value);
+				if (!ID.equals("ErrorFinding")) {
+					images.put(value, new ImageIcon(ImageUtil.scaleProper(ImageUtil.getImage(Cosmetic.class, getCosmeticImagePath(ID)), 30, 30, true)));
+				}
+			}
+		}
+
+		HashMap<String, ImageIcon> images = new HashMap<String, ImageIcon>();
+
+		/*
+		 * This method finds the image and text corresponding to the selected value and
+		 * returns the label, set up to display the text and image.
+		 */
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+//Get the selected index. (The index param isn't
+//always valid, so just use the value.)
+
+			if (isSelected) {
+				setBackground(list.getSelectionBackground());
+				setForeground(list.getSelectionForeground());
+			} else {
+				setBackground(list.getBackground());
+				setForeground(list.getForeground());
+			}
+
+//Set the icon and text.  If icon was null, say so.
+			ImageIcon icon = images.get(value);
+
+			String pet = getCurrentSettingValue();
+			setIcon(icon);
+
+			setText(value.toString());
+			setFont(list.getFont());
+
+			return this;
+		}
+	}
 }

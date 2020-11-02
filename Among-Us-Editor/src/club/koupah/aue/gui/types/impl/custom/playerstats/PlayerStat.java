@@ -71,7 +71,6 @@ public class PlayerStat extends GUIComponent {
 			value = decimalFormat.format(((Double) ((JSpinner) component).getValue()));
 		else value = ((JSpinner) component).getValue().toString();
 
-		System.out.println("Value: " + value);
 		for (Character c : value.toCharArray()) {
 			if (!Character.isDigit(c) && !c.equals('.') && !c.equals('-')) { // TODO, count how many '-' are in the String,
 																									// if it's more than 1 then it should be an

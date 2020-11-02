@@ -1,0 +1,4 @@
+Hat|53=This hat is disabled simply because I am testing warnings\n\nIt's note actually disabled\nTesting newlines too
+Hat|54=This is another test disabled message
+Hat|55=Final test warning message\n\nTest\nt
+Hat|Index:1=This version of Among Us Editor has the wrong index for hats

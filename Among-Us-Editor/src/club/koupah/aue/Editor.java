@@ -127,7 +127,6 @@ public class Editor extends JFrame {
 
 	public PlayerStatsManager playerStatsManager;
 
-	
 	// Default settings for when a user has no settings
 	public String defaultSettings = "Username,1,0,1,False,False,False,0,False,False,0,255,94,0.5,0,0,0,True,0,False";
 
@@ -235,14 +234,14 @@ public class Editor extends JFrame {
 			new PopUp("Couldn't find your 'gameHostOptions' file,\nyou won't be able to change host settings!", false);
 			HOST_SETTINGS.setVisible(false);
 		}
-		
+
 		playerStatsManager = new PlayerStatsManager(configManager.getPlayerStatsFile());
 
 		if (!playerStatsManager.exists()) {
 			new PopUp("Couldn't find your 'playerStats2' file,\nyou won't be able to change player stats!", false);
 			STATS.setVisible(false);
 		}
-		
+
 		// load playerPrefs settings (Commented out, we don't need to read twice on
 		// launch (We read it below))
 		// prefsManager.loadSettings();
@@ -289,7 +288,7 @@ public class Editor extends JFrame {
 		// Set the title to the middle
 		titleText.setBounds(width / 2 - (titleWidth / 2) - 10, 5, titleWidth + 20, 42);
 		contentPanel.add(titleText);
-		
+
 		// Reuse the font
 		font = new Font("Tahoma", Font.PLAIN, 12);
 		String versionString = "v" + version;
@@ -318,8 +317,7 @@ public class Editor extends JFrame {
 
 			guiPanel = setting.getGUIPanel();
 			scrollPanel = setting.getPanel();
-			tabbedPanel.addTab(guiPanel.getName(), guiPanel.getIcon(false), scrollPanel,
-					guiPanel.getDescription());
+			tabbedPanel.addTab(guiPanel.getName(), guiPanel.getIcon(false), scrollPanel, guiPanel.getDescription());
 		}
 
 		addComponents();
@@ -328,7 +326,7 @@ public class Editor extends JFrame {
 		for (int i = 0; i < tabbedPanel.getTabCount(); i++) {
 			ScrollPanel panel = (ScrollPanel) tabbedPanel.getComponentAt(i);
 			for (Component comp : panel.getComponents()) {
-				if (!(comp instanceof JTextField))
+				if (!(comp instanceof JTextField) && !(comp instanceof JComboBox))
 					comp.setFocusable(false);
 			}
 		}
@@ -345,7 +343,7 @@ public class Editor extends JFrame {
 			// Reuse the category variable
 			scrollPanel = setting.getPanel();
 			guiPanel = setting.getGUIPanel();
-			guiPanel.setPreferredSize(new Dimension(guiPanel.getWidth(),guiPanel.getMaxHeight()));
+			guiPanel.setPreferredSize(new Dimension(guiPanel.getWidth(), guiPanel.getMaxHeight()));
 			if (guiPanel.getMaxHeight() > maxHeight)
 				maxHeight = 400;
 		}
@@ -429,7 +427,7 @@ public class Editor extends JFrame {
 	}
 
 	public void saveSettings() {
-		
+
 		if (hostSettingsManager.exists()) {
 			try {
 				hostSettingsManager.updateNewHex(hostSettingsManager.readHex());
@@ -438,7 +436,7 @@ public class Editor extends JFrame {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (playerStatsManager.exists()) {
 			try {
 				playerStatsManager.updateNewHex(playerStatsManager.readHex());
@@ -447,7 +445,7 @@ public class Editor extends JFrame {
 				e.printStackTrace();
 			}
 		}
-		
+
 		for (GUIComponent guicomponent : allGUIComponents) {
 
 			if (guicomponent instanceof Setting) {
@@ -455,9 +453,12 @@ public class Editor extends JFrame {
 
 				// This allows InvisibleName and future GUIComponents to avoid impacting
 				// settings
-				if (setting.getComponentValue(false) != null)
-					prefsManager.newSettings[setting.getSettingIndex()] = setting.getComponentValue(false);
+				if (setting.getComponentValue(false) != null) {
+					String value = setting.getComponentValue(false);
+					prefsManager.newSettings[setting.getSettingIndex()] = value;
 
+					AUEditorMain.checkWarning(setting, value);
+				}
 			} else if (hostSettingsManager.exists() && guicomponent instanceof HostSetting) {
 				HostSetting hs = ((HostSetting) guicomponent);
 				String save = hs.getSaveValue();
@@ -468,17 +469,19 @@ public class Editor extends JFrame {
 					hostSettingsManager.setIndex(hs.getIndex() + index, save.substring(i - 2, i));
 					index++;
 				}
-
-			}  else if (playerStatsManager.exists() && guicomponent instanceof PlayerStat) {
-				PlayerStat hs = ((PlayerStat) guicomponent);
-				String save = hs.getSaveValue();
+				
+				AUEditorMain.checkWarning(hs);
+			} else if (playerStatsManager.exists() && guicomponent instanceof PlayerStat) {
+				PlayerStat ps = ((PlayerStat) guicomponent);
+				String save = ps.getSaveValue();
 
 				// This is for Little Endian, which the file uses
 				int index = 0;
 				for (int i = save.length(); i > 0; i -= 2) {
-					playerStatsManager.setIndex(hs.getIndex() + index, save.substring(i - 2, i));
+					playerStatsManager.setIndex(ps.getIndex() + index, save.substring(i - 2, i));
 					index++;
 				}
+				AUEditorMain.checkWarning(ps);
 			}
 		}
 
@@ -489,16 +492,16 @@ public class Editor extends JFrame {
 			hostSettingsManager.saveHostSettings();
 			for (GUIComponent guicomponent : allGUIComponents) {
 				if (guicomponent instanceof HostSetting) {
-					((HostSetting)guicomponent).update();
+					((HostSetting) guicomponent).update();
 				}
 			}
 		}
-		
+
 		if (playerStatsManager.exists()) {
 			playerStatsManager.savePlayerStats();
 			for (GUIComponent guicomponent : allGUIComponents) {
 				if (guicomponent instanceof PlayerStat) {
-					((PlayerStat)guicomponent).update();
+					((PlayerStat) guicomponent).update();
 				}
 			}
 		}
@@ -556,16 +559,16 @@ public class Editor extends JFrame {
 		// Shifted hat over 5 pixels to make it more centered on average w/ the other
 		// cosmetics
 		add(new MultiSetting(new JLabel("Hat: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Hat), true,
-				true, new int[] { -5, 0, 0, 0, 1 }, hat.index()), COSMETIC);
+				true, new int[] { -5, 0, 0, 0, 1 }, CosmeticType.Hat, hat.index()), COSMETIC);
 
 		add(new MultiSetting(new JLabel("Color: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Color), true,
-				true, new int[] { 0, -5, 0, 12, 3 }, color.index()), COSMETIC);
+				true, new int[] { 0, -5, 0, 12, 3 }, CosmeticType.Color, color.index()), COSMETIC);
 
 		add(new MultiSetting(new JLabel("Skin: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Skin), true,
-				true, new int[] { 0, 0, 0, 0, 2 }, skin.index()), COSMETIC);
+				true, new int[] { 0, 0, 0, 0, 2 }, CosmeticType.Skin, skin.index()), COSMETIC);
 
 		add(new MultiSetting(new JLabel("Pet: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Pet), false,
-				true, new int[] { -12, -12, 24, 24, 5 }, pet.index()), COSMETIC);
+				true, new int[] { -12, -12, 24, 24, 5 }, CosmeticType.Pet, pet.index()), COSMETIC);
 
 		add(new CosmeticFilter(new JLabel("Filter Cosmetics: "), new JComboBox<String>()), COSMETIC);
 
@@ -620,7 +623,7 @@ public class Editor extends JFrame {
 		add(new Int8Setting(new JLabel("Emergency Meetings"), new JSpinner(), 0x1A), HOST_SETTINGS);
 
 		add(new Int8Setting(new JLabel("Emergency Cooldown"), new JSpinner(), 0x29), HOST_SETTINGS);
-		
+
 		add(new Int16Setting(new JLabel("Voting Time"), new JSpinner(), 0x24), HOST_SETTINGS);
 
 		add(new Int8Setting(new JLabel("Discussion Time"), new JSpinner(), 0x20), HOST_SETTINGS);
@@ -656,13 +659,14 @@ public class Editor extends JFrame {
 		 */
 
 		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), OTHER);
-		add(new DiscordButton(new JLabel("Join the Among Us Editor discord server!"), new JButton("Join Server"), AUEditorMain.discordLink), OTHER);
-		
+		add(new DiscordButton(new JLabel("Join the Among Us Editor discord server!"), new JButton("Join Server"),
+				AUEditorMain.discordLink), OTHER);
+
 		/*
 		 * RAT SETTINGS!
 		 */
 
 		add(new HiddenRat(), RAT);
 	}
-	
+
 }
