@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
+import club.koupah.AUEditorMain;
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.types.GUIComponent;
@@ -163,6 +164,11 @@ public class OutfitManager extends GUIComponent {
 			((JComboBox<String>) component).setSelectedItem(current);
 			if (Outfit.getOutfit(current) != null)
 				this.current = Outfit.getOutfit(current);
+		}
+		
+		if (AUEditorMain.usingRichPresence) {
+			AUEditorMain.presence.details = "Outfit: " + (current == null ? "None" : current);
+			AUEditorMain.updatePresence();
 		}
 	}
 

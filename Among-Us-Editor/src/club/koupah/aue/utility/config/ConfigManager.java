@@ -53,6 +53,8 @@ public class ConfigManager {
 
 	int resolutionH;
 	
+	boolean discordRP = true;
+	
 	File gameHostOptions;
 
 	File playerStats;
@@ -111,7 +113,7 @@ public class ConfigManager {
 
 				} else if (isSetting(AOT, config, lineNum)) {
 
-					alwaysOnTop = config.split(":")[1].equals("true");
+					alwaysOnTop = config.split(":")[1].toLowerCase().equals("true");
 
 				} else if (isSetting(CustomResolution, config, lineNum)) {
 
@@ -122,14 +124,19 @@ public class ConfigManager {
 					resolutionW = Integer.parseInt(res.split(":")[0]);
 					resolutionH = Integer.parseInt(res.split(":")[1]);
 
+				} else if (isSetting(DiscordRP, config, lineNum)) {
+					discordRP = config.split(":")[1].toLowerCase().equals("true");
 				} else if (config.contains(",") && config.split(",").length > 5) {
-
 					new Outfit(config);
 				}
 
 				lineNum++;
 			}
-
+			
+			if (discordRP) {
+				AUEditorMain.setupRichPresence();
+			}
+			
 			// Return so we don't hit the below message that'll only run after the try catch
 			return;
 
@@ -173,7 +180,9 @@ public class ConfigManager {
 			resolutionH = Editor.getInstance().getHeight();
 			
 			Resolution.write(writer, resolutionW + ":" + resolutionH);
-
+			
+			DiscordRP.write(writer, String.valueOf(discordRP));
+			
 			// Write profiles here
 			writer.write("[profiles]");
 			writer.newLine();
@@ -286,6 +295,14 @@ public class ConfigManager {
 			return null;
 		}
 		return this.playerStats;
+	}
+
+	public boolean getDiscordRP() {
+		return this.discordRP;
+	}
+
+	public void setDiscordRP(boolean selected) {
+		this.discordRP = selected;
 	}
 	
 }

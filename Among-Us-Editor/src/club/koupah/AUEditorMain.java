@@ -22,19 +22,32 @@ import club.koupah.aue.gui.values.cosmetics.Skins;
 import club.koupah.aue.utility.PopUp;
 import club.koupah.aue.utility.Utility;
 import club.koupah.aue.utility.config.ConfigType;
+import club.minnced.discord.rpc.DiscordRPC;
+import club.minnced.discord.rpc.DiscordRichPresence;
+import club.minnced.discord.rpc.DiscordUser;
 
 public class AUEditorMain {
 
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	public static double version = 1.55;
+	public static double version = 1.551;
 
 	public static String title = "Among Us Editor";
 
 	public static String discordLink = "https://www.koupah.club/aueditor";
 
 	public static HashMap<String, String> warnings = new HashMap<String, String>();
+
+	private static DiscordRPC lib = DiscordRPC.INSTANCE;
+
+	private static String AUEAppID = "772680842749018114";
+
+	public static DiscordRichPresence presence;
+
+	public static DiscordUser discordUser;
+
+	public static boolean usingRichPresence = false;
 
 	public static void main(String[] args) {
 
@@ -146,7 +159,7 @@ public class AUEditorMain {
 				warning += warningLine + "\n";
 				System.out.println("line: " + warningLine);
 			}
-			new PopUp("Warning Message\n" + warning, false);
+			new PopUp("Warning Message:\n" + warning, false);
 
 			warnings.remove(input); // We only want to show warnings once
 		}
@@ -162,5 +175,65 @@ public class AUEditorMain {
 
 	public static void checkWarning(CheckboxSetting setting) {
 		checkWarning(setting.getLabelText().replaceAll(" ", "").replaceAll(":", "") + "|" + setting.isCheckboxSelected());
+	}
+
+	public static void setupRichPresence() {
+		usingRichPresence = true;
+		if (presence != null) {
+			updatePresence();
+			return;
+		}
+
+		try {
+			System.out.println("Starting Rich Presence");
+
+			presence = new DiscordRichPresence();
+			String applicationId = AUEAppID;
+
+			lib.Discord_Initialize(applicationId, null, true, "");
+
+			presence.details = "Testing stuff";
+			presence.largeImageKey = "aue";
+			presence.startTimestamp = System.currentTimeMillis() / 1000;
+			lib.Discord_UpdatePresence(presence);
+			// in a worker thread
+			new Thread() {
+				@Override
+				public void run() {
+					while (!Thread.currentThread().isInterrupted()) {
+						if (usingRichPresence)
+							lib.Discord_RunCallbacks();
+						try {
+							Thread.sleep(2000);
+						} catch (InterruptedException ignored) {
+						}
+					}
+
+				}
+			}.start();
+
+			Runtime.getRuntime().addShutdownHook(new Thread() {
+				@Override
+				public void run() {
+					if (usingRichPresence) {
+						lib.Discord_ClearPresence();
+						lib.Discord_Shutdown();
+					}
+				}
+			});
+
+		} catch (Exception e) {
+			System.out.println("Rich Presence failed, disabling it.");
+			usingRichPresence = false;
+		}
+	}
+
+	public static void updatePresence() {
+		lib.Discord_UpdatePresence(presence);
+	}
+
+	public static void removeRichPresence() {
+		usingRichPresence = false;
+		lib.Discord_ClearPresence();
 	}
 }

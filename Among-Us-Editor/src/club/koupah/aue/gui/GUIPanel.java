@@ -24,7 +24,10 @@ public class GUIPanel extends JLayeredPane {
 	boolean white = false;
 	
 	int maxHeight = 0;
-
+	
+	String iconName;
+	String whiteIconName;
+	
 	public GUIPanel(String name, String iconFileName) {
 		this(name, iconFileName, iconFileName);
 	}
@@ -36,6 +39,9 @@ public class GUIPanel extends JLayeredPane {
 		this.whiteIcon = ImageUtil.getIcon(this.getClass(), "icons/" + whiteIcon, 50, 20);
 		setLayout(null);
 		setOpaque(true);
+		iconName = iconFileName.split("\\.")[0];
+		whiteIconName = whiteIcon.split("\\.")[0];
+		
 	}
 
 	public Component addLabel(JLabel comp) {
@@ -69,6 +75,10 @@ public class GUIPanel extends JLayeredPane {
 
 	public String getName() {
 		return this.name;
+	}
+
+	public String getDiscordImageKey() {
+		return white ? this.whiteIconName : this.iconName;
 	}
 	
 }

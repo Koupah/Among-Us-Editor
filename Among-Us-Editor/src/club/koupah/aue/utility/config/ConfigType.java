@@ -11,9 +11,10 @@ public enum ConfigType {
 	CustomColors("aueCC:", 3),
 	RGBSpeed("aueRGBS:", 4),
 	AOT("aueAOT:", 5),
-	CustomResolution("aueCR:",6),
-	Resolution("aueResolution:",7),
-	ConfigProfile(8);
+	CustomResolution("aueCR:",6), //rip this stuff, gotta get around to it
+	Resolution("aueResolution:",7), //read above
+	DiscordRP("aueDiscordRP:", 8),
+	ConfigProfile(9);
 	
 	
 	String lineStart;

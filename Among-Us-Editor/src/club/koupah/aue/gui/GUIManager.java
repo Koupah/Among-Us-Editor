@@ -30,12 +30,18 @@ public class GUIManager {
 	public void updateLookAndFeel() {
 		try {
 			UIManager.setLookAndFeel(instance.configManager.getLookAndFeel());
-			try {
-				SwingUtilities.updateComponentTreeUI(instance); // TODO find what causes this error:
-																				// http://prntscr.com/uup2q6
-			} catch (Exception e) {
-				System.out.println("Swing utils updateComponentTreeUI exception");
-			}
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						SwingUtilities.updateComponentTreeUI(instance); // TODO find what causes this error:
+																						// http://prntscr.com/uup2q6
+					} catch (Exception e) {
+						System.out.println("Swing utils updateComponentTreeUI exception");
+					}
+				}
+			});
+
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| UnsupportedLookAndFeelException e) {
 			new PopUp("Look and Feel error?\n" + e.getMessage() + "\n\nAttempting default Look and Feel!", false);
@@ -91,44 +97,44 @@ public class GUIManager {
 	}
 
 	public void updateColorScheme(final boolean update) {
-		final GUIScheme scheme = instance.configManager.getScheme();
-
-		instance.configManager.setScheme(scheme);
-		instance.contentPanel.setForeground(scheme.getForeground());
-		instance.contentPanel.setBackground(scheme.getBackground());
-
-		Color noBlack = !scheme.isRGB() || update ? noBlack(scheme.getBackground(), instance.tabbedPanel)
-				: scheme.getBackground();
-
-		// Bunch of UI manager stuff
-		UIManager.put("TabbedPane.contentOpaque", true);
-
-		UIManager.put("TabbedPane.selected", noBlack); // I just don't want this stuff to be pitch black
-		UIManager.put("TabbedPane.selectedBackground", noBlack);
-
-		UIManager.put("TabbedPane.unselectedForeground", scheme.getForeground());
-
-		for (Component component : instance.contentPanel.getComponents()) {
-			String lnfName = UIManager.getLookAndFeel().getName();
-
-			fixComponent(component, lnfName, scheme); // fix windows components
-
-			if (component instanceof Container) {
-				loop((Container) component, scheme, lnfName);
-			} else if (component instanceof JButton) {
-				((JButton) component).setOpaque(true);
-			}
-		}
-
-		// Save before updating ui :p
-		if (update)
-			saveConfig();
-
-		// Have to use invoke later to attempt to prevent a dumb exception that doesnt
-		// even break anything lmao (outofbounds exception for tabbedpaneui)
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				final GUIScheme scheme = instance.configManager.getScheme();
+
+				instance.configManager.setScheme(scheme);
+				instance.contentPanel.setForeground(scheme.getForeground());
+				instance.contentPanel.setBackground(scheme.getBackground());
+
+				Color noBlack = !scheme.isRGB() || update ? noBlack(scheme.getBackground(), instance.tabbedPanel)
+						: scheme.getBackground();
+
+				// Bunch of UI manager stuff
+				UIManager.put("TabbedPane.contentOpaque", true);
+
+				UIManager.put("TabbedPane.selected", noBlack); // I just don't want this stuff to be pitch black
+				UIManager.put("TabbedPane.selectedBackground", noBlack);
+
+				UIManager.put("TabbedPane.unselectedForeground", scheme.getForeground());
+
+				for (Component component : instance.contentPanel.getComponents()) {
+					String lnfName = UIManager.getLookAndFeel().getName();
+
+					fixComponent(component, lnfName, scheme); // fix windows components
+
+					if (component instanceof Container) {
+						loop((Container) component, scheme, lnfName);
+					} else if (component instanceof JButton) {
+						((JButton) component).setOpaque(true);
+					}
+				}
+
+				// Save before updating ui :p
+				if (update)
+					saveConfig();
+
+				// Have to use invoke later to attempt to prevent a dumb exception that doesnt
+				// even break anything lmao (outofbounds exception for tabbedpaneui)
 
 				// can probably add a custom border to the tabbedpanel
 				if (update) // Only need to do this if we saving (basically NON RGB) as it causes the UI to

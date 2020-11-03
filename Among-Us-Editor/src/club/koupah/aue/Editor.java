@@ -16,9 +16,6 @@ import static club.koupah.aue.utility.playerprefs.Indexes.vsync;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -63,6 +60,7 @@ import club.koupah.aue.gui.types.impl.custom.other.UpdateChecker;
 import club.koupah.aue.gui.types.impl.custom.playerstats.Int32Stat;
 import club.koupah.aue.gui.types.impl.custom.playerstats.PlayerStat;
 import club.koupah.aue.gui.types.impl.custom.preferences.AlwaysOnTop;
+import club.koupah.aue.gui.types.impl.custom.preferences.DiscordRichPresence;
 import club.koupah.aue.gui.types.impl.custom.preferences.LookAndFeelChooser;
 import club.koupah.aue.gui.types.impl.custom.preferences.ResizableGUIOption;
 import club.koupah.aue.gui.types.impl.custom.preferences.outfits.OutfitCreator;
@@ -453,15 +451,14 @@ public class Editor extends JFrame {
 
 				// This allows InvisibleName and future GUIComponents to avoid impacting
 				// settings
-				if (setting.getComponentValue(false) != null) {
-					String value = setting.getComponentValue(false);
+				String value = setting.getComponentValue(false);
+				
+				if (value != null && setting.getSettingIndex() != -1) {
 					prefsManager.newSettings[setting.getSettingIndex()] = value;
-					
-					if (guicomponent instanceof CheckboxSetting)
-						AUEditorMain.checkWarning((CheckboxSetting)setting);
-					else
-					AUEditorMain.checkWarning(setting, value);
 				}
+				if (guicomponent instanceof CheckboxSetting)
+					AUEditorMain.checkWarning((CheckboxSetting) setting);
+				else AUEditorMain.checkWarning(setting, value);
 			} else if (hostSettingsManager.exists() && guicomponent instanceof HostSetting) {
 				HostSetting hs = ((HostSetting) guicomponent);
 				String save = hs.getSaveValue();
@@ -472,7 +469,7 @@ public class Editor extends JFrame {
 					hostSettingsManager.setIndex(hs.getIndex() + index, save.substring(i - 2, i));
 					index++;
 				}
-				
+
 				AUEditorMain.checkWarning(hs);
 			} else if (playerStatsManager.exists() && guicomponent instanceof PlayerStat) {
 				PlayerStat ps = ((PlayerStat) guicomponent);
@@ -565,7 +562,16 @@ public class Editor extends JFrame {
 				true, new int[] { -5, 0, 0, 0, 1 }, CosmeticType.Hat, hat.index()), COSMETIC);
 
 		add(new MultiSetting(new JLabel("Color: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Color), true,
-				true, new int[] { 0, -5, 0, 12, 3 }, CosmeticType.Color, color.index()), COSMETIC);
+				true, new int[] { 0, -5, 0, 12, 3 }, CosmeticType.Color, color.index()) {
+			@Override
+			public void settingChanged(ActionEvent event) {
+				super.settingChanged(event);
+				if (AUEditorMain.usingRichPresence) {
+					AUEditorMain.presence.state = "Color: " + getCurrentSettingValue();
+					AUEditorMain.updatePresence();
+				}
+			}
+		}, COSMETIC);
 
 		add(new MultiSetting(new JLabel("Skin: "), new JComboBox<String>(), Cosmetic.getItems(CosmeticType.Skin), true,
 				true, new int[] { 0, 0, 0, 0, 2 }, CosmeticType.Skin, skin.index()), COSMETIC);
@@ -608,7 +614,10 @@ public class Editor extends JFrame {
 		add(new AlwaysOnTop(new JLabel("Always On Top: "), new JCheckBox(), -1), PREFERENCES);
 
 		add(new ResizableGUIOption(new JLabel("Resizable GUI: "), new JCheckBox(), -1), PREFERENCES);
-
+		
+		add(new DiscordRichPresence(new JLabel("Discord Rich Presence: "), new JCheckBox(), -1), PREFERENCES);
+		
+		
 		/*
 		 * HOST SETTINGS!
 		 */

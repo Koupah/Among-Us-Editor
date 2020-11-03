@@ -1,11 +1,8 @@
 package club.koupah.aue.gui.types.impl;
 
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +16,8 @@ import javax.swing.ListCellRenderer;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.gui.values.cosmetics.Cosmetic;
-import club.koupah.aue.gui.values.cosmetics.Hats;
 import club.koupah.aue.gui.values.cosmetics.Cosmetic.CosmeticType;
+import club.koupah.aue.gui.values.cosmetics.Hats;
 import club.koupah.aue.utility.ImageUtil;
 import club.koupah.aue.utility.PopUp;
 
@@ -199,7 +196,6 @@ public class MultiSetting extends Setting {
 	class ComboBoxRenderer extends JLabel implements ListCellRenderer<Object> {
 
 		private static final long serialVersionUID = 1L;
-		private Font uhOhFont;
 
 		public ComboBoxRenderer() {
 			setOpaque(true);
@@ -220,7 +216,7 @@ public class MultiSetting extends Setting {
 		 * This method finds the image and text corresponding to the selected value and
 		 * returns the label, set up to display the text and image.
 		 */
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
 //Get the selected index. (The index param isn't
 //always valid, so just use the value.)
@@ -236,7 +232,6 @@ public class MultiSetting extends Setting {
 //Set the icon and text.  If icon was null, say so.
 			ImageIcon icon = images.get(value);
 
-			String pet = getCurrentSettingValue();
 			setIcon(icon);
 
 			setText(value.toString());

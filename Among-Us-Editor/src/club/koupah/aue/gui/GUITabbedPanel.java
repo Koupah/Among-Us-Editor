@@ -1,23 +1,31 @@
 package club.koupah.aue.gui;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
-public class GUITabbedPanel extends JTabbedPane {
+import club.koupah.AUEditorMain;
 
-	/**
-	 * 
-	 */
+public class GUITabbedPanel extends JTabbedPane {
 
 	private static final long serialVersionUID = -1214414762924116340L;
 
 	public GUITabbedPanel() {
 		this.setOpaque(true);
+		this.setDoubleBuffered(true);
+		addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				if (AUEditorMain.usingRichPresence) {
+					AUEditorMain.presence.smallImageKey = ((ScrollPanel) getComponentAt(getSelectedIndex())).getGUIPanel()
+							.getDiscordImageKey();
+					AUEditorMain.presence.smallImageText = "Editing "
+							+ ((ScrollPanel) getComponentAt(getSelectedIndex())).getGUIPanel().name;
+					AUEditorMain.updatePresence();
+				}
+			}
+		});
 	}
 
 	public void updateUI(final Color foreground) {
@@ -52,13 +60,4 @@ public class GUITabbedPanel extends JTabbedPane {
 		return -1;
 	}
 
-	@Override
-	public void paint(Graphics g) {
-      Graphics2D g2d = (Graphics2D) g;
-      g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
-            RenderingHints.VALUE_ANTIALIAS_ON);
-      g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
-            RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-      super.paint(g2d);
-	}
 }
