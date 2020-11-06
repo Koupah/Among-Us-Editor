@@ -1,5 +1,9 @@
-AUEVersion=1.6
+//AUEVersion=1.0-1.6 means if the version if between those versions
+AUEVersion=1.0-1.6
 InvisibleName|True=Invisible Name currently doesn't work\nIt may work every now and again but for now I wouldn't use it\nYou can join the discord server for updates on when I make a workaround!
 
+//AUEVersion=1.4 means all versions equal to or below 1.4
 AUEVersion=1.4
+//Hat|0 means if your hat is the value of 0
 Hat|0=This is just a test message for when you select "None", you can safely ignore this!\n\n\nThere should be space before this line.
+//Hat|Index:0 would be if the index in the editor for hats was 0, this can be used if the game updated it's playerPrefs file

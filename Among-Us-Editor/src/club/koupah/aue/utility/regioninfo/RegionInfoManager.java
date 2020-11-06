@@ -3,11 +3,9 @@ package club.koupah.aue.utility.regioninfo;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLConnection;
@@ -15,7 +13,6 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import club.koupah.AUEditorMain;
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.types.impl.custom.servers.AUServer;
 import club.koupah.aue.utility.PopUp;
@@ -45,8 +42,12 @@ public class RegionInfoManager {
 
 					while ((line = in.readLine()) != null) {
 						line = line.replaceAll("\n", ""); // Just sanitization incase
-						if (line.startsWith("AUServer:")) { // Only add relevant warnings
-							String[] info = line.split("AUServer:")[1].split(",");
+						
+						if (line.startsWith("//") || line.length() < 2)
+							continue;
+						
+						if (line.startsWith("AddAUServer:")) { // Only add relevant warnings
+							String[] info = line.split("AddAUServer:")[1].split(",");
 							// Format should be
 							// AUServer:Koupah's Server,192.168.1.1,22023
 							String serverName = info[0];

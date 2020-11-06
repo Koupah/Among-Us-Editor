@@ -1,4 +1,9 @@
-AUServer:Test Server,127.0.0.1,22023
-AUServer:Skeld.net EU Server,127.0.0.1,22023
-RemoveAUServer:Skeld.net US Server
+//AddAUServer format:
+//AddAUServer:Server Name,Server IP,Server Port
+AddAUServer:Localhost Server,127.0.0.1,22023
+//AddAUServer also allows the ability to update the values of an existing server in the editor
+
+
+//RemoveAUServer format:
+//RemoveAUServer:Server Name
 RemoveAUServer:Non-existant server

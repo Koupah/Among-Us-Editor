@@ -38,7 +38,7 @@ public class ServerSelector extends Setting {
 	@Override
 	public String getComponentValue(boolean fromLabel) {
 		customServer = ((JComboBox<String>) component).getSelectedItem().toString().equalsIgnoreCase("Custom Server");
-		return null;
+		return (String) ((JComboBox<String>) component).getSelectedItem();
 	}
 
 	boolean removedKC = false;
@@ -52,8 +52,10 @@ public class ServerSelector extends Setting {
 		if (server == null) {
 			if (component.getSelectedItem().toString().equalsIgnoreCase("Custom Server")) {
 				Object[] customServerInfo = Editor.getInstance().configManager.getCustomServerInfo();
-				Editor.getInstance().regionInfoManager.setServer((String) customServerInfo[0], (String) customServerInfo[1],
-						(short) customServerInfo[2]);
+				if (customServerInfo[2] != null) {
+					Editor.getInstance().regionInfoManager.setServer((String) customServerInfo[0],
+							(String) customServerInfo[1], (short) customServerInfo[2]);
+				}
 			} else if (component.getSelectedItem().toString().equalsIgnoreCase("None")) {
 				Editor.getInstance().regionInfoManager.clearServer();
 			} else {

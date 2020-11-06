@@ -109,17 +109,26 @@ public class Utility {
 					boolean addToWarnings = true; // By default add everything to warnings
 
 					while ((line = in.readLine()) != null) {
+						
+						if (line.startsWith("//") || line.length() < 2)
+							continue;
+						
 						if (line.contains("=")) {
 
 							if (line.startsWith("AUEVersion=")) { // Only add relevant warnings
-								addToWarnings = AUEditorMain.version <= Double.parseDouble(line.split("AUEVersion=")[1]);
+								if (line.contains("-")) {
+									String[] range = line.split("AUEVersion=")[1].split("-");
+									double earliest = Double.parseDouble(range[0]);
+									double latest = Double.parseDouble(range[1]);
+									addToWarnings = AUEditorMain.version >= earliest && AUEditorMain.version <= latest;
+								} else addToWarnings = AUEditorMain.version <= Double.parseDouble(line.split("AUEVersion=")[1]);
 							} else if (addToWarnings)
 								AUEditorMain.warnings.put(line.split("=")[0], line.split("=")[1]);
 
 						} else if (line.length() < 2) {
-							//This is just a spacer line
+							// This is just a spacer line
 						} else System.out.println("There was a line in warnings without an '=':\n   " + line);
-						
+
 					}
 
 					in.close();

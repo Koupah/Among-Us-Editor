@@ -15,6 +15,7 @@ import club.koupah.aue.Editor;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.utility.PopUp;
+import club.koupah.aue.utility.Utility;
 
 public class CustomServerInfo extends Setting {
 
@@ -53,19 +54,22 @@ public class CustomServerInfo extends Setting {
 
 	@Override
 	public String getComponentValue(boolean fromLabel) {
-		
+
 		if (Editor.getInstance().serverSelector.customServer) {
 			String ip = ipTextField.getText();
 
 			if (ip.split("\\.").length == 4)
 				Editor.getInstance().configManager.setCustomServerInfo(ipTextField.getText(),
-						((Integer) ((JSpinner)component).getValue()).shortValue());
-			else if (!ip.equals("Enter IP")) new PopUp("That isn't a valid IP Address\n(For Custom Server Info)", false);
+						((Integer) ((JSpinner) component).getValue()).shortValue());
+			else if (Editor.getInstance().isVisible())
+				new PopUp("That isn't a valid IP Address\n(For Custom Server Info)", false);
 		}
 
-		return null;
+		return capitalFirst(String.valueOf(Editor.getInstance().serverSelector.customServer));
 	}
-
+	String capitalFirst(String input) {
+		return input.substring(0,1).toUpperCase() + input.substring(1).toLowerCase();
+	}
 	@Override
 	public void addToPane(GUIPanel contentPane) {
 		super.addToPane(contentPane);
