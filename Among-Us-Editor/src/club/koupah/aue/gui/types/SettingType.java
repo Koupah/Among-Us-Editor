@@ -47,9 +47,10 @@ public enum SettingType {
 		if (this.visible = update)
 			Editor.getInstance().tabbedPanel.insertTab(getGUIPanel().getName(), getGUIPanel().getIcon(false), getPanel(),
 					getGUIPanel().getDescription(), getIndex() > Editor.getInstance().tabbedPanel.getTabCount() ? Editor.getInstance().tabbedPanel.getTabCount() : getIndex());
-		else if (Editor.getInstance().tabbedPanel != null && Editor.getInstance().tabbedPanel.findTabByName(this.getPanel().getName()) != -1)
+		else if (Editor.getInstance().tabbedPanel != null && Editor.getInstance().tabbedPanel.findTabByName(this.getGUIPanel().getName()) != -1) {
 			Editor.getInstance().tabbedPanel
 					.removeTabAt(Editor.getInstance().tabbedPanel.indexOfTab(this.getGUIPanel().getName()));
+		}
 	}
 
 	// gets the index of this in the array (Cosmetic 0, Setting 1, etc)
