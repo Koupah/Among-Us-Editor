@@ -61,10 +61,6 @@ public class GUIPanel extends JLayeredPane {
 		return "This is the tab for " + name + ". Click it to see all " + name + "!";
 	}
 
-	public int activateKey() {
-		return KeyEvent.VK_LEFT;
-	}
-
 	public int getMaxHeight() {
 		return this.maxHeight;
 	}
