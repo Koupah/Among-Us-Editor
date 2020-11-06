@@ -153,12 +153,11 @@ public class OutfitManager extends GUIComponent {
 
 		// Add none
 		((JComboBox<String>) component).addItem("None");
+		
 		for (String outfitName : alloutfitNames) {
 			((JComboBox<String>) component).addItem(outfitName);
 		}
-		if (alloutfitNames.length == 0) {
-			((JComboBox<String>) component).addItem("None");
-		}
+
 
 		if (current != null) {
 			((JComboBox<String>) component).setSelectedItem(current);
