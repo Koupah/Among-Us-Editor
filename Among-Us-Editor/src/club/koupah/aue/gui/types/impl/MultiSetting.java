@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
+import club.koupah.aue.Editor;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.gui.values.cosmetics.Cosmetic;
@@ -72,14 +73,7 @@ public class MultiSetting extends Setting {
 		// Updated to show more items to make it easier to choose
 		component.setMaximumRowCount(14);
 
-		// Essentially, if it's cosmetic then add keep current
-		if (addKeepCurrent)
-			component.addItem("Keep Current");
-
-		Collections.sort(values);
-
-		for (String value : values)
-			component.addItem(value);
+		updateValues(values);
 
 		component.addActionListener(new ActionListener() {
 
@@ -162,35 +156,36 @@ public class MultiSetting extends Setting {
 		return saveValue;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void setValues(List<String> items) {
+		updateValues(items);
+	}
 
-		// Was the current item removed
-		boolean currentRemoved = !items.contains(getCurrentSettingValue());
+	public void updateValues(List<String> values) {
+		@SuppressWarnings("unchecked")
+		JComboBox<String> component = ((JComboBox<String>) this.component);
+		component.removeAllItems();
 
-		Collections.sort(items);
+		boolean currentRemoved = Editor.getInstance().isVisible() ? !values.contains(getCurrentSettingValue()) : true;
 
-		((JComboBox<String>) component).removeAllItems();
+		// Essentially, if it's cosmetic then add keep current
+		if (keepCurrent)
+			Collections.sort(values);
 
-		// If new item size length is 0, add a Keep Current setting
-		if (keepCurrent || items.size() == 0 || currentRemoved)
-			((JComboBox<String>) component).addItem("Keep Current");
+		if (keepCurrent || values.size() == 0 || currentRemoved) {
+			component.insertItemAt("Keep Current", 0);
+			component.setSelectedIndex(0);
+		}
 
-		// Add all the new items
-		for (String newitems : items)
-			((JComboBox<String>) component).addItem(newitems);
+		for (String value : values) {
+			if (value.equals("None"))
+				component.insertItemAt(value, 1);
+			else component.addItem(value);
+		}
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public void originalValues() {
-		// Remove all current
-		((JComboBox<String>) component).removeAllItems();
-
-		// Add all original
-		for (String original : values) {
-			((JComboBox<String>) component).addItem(original);
-		}
+		updateValues(values);
 	}
 
 	class ComboBoxRenderer extends JLabel implements ListCellRenderer<Object> {
@@ -229,7 +224,12 @@ public class MultiSetting extends Setting {
 				setForeground(list.getForeground());
 			}
 
-//Set the icon and text.  If icon was null, say so.
+			if (value == null) {
+				list.remove(this);
+				setVisible(false);
+				return this;
+			}
+
 			ImageIcon icon = images.get(value);
 
 			setIcon(icon);

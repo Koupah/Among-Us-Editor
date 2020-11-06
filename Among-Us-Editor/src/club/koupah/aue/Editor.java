@@ -141,9 +141,9 @@ public class Editor extends JFrame {
 	public static int guiSpacing = 40;
 
 	public OutfitManager outfitManager;
-	
+
 	public RegionInfoManager regionInfoManager;
-	
+
 	public Editor(double ver) {
 
 		// Made it like this to easily update version number from main class :p
@@ -173,6 +173,7 @@ public class Editor extends JFrame {
 				if (!e.toString().contains("ArrayIndexOutOfBoundsException")) {
 					System.out.println("Error from Thread: " + t.getName());
 					e.printStackTrace();
+					System.out.println(e.getCause());
 				}
 			}
 		});
@@ -246,7 +247,7 @@ public class Editor extends JFrame {
 		}
 
 		regionInfoManager = new RegionInfoManager(configManager.getRegionInfoFile());
-		
+
 		// load playerPrefs settings (Commented out, we don't need to read twice on
 		// launch (We read it below))
 		// prefsManager.loadSettings();
@@ -459,7 +460,7 @@ public class Editor extends JFrame {
 				// This allows InvisibleName and future GUIComponents to avoid impacting
 				// settings
 				String value = setting.getComponentValue(false);
-				
+
 				if (value != null && setting.getSettingIndex() != -1) {
 					prefsManager.newSettings[setting.getSettingIndex()] = value;
 				}
@@ -547,10 +548,9 @@ public class Editor extends JFrame {
 		this.setBounds(this.getX(), this.getY(), width, this.getHeight());
 		this.repaint();
 	}
-	
-	
+
 	public ServerSelector serverSelector;
-	
+
 	public void addComponents() {
 		/*
 		 * COSMETIC SETTINGS!
@@ -624,10 +624,9 @@ public class Editor extends JFrame {
 		add(new AlwaysOnTop(new JLabel("Always On Top: "), new JCheckBox(), -1), PREFERENCES);
 
 		add(new ResizableGUIOption(new JLabel("Resizable GUI: "), new JCheckBox(), -1), PREFERENCES);
-		
+
 		add(new DiscordRichPresence(new JLabel("Discord Rich Presence: "), new JCheckBox(), -1), PREFERENCES);
-		
-		
+
 		/*
 		 * HOST SETTINGS!
 		 */
@@ -675,7 +674,7 @@ public class Editor extends JFrame {
 
 		// add(new Int16Setting(new JLabel("Max Players"), new JSpinner(), 1),
 		// HOST_SETTINGS);
-		
+
 		/*
 		 * Servers
 		 */

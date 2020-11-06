@@ -11,7 +11,7 @@ public enum SettingType {
 	HOST_SETTINGS(new GUIPanel("Host Settings", "settings.png", "settingswhite.png")),
 	STATS(new GUIPanel("Stats", "stats.png", "statswhite.png")),
 	PREFERENCES(new GUIPanel("Preferences", "preferences.png", "preferenceswhite.png")),
-	SERVERS(new GUIPanel("Servers", "settings.png", "settingswhite.png")),
+	SERVERS(new GUIPanel("Servers", "servers.png", "serverswhite.png")),
 	OTHER(new GUIPanel("Other", "other.png", "otherwhite.png")),
 	
 	RAT(new GUIPanel("Rat", "rat.jpg"), false);// DO NOT SET THIS TO TRUE UNLESS YOU WANT A RAT

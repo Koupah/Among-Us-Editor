@@ -153,18 +153,17 @@ public class OutfitManager extends GUIComponent {
 
 		// Add none
 		((JComboBox<String>) component).addItem("None");
-		
+
 		for (String outfitName : alloutfitNames) {
 			((JComboBox<String>) component).addItem(outfitName);
 		}
-
 
 		if (current != null) {
 			((JComboBox<String>) component).setSelectedItem(current);
 			if (Outfit.getOutfit(current) != null)
 				this.current = Outfit.getOutfit(current);
 		}
-		
+
 		if (AUEditorMain.usingRichPresence) {
 			AUEditorMain.presence.details = "Outfit: " + (current == null ? "None" : current);
 			AUEditorMain.updatePresence();
@@ -195,7 +194,9 @@ public class OutfitManager extends GUIComponent {
 		}
 
 		if (name.length() > outfitLength) {
-			new PopUp(importing ? corrupted : "That outfit name is too long!\nMax Length: " + outfitLength + " characters!", false);
+			new PopUp(
+					importing ? corrupted : "That outfit name is too long!\nMax Length: " + outfitLength + " characters!",
+					false);
 			return false;
 		}
 
@@ -208,14 +209,16 @@ public class OutfitManager extends GUIComponent {
 			new PopUp(importing ? corrupted : "Outfits cannot have this name!", false);
 			return false;
 		}
-		
+
 		if (name.contains(",")) {
 			new PopUp(importing ? corrupted : "Outfit names cannot contain \",\"", false);
 			return false;
 		}
 
-		if (!name.matches("\\A\\p{ASCII}*\\z")) { //Ascii only baby, helps me detect when people mess up importing outfits
-			new PopUp(importing ? corrupted : "Outfit names cannot have special symbols/letters!\n(ASCII Characters only)", false);
+		if (!name.matches("\\A\\p{ASCII}*\\z")) { // Ascii only baby, helps me detect when people mess up importing
+																// outfits
+			new PopUp(importing ? corrupted : "Outfit names cannot have special symbols/letters!\n(ASCII Characters only)",
+					false);
 			return false;
 		}
 

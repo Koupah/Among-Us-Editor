@@ -38,12 +38,16 @@ public class HostSetting extends GUIComponent {
 		return f;
 	}
 
-	public int getMax() {
-		return Float.valueOf(((SpinnerNumberModel) ((JSpinner) component).getModel()).getMaximum().toString()).intValue();
-	}
+	public String getMax() {
+		String value = (length == 32 ? String.format ("%.0f", ((SpinnerNumberModel) ((JSpinner) component).getModel()).getMaximum()) : ((SpinnerNumberModel) ((JSpinner) component).getModel()).getMaximum().toString());
+		
+		return value;}
 
-	public int getMin() {
-		return Float.valueOf(((SpinnerNumberModel) ((JSpinner) component).getModel()).getMinimum().toString()).intValue();
+	public String getMin() {
+		System.out.println("Min: " +  ((SpinnerNumberModel) ((JSpinner) component).getModel()).getMinimum());
+		String value = (length == 32 ? String.format ("%.0f", ((SpinnerNumberModel) ((JSpinner) component).getModel()).getMinimum()) : ((SpinnerNumberModel) ((JSpinner) component).getModel()).getMinimum().toString());
+		System.out.println("Minv: " +  value);
+		return value;
 	}
 
 	public String getSaveValue() {
@@ -68,7 +72,8 @@ public class HostSetting extends GUIComponent {
 			return this.currentHex;
 		}
 
-		String value = ((JSpinner) component).getValue().toString();
+		String value = (length == 32 ? String.format ("%.0f", ((JSpinner) component).getValue()) : ((JSpinner) component).getValue().toString());
+		
 
 		for (Character c : value.toCharArray()) {
 			if (!Character.isDigit(c) && !c.equals('.') && !c.equals('-')) { // TODO, count how many '-' are in the String,

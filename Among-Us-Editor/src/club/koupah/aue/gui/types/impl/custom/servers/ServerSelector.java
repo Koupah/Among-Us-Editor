@@ -7,6 +7,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.types.Setting;
+import club.koupah.aue.gui.types.SettingType;
 
 public class ServerSelector extends Setting {
 
@@ -21,7 +22,8 @@ public class ServerSelector extends Setting {
 
 		DefaultServers.values();
 
-		Editor.getInstance().regionInfoManager.getServers();
+		if (SettingType.SERVERS.isVisible())
+			Editor.getInstance().regionInfoManager.getServers();
 
 		for (AUServer server : AUServer.servers) {
 			component.addItem(server.serverName);

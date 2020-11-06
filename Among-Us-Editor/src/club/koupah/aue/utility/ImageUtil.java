@@ -116,6 +116,7 @@ public class ImageUtil {
 		BufferedImage ret = (BufferedImage) img;
 		int w, h;
 		if (higherQuality) {
+
 			if (img.getWidth() <= 1)
 				w = targetWidth;
 			else w = img.getWidth();
@@ -123,25 +124,24 @@ public class ImageUtil {
 			if (img.getHeight() <= 1)
 				h = targetHeight;
 			else h = img.getHeight();
+
 		} else {
 			w = targetWidth;
 			h = targetHeight;
 		}
 
 		do {
-			if (higherQuality && w > targetWidth) {
+			if (higherQuality && w > targetWidth)
 				w /= 2;
-				if (w < targetWidth) {
-					w = targetWidth;
-				}
-			}
 
-			if (higherQuality && h > targetHeight) {
+			if (higherQuality && h > targetHeight)
 				h /= 2;
-				if (h < targetHeight) {
-					h = targetHeight;
-				}
-			}
+
+			if (h < targetHeight)
+				h = targetHeight;
+
+			if (w < targetWidth)
+				w = targetWidth;
 
 			BufferedImage tmp = new BufferedImage(w, h, type);
 			Graphics2D g2 = tmp.createGraphics();
