@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.types.impl.CheckboxSetting;
+import club.koupah.aue.utility.PopUp;
 
 public class ResizableGUIOption extends CheckboxSetting {
 	
@@ -23,13 +24,15 @@ public class ResizableGUIOption extends CheckboxSetting {
 		Editor.getInstance().setResizable(((JCheckBox)component).isSelected());
 		Editor.getInstance().configManager.setCustomResolution(Editor.getInstance().isResizable());
 		if (((JCheckBox)component).isSelected()) 
-			Editor.getInstance().updateWidth(Editor.getInstance().configManager.getCustomWidth());
+			Editor.getInstance().updateWidth(Editor.getInstance().configManager.getCustomWidth(),Editor.getInstance().configManager.getCustomHeight());
 		else
-		Editor.getInstance().updateWidth(445);
+		Editor.getInstance().updateWidth(465, 555);
 		Editor.getInstance().configManager.saveConfig();
 
 		super.checkboxPressed(ae);
 		updateLabel();
+	
+		new PopUp("This is really, really.... really buggy.\nI highly suggest not using it.\n(You probably need to restart Among Us Editor after turning it on)", false);
 	}
 
 	@Override

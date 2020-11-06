@@ -16,6 +16,9 @@ import java.net.URISyntaxException;
 import java.security.CodeSource;
 import java.util.ArrayList;
 
+import javax.swing.AbstractButton;
+import javax.swing.JCheckBox;
+
 import club.koupah.AUEditorMain;
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.values.GUIScheme;
@@ -52,17 +55,19 @@ public class ConfigManager {
 	int resolutionW;
 
 	int resolutionH;
-	
+
 	boolean discordRP = true;
-	
+
+	boolean smoothScroll = true;
+
 	File gameHostOptions;
 
 	File playerStats;
-	
+
 	File regionInfo;
-	
+
 	Object[] customServerInfo = new Object[3];
-	
+
 	public ConfigManager(String configFileName, Editor instance) {
 		CodeSource codeSource = AUEditorMain.class.getProtectionDomain().getCodeSource();
 		try {
@@ -130,17 +135,19 @@ public class ConfigManager {
 
 				} else if (isSetting(DiscordRP, config, lineNum)) {
 					discordRP = config.split(":")[1].toLowerCase().equals("true");
+				} else if (isSetting(SmoothScroll, config, lineNum)) {
+					smoothScroll = config.split(":")[1].toLowerCase().equals("true");
 				} else if (config.contains(",") && config.split(",").length > 5) {
 					new Outfit(config);
 				}
 
 				lineNum++;
 			}
-			
+
 			if (discordRP) {
 				AUEditorMain.setupRichPresence();
 			}
-			
+
 			// Return so we don't hit the below message that'll only run after the try catch
 			return;
 
@@ -179,14 +186,16 @@ public class ConfigManager {
 			AOT.write(writer, String.valueOf(alwaysOnTop));
 
 			CustomResolution.write(writer, String.valueOf(customResolution));
-			
+
 			resolutionW = Editor.getInstance().getWidth();
 			resolutionH = Editor.getInstance().getHeight();
-			
+
 			Resolution.write(writer, resolutionW + ":" + resolutionH);
-			
+
 			DiscordRP.write(writer, String.valueOf(discordRP));
-			
+
+			SmoothScroll.write(writer, String.valueOf(smoothScroll));
+
 			// Write profiles here
 			writer.write("[profiles]");
 			writer.newLine();
@@ -278,7 +287,7 @@ public class ConfigManager {
 	public void setCustomResolution(boolean cr) {
 		this.customResolution = cr;
 	}
-	
+
 	public File getGameHostOptionsFile() {
 		if (this.gameHostOptions == null) {
 			if (this.configExists()) {
@@ -300,7 +309,7 @@ public class ConfigManager {
 		}
 		return this.playerStats;
 	}
-	
+
 	public File getRegionInfoFile() {
 		if (this.regionInfo == null) {
 			if (this.configExists()) {
@@ -319,15 +328,23 @@ public class ConfigManager {
 	public void setDiscordRP(boolean selected) {
 		this.discordRP = selected;
 	}
-	
+
 	public void setCustomServerInfo(String ip, short port) {
 		customServerInfo[0] = "AUEditor Custom Server";
 		customServerInfo[1] = ip;
 		customServerInfo[2] = port;
 	}
-	
+
 	public Object[] getCustomServerInfo() {
 		return this.customServerInfo;
 	}
-	
+
+	public void setSmoothScroll(boolean b) {
+		this.smoothScroll = b;
+	}
+
+	public boolean getSmoothScroll() {
+		return this.smoothScroll;
+	}
+
 }

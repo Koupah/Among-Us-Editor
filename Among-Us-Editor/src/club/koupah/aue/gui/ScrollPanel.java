@@ -9,11 +9,14 @@ import java.awt.event.MouseWheelListener;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
+import club.koupah.aue.Editor;
+
 public class ScrollPanel extends JScrollPane {
 
 	private static final long serialVersionUID = 1L;
 	int scrollSpeed = 5;
 	GUIPanel guipanel;
+
 	public ScrollPanel(final GUIPanel panel) {
 		this.guipanel = panel;
 		this.setViewportView(panel);
@@ -23,15 +26,33 @@ public class ScrollPanel extends JScrollPane {
 		getVerticalScrollBar().setUnitIncrement(0);
 		getVerticalScrollBar().setBlockIncrement(0);
 
+		for (MouseWheelListener listener : getMouseWheelListeners()) {
+			System.out.println(listener);
+		}
+
 		panel.addMouseWheelListener(new MouseWheelListener() {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent arg0) {
-				smoothScroll(panel, arg0);
+				if (Editor.getInstance().configManager.getSmoothScroll()) {
+					smoothScroll(panel, arg0);
+				} else {
+					scroll(panel, arg0);
+				}
 			}
 		});
 	}
 
 	Rectangle current;
+
+	public void scroll(final GUIPanel component, MouseWheelEvent arg0) {
+		current = component.getVisibleRect();
+		final int target = current.y + (arg0.getWheelRotation() > 0 ? (scrollSpeed*2) : -(scrollSpeed*2));
+		
+		current.y = target;
+
+		component.scrollRectToVisible(current);
+
+	}
 
 	/*
 	 * Shoutout to the stack overflow post that helped me

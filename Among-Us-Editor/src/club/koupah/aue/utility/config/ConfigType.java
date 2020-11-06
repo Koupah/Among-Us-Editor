@@ -14,7 +14,8 @@ public enum ConfigType {
 	CustomResolution("aueCR:",6), //rip this stuff, gotta get around to it
 	Resolution("aueResolution:",7), //read above
 	DiscordRP("aueDiscordRP:", 8),
-	ConfigProfile(9);
+	SmoothScroll("aueSmoothScroll:", 9),
+	ConfigProfile(10);
 	
 	
 	String lineStart;

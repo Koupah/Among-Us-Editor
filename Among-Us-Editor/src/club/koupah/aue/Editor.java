@@ -63,6 +63,7 @@ import club.koupah.aue.gui.types.impl.custom.preferences.AlwaysOnTop;
 import club.koupah.aue.gui.types.impl.custom.preferences.DiscordRichPresence;
 import club.koupah.aue.gui.types.impl.custom.preferences.LookAndFeelChooser;
 import club.koupah.aue.gui.types.impl.custom.preferences.ResizableGUIOption;
+import club.koupah.aue.gui.types.impl.custom.preferences.SmoothScroll;
 import club.koupah.aue.gui.types.impl.custom.preferences.outfits.OutfitCreator;
 import club.koupah.aue.gui.types.impl.custom.preferences.outfits.OutfitManager;
 import club.koupah.aue.gui.types.impl.custom.preferences.outfits.OutfitSharer;
@@ -107,9 +108,9 @@ public class Editor extends JFrame {
 	/*
 	 * GUI Related
 	 */
-	int width = 465;
+	public int width = 465;
 
-	int height;
+	public int height;
 
 	public JPanel contentPanel;
 
@@ -337,8 +338,6 @@ public class Editor extends JFrame {
 			}
 		}
 
-		// Essentially, find the height of the biggest panel
-		int maxHeight = 100;
 		for (SettingType setting : SettingType.values()) {
 
 			if (!setting.isVisible()) {
@@ -350,12 +349,11 @@ public class Editor extends JFrame {
 			scrollPanel = setting.getPanel();
 			guiPanel = setting.getGUIPanel();
 			guiPanel.setPreferredSize(new Dimension(guiPanel.getWidth(), guiPanel.getMaxHeight()));
-			if (guiPanel.getMaxHeight() > maxHeight)
-				maxHeight = 400;
+
 		}
 
 		// Window height
-		height = 75 + maxHeight + 80;
+		height = 555;
 
 		// Apply settings button
 		applySettings = new JButton("Apply Settings");
@@ -386,7 +384,7 @@ public class Editor extends JFrame {
 		});
 
 		// Set the bounds of the tabbed panel
-		tabbedPanel.setBounds(tabbedPanel.getX(), tabbedPanel.getY(), width - 18, maxHeight);
+		tabbedPanel.setBounds(tabbedPanel.getX(), tabbedPanel.getY(), width - 18, 400);
 
 		// Set frame bounds too
 		setBounds(100, 100, width, height);
@@ -542,9 +540,10 @@ public class Editor extends JFrame {
 		return editor.outfitManager;
 	}
 
-	public void updateWidth(int width) {
+	public void updateWidth(int width, int height) {
 		this.width = width;
-		tabbedPanel.setBounds(tabbedPanel.getX(), tabbedPanel.getY(), this.width, tabbedPanel.getHeight());
+		this.height = height;
+		tabbedPanel.setBounds(tabbedPanel.getX(), tabbedPanel.getY(), this.width, this.height);
 		this.setBounds(this.getX(), this.getY(), width, this.getHeight());
 		this.repaint();
 	}
@@ -623,9 +622,11 @@ public class Editor extends JFrame {
 
 		add(new AlwaysOnTop(new JLabel("Always On Top: "), new JCheckBox(), -1), PREFERENCES);
 
-		add(new ResizableGUIOption(new JLabel("Resizable GUI: "), new JCheckBox(), -1), PREFERENCES);
-
+		add(new SmoothScroll(new JLabel("Smooth Scrolling: "), new JCheckBox(), -1), PREFERENCES);
+		
 		add(new DiscordRichPresence(new JLabel("Discord Rich Presence: "), new JCheckBox(), -1), PREFERENCES);
+
+		add(new ResizableGUIOption(new JLabel("Resizable GUI: "), new JCheckBox(), -1), PREFERENCES);
 
 		/*
 		 * HOST SETTINGS!
