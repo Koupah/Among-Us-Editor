@@ -52,6 +52,7 @@ public class AUServer {
 	}
 
 	public void update(String serverName2, String serverIP2, short port) {
+		System.out.println("Updated: " + serverName2);
 		this.serverName = serverName2;
 		this.serverIP = serverIP2;
 		try {

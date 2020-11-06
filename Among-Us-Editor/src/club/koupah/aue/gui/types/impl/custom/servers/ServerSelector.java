@@ -20,15 +20,14 @@ public class ServerSelector extends Setting {
 		component.addItem("Keep Current");
 
 		DefaultServers.values();
-		
+
 		Editor.getInstance().regionInfoManager.getServers();
-		
+
 		for (AUServer server : AUServer.servers) {
 			component.addItem(server.serverName);
 		}
 
 		component.addItem("Custom Server");
-
 	}
 
 	@Override
@@ -49,7 +48,6 @@ public class ServerSelector extends Setting {
 
 		JComboBox<String> component = (JComboBox<String>) this.component;
 
-		System.out.println("Setting servers");
 		AUServer server = AUServer.getByName(component.getSelectedItem().toString());
 		if (server == null) {
 			if (component.getSelectedItem().toString().equalsIgnoreCase("Custom Server")) {
@@ -71,6 +69,23 @@ public class ServerSelector extends Setting {
 			component.removeItemAt(0);
 			component.insertItemAt("None", 0);
 		}
+
+	}
+
+	public void updateItems() {
+		JComboBox<String> component = (JComboBox<String>) this.component;
+
+		component.removeAllItems();
+
+		component.addItem("Keep Current");
+
+		DefaultServers.values();
+
+		for (AUServer server : AUServer.servers) {
+			component.addItem(server.serverName);
+		}
+
+		component.addItem("Custom Server");
 	}
 
 	public boolean customServer() {

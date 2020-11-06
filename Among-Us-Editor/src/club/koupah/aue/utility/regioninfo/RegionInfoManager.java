@@ -16,6 +16,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import club.koupah.AUEditorMain;
+import club.koupah.aue.Editor;
 import club.koupah.aue.gui.types.impl.custom.servers.AUServer;
 import club.koupah.aue.utility.PopUp;
 
@@ -42,28 +43,35 @@ public class RegionInfoManager {
 
 					String line = "";
 
-					while ((line = in.readLine().replaceAll("\n","")) != null) {
+					while ((line = in.readLine()) != null) {
+						line = line.replaceAll("\n", ""); // Just sanitization incase
 						if (line.startsWith("AUServer:")) { // Only add relevant warnings
 							String[] info = line.split("AUServer:")[1].split(",");
-							//Format should be
-							//AUServer:Koupah's Server,192.168.1.1,22023
+							// Format should be
+							// AUServer:Koupah's Server,192.168.1.1,22023
 							String serverName = info[0];
 							String serverIP = info[1];
 							short port = Short.parseShort(info[2]);
-							
+
 							AUServer server = AUServer.getOrMake(serverName, serverIP, port);
-							server.update(serverName,serverIP, port);
+							server.update(serverName, serverIP, port);
 						} else if (line.startsWith("RemoveAUServer:")) {
 							AUServer server = AUServer.getByName(line.split("RemoveAUServer:")[1]);
 							if (server != null)
 								AUServer.servers.remove(server);
 						}
 					}
-					
+
 					in.close();
+
+					Editor.getInstance().serverSelector.updateItems();
+
 				} catch (Exception e) {
 					System.out.println("Failed to get servers: " + e.getMessage());
 					e.printStackTrace();
+					new PopUp(
+							"Some servers in the server selector may be out of date!\nThis is due to Among Us Editor not being able to check the server list!",
+							false);
 				}
 			}
 		};
