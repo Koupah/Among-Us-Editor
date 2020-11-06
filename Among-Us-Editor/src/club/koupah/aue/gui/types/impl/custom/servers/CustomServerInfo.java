@@ -15,7 +15,6 @@ import club.koupah.aue.Editor;
 import club.koupah.aue.gui.GUIPanel;
 import club.koupah.aue.gui.types.Setting;
 import club.koupah.aue.utility.PopUp;
-import club.koupah.aue.utility.Utility;
 
 public class CustomServerInfo extends Setting {
 

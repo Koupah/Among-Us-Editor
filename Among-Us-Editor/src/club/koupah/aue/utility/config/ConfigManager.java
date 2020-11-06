@@ -16,9 +16,6 @@ import java.net.URISyntaxException;
 import java.security.CodeSource;
 import java.util.ArrayList;
 
-import javax.swing.AbstractButton;
-import javax.swing.JCheckBox;
-
 import club.koupah.AUEditorMain;
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.values.GUIScheme;
@@ -132,7 +129,12 @@ public class ConfigManager {
 					String res = config.split(Resolution.lineStart)[1];
 					resolutionW = Integer.parseInt(res.split(":")[0]);
 					resolutionH = Integer.parseInt(res.split(":")[1]);
-
+					
+					if (customResolution) {
+						Editor.getInstance().setBounds(Editor.getInstance().getX(), Editor.getInstance().getY(), resolutionW, resolutionH);
+						Editor.getInstance().setResizable(true);
+					}
+					
 				} else if (isSetting(DiscordRP, config, lineNum)) {
 					discordRP = config.split(":")[1].toLowerCase().equals("true");
 				} else if (isSetting(SmoothScroll, config, lineNum)) {

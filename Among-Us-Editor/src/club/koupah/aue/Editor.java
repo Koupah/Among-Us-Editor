@@ -543,8 +543,8 @@ public class Editor extends JFrame {
 	public void updateWidth(int width, int height) {
 		this.width = width;
 		this.height = height;
-		tabbedPanel.setBounds(tabbedPanel.getX(), tabbedPanel.getY(), this.width, this.height);
-		this.setBounds(this.getX(), this.getY(), width, this.getHeight());
+		tabbedPanel.setBounds(tabbedPanel.getX(), tabbedPanel.getY(), this.width, 400);
+		this.setBounds(this.getX(), this.getY(), width, height);
 		this.repaint();
 	}
 

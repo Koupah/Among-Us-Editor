@@ -37,6 +37,7 @@ public class ServerSelector extends Setting {
 		super.addToPane(contentPane);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public String getComponentValue(boolean fromLabel) {
 		customServer = ((JComboBox<String>) component).getSelectedItem().toString().equalsIgnoreCase("Custom Server");
@@ -48,6 +49,7 @@ public class ServerSelector extends Setting {
 	@Override
 	public void updateComponent() {
 
+		@SuppressWarnings("unchecked")
 		JComboBox<String> component = (JComboBox<String>) this.component;
 
 		AUServer server = AUServer.getByName(component.getSelectedItem().toString());
@@ -77,6 +79,7 @@ public class ServerSelector extends Setting {
 	}
 
 	public void updateItems() {
+		@SuppressWarnings("unchecked")
 		JComboBox<String> component = (JComboBox<String>) this.component;
 
 		component.removeAllItems();
