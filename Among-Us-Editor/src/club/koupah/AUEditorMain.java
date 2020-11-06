@@ -31,7 +31,7 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	public static double version = 1.552;
+	public static double version = 1.56;
 
 	public static String title = "Among Us Editor";
 

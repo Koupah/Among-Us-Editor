@@ -22,16 +22,16 @@ public class Setting extends GUIComponent {
 		this.settingIndex = settingIndex;
 	}
 
-	public Setting(JLabel label, JComboBox<String> component) {
+	public Setting(JLabel label, JComponent component) {
 		this(label, component, -1);
 	}
 
 	public void updateLabel() {
-		System.out.println("Update Labels function not overriden.");
+		System.out.println(this.labelText + " Update Labels function not overriden.");
 	}
 
 	public void updateComponent() {
-		System.out.println("Update Component function not overriden.");
+		System.out.println(this.labelText + " Update Component function not overriden.");
 	}
 
 	public String getComponentValue(boolean fromLabel) {
@@ -42,7 +42,7 @@ public class Setting extends GUIComponent {
 	}
 
 	public String getProperValue() {
-		System.out.println("Something didn't override getProperValue()!");
+		System.out.println(this.labelText + " didn't override getProperValue()!");
 		return "Error";
 	}
 	

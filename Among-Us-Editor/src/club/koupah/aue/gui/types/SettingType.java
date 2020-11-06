@@ -6,13 +6,15 @@ import club.koupah.aue.gui.ScrollPanel;
 
 public enum SettingType {
 
-	COSMETIC(new ScrollPanel(new GUIPanel("Cosmetics", "cosmetics.png"))),
-	SETTING(new ScrollPanel(new GUIPanel("Settings", "settings.png", "settingswhite.png"))),
-	HOST_SETTINGS(new ScrollPanel(new GUIPanel("Host Settings", "settings.png", "settingswhite.png"))),
-	STATS(new ScrollPanel(new GUIPanel("Stats", "stats.png", "statswhite.png"))),
-	PREFERENCES(new ScrollPanel(new GUIPanel("Preferences", "preferences.png", "preferenceswhite.png"))),
-	OTHER(new ScrollPanel(new GUIPanel("Other", "other.png", "otherwhite.png"))),
-	RAT(new ScrollPanel(new GUIPanel("Rat", "rat.jpg")), false);// DO NOT SET THIS TO TRUE UNLESS YOU WANT A RAT
+	COSMETIC(new GUIPanel("Cosmetics", "cosmetics.png")),
+	SETTING(new GUIPanel("Settings", "settings.png", "settingswhite.png")),
+	HOST_SETTINGS(new GUIPanel("Host Settings", "settings.png", "settingswhite.png")),
+	STATS(new GUIPanel("Stats", "stats.png", "statswhite.png")),
+	PREFERENCES(new GUIPanel("Preferences", "preferences.png", "preferenceswhite.png")),
+	SERVERS(new GUIPanel("Servers", "settings.png", "settingswhite.png")),
+	OTHER(new GUIPanel("Other", "other.png", "otherwhite.png")),
+	
+	RAT(new GUIPanel("Rat", "rat.jpg"), false);// DO NOT SET THIS TO TRUE UNLESS YOU WANT A RAT
 
 	ScrollPanel panel;
 	
@@ -20,12 +22,13 @@ public enum SettingType {
 	
 	boolean visible = true;
 
-	SettingType(ScrollPanel panel) {
-		this.panel = panel;
-		this.guiPanel = (GUIPanel) panel.getViewport().getView();
+	SettingType(GUIPanel guiPanel) {
+		this.panel = new ScrollPanel(guiPanel);
+		this.guiPanel = guiPanel;
+		panel.setViewportView(guiPanel);
 	}
 
-	SettingType(ScrollPanel panel, boolean visible) {
+	SettingType(GUIPanel panel, boolean visible) {
 		this(panel);
 		this.visible = visible;
 	}

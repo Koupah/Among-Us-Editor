@@ -69,6 +69,8 @@ import club.koupah.aue.gui.types.impl.custom.preferences.outfits.OutfitSharer;
 import club.koupah.aue.gui.types.impl.custom.preferences.schemes.CustomSchemeEditor;
 import club.koupah.aue.gui.types.impl.custom.preferences.schemes.SchemeChooser;
 import club.koupah.aue.gui.types.impl.custom.rat.HiddenRat;
+import club.koupah.aue.gui.types.impl.custom.servers.CustomServerInfo;
+import club.koupah.aue.gui.types.impl.custom.servers.ServerSelector;
 import club.koupah.aue.gui.values.cosmetics.Cosmetic;
 import club.koupah.aue.gui.values.cosmetics.Cosmetic.CosmeticType;
 import club.koupah.aue.gui.values.language.Language;
@@ -81,6 +83,7 @@ import club.koupah.aue.utility.gamehostoptions.HostOptionsManager;
 import club.koupah.aue.utility.playerprefs.PlayerPrefsFinder;
 import club.koupah.aue.utility.playerprefs.PlayerPrefsManager;
 import club.koupah.aue.utility.playerstats.PlayerStatsManager;
+import club.koupah.aue.utility.regioninfo.RegionInfoManager;
 
 public class Editor extends JFrame {
 
@@ -138,7 +141,9 @@ public class Editor extends JFrame {
 	public static int guiSpacing = 40;
 
 	public OutfitManager outfitManager;
-
+	
+	public RegionInfoManager regionInfoManager;
+	
 	public Editor(double ver) {
 
 		// Made it like this to easily update version number from main class :p
@@ -240,6 +245,8 @@ public class Editor extends JFrame {
 			STATS.setVisible(false);
 		}
 
+		regionInfoManager = new RegionInfoManager(configManager.getRegionInfoFile());
+		
 		// load playerPrefs settings (Commented out, we don't need to read twice on
 		// launch (We read it below))
 		// prefsManager.loadSettings();
@@ -540,7 +547,10 @@ public class Editor extends JFrame {
 		this.setBounds(this.getX(), this.getY(), width, this.getHeight());
 		this.repaint();
 	}
-
+	
+	
+	public ServerSelector serverSelector;
+	
 	public void addComponents() {
 		/*
 		 * COSMETIC SETTINGS!
@@ -665,7 +675,12 @@ public class Editor extends JFrame {
 
 		// add(new Int16Setting(new JLabel("Max Players"), new JSpinner(), 1),
 		// HOST_SETTINGS);
-
+		
+		/*
+		 * Servers
+		 */
+		add(serverSelector = new ServerSelector(new JLabel("Server Selector:"), new JComboBox<String>()), SERVERS);
+		add(new CustomServerInfo(new JLabel("Custom Server:"), new JSpinner()), SERVERS);
 		/*
 		 * OTHER SETTINGS!
 		 */

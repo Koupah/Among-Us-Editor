@@ -86,7 +86,6 @@ Download Link: https://github.com/Koupah/Among-Us-Editor/releases
 Download the .jar file by clicking on it, then run it once it's finished downloading  
 From there, it's as simple as choosing your settings then applying & running the game  
   
->>>>>>> dedfe1f Added Discord Rich Presence
 NOTE: You need to relaunch/have your game closed when using this! 
 The game only seems to read settings on launch, so use this then launch your game!  
 

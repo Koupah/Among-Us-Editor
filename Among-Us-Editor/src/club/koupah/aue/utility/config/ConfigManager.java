@@ -59,6 +59,10 @@ public class ConfigManager {
 
 	File playerStats;
 	
+	File regionInfo;
+	
+	Object[] customServerInfo = new Object[3];
+	
 	public ConfigManager(String configFileName, Editor instance) {
 		CodeSource codeSource = AUEditorMain.class.getProtectionDomain().getCodeSource();
 		try {
@@ -296,6 +300,17 @@ public class ConfigManager {
 		}
 		return this.playerStats;
 	}
+	
+	public File getRegionInfoFile() {
+		if (this.regionInfo == null) {
+			if (this.configExists()) {
+				this.regionInfo = new File(this.playerPrefs.getParent() + File.separator + "regionInfo.dat");
+				return regionInfo.exists() ? regionInfo : null;
+			}
+			return null;
+		}
+		return this.regionInfo;
+	}
 
 	public boolean getDiscordRP() {
 		return this.discordRP;
@@ -303,6 +318,16 @@ public class ConfigManager {
 
 	public void setDiscordRP(boolean selected) {
 		this.discordRP = selected;
+	}
+	
+	public void setCustomServerInfo(String ip, short port) {
+		customServerInfo[0] = "AUEditor Custom Server";
+		customServerInfo[1] = ip;
+		customServerInfo[2] = port;
+	}
+	
+	public Object[] getCustomServerInfo() {
+		return this.customServerInfo;
 	}
 	
 }
