@@ -7,3 +7,6 @@ AddAUServer:Localhost Server,127.0.0.1,22023
 //RemoveAUServer format:
 //RemoveAUServer:Server Name
 RemoveAUServer:Non-existant server
+
+//Apparently it currently doesn't work
+RemoveAUServer:Skeld.net EU Server
