@@ -4,7 +4,7 @@ import java.awt.Component;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import com.sun.glass.events.KeyEvent;
+import java.awt.event.KeyEvent;
 
 import club.koupah.aue.Editor;
 import club.koupah.aue.utility.ImageUtil;
