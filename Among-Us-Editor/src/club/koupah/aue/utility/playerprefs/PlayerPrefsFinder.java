@@ -31,11 +31,13 @@ public class PlayerPrefsFinder {
 		if (instance.configManager.configExists()) {
 			File fromConfig = instance.configManager.getPlayerPrefs();
 			// Can return null if the line
-			if (fromConfig != null  && fromConfig.exists()) {// Removed exists check as I want the user to know if it
-																					// doesn't exist anymore
+			if (fromConfig != null && fromConfig.exists()) {// Removed exists check as I want the user to know if it
+																			// doesn't exist anymore
 				return fromConfig;
 			} else {
-				new PopUp("The playerPrefs file in your AUEConfig doesn't exist!\nThis can happen if you use someone elses AUEConfig file!\n\nGoing to search for correct the playerPrefs file now!", false);
+				new PopUp(
+						"The playerPrefs file in your AUEConfig doesn't exist!\nThis can happen if you use someone elses AUEConfig file!\n\nGoing to search for correct the playerPrefs file now!",
+						false);
 			}
 		} else {
 			instance.configManager.createConfigFile();
@@ -44,18 +46,17 @@ public class PlayerPrefsFinder {
 		// Where my playerPrefs was
 		File standardLocation = new File(
 				System.getProperty("user.home") + "\\AppData\\LocalLow\\Innersloth\\Among Us\\playerPrefs");
-		
+
 		if (standardLocation.exists()) {
 			instance.configManager.setPlayerPrefs(standardLocation);
 			return standardLocation;
 		} else {
 			// Warn user we're going to scan their PC, don't have an option to deny it
 			// **yet**
-		
+
 			new PopUp(String.format(
 					"Your playerPrefs file wasn't in the expected folder nor the %s file!\nPress \"OK\" to begin scanning for it!",
-					instance.configManager.configName()),
-					false);
+					instance.configManager.configName()), false);
 		}
 
 		// Doesn't return anything

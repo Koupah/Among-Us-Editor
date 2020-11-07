@@ -46,8 +46,9 @@ public class ScrollPanel extends JScrollPane {
 
 	public void scroll(final GUIPanel component, MouseWheelEvent arg0) {
 		current = component.getVisibleRect();
-		final int target = current.y + (arg0.getWheelRotation() > 0 ? (scrollSpeed*2) : -(scrollSpeed*2));
-		
+		final int target = Math.min(current.y + (arg0.getWheelRotation() > 0 ? (scrollSpeed * 2) : -(scrollSpeed * 2)),
+				component.getHeight());
+
 		current.y = target;
 
 		component.scrollRectToVisible(current);

@@ -48,11 +48,11 @@ public class AUEditorMain {
 	public static DiscordUser discordUser;
 
 	public static boolean usingRichPresence = false;
-
+	
 	public static void main(String[] args) {
 
 		System.out.println(String.format("Starting up %s version %s", title, version));
-
+		
 		try {
 
 			// Idk how to get them to initialize their values cause am big noob
@@ -85,7 +85,13 @@ public class AUEditorMain {
 					| UnsupportedLookAndFeelException e1) {
 				new PopUp("Failed to apply a look and feel!", false);
 			}
-
+			
+			// Run update check, this is a seperate thread so it won't interrupt the main
+			// thread
+			Utility.runUpdateCheck(null);
+			Utility.getWarnings();
+			
+			
 			// Because JPanels in tabbed panels are fucked and don't let me change the
 			// background color,
 			// Set the panels to not be opaque that way we use the original background color
@@ -109,11 +115,6 @@ public class AUEditorMain {
 				}
 			});
 
-			// Run update check, this is a seperate thread so it won't interrupt the main
-			// thread
-			Utility.runUpdateCheck(null);
-			Utility.getWarnings();
-
 			// Catch any exception that, for whatever reason wasn't already caught
 		} catch (Exception e) {
 			StackTraceElement cause = e.getStackTrace()[0];
@@ -125,6 +126,9 @@ public class AUEditorMain {
 					break;
 				}
 			}
+			/*
+			 * so fucking messy lmfao
+			 */
 			System.out.println("Exception Type: " + cause.getClassName());
 			System.out.println("Method: " + cause.getMethodName());
 			System.out.println(origin == null ? ""

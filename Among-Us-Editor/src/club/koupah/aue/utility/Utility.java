@@ -27,6 +27,7 @@ public class Utility {
 		 * VERSION CHECK FOR PEOPLE WHO DOWNLOAD STRAIGHT FROM A YOUTUBE VIDEO ETC Feel
 		 * free to remove this if you're compiling yourself!
 		 */
+		
 		Thread updateCheck = new Thread() {
 			public void run() {
 

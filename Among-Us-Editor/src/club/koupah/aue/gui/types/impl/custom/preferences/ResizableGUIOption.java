@@ -7,14 +7,13 @@ import javax.swing.JLabel;
 
 import club.koupah.aue.Editor;
 import club.koupah.aue.gui.types.impl.CheckboxSetting;
-import club.koupah.aue.utility.PopUp;
 
 public class ResizableGUIOption extends CheckboxSetting {
 
 	public ResizableGUIOption(JLabel label, final JCheckBox component, int settingIndex) {
 		super(label, component, settingIndex);
 		component.setText("Off");
-		Editor.getInstance().setAlwaysOnTop(Editor.getInstance().configManager.getIsCustomResolution());
+		Editor.getInstance().setResizable(Editor.getInstance().configManager.getIsCustomResolution());
 		component.setSelected(Editor.getInstance().configManager.getIsCustomResolution());
 	}
 
@@ -32,7 +31,6 @@ public class ResizableGUIOption extends CheckboxSetting {
 
 		super.checkboxPressed(ae);
 		updateLabel();
-
 	}
 
 	@Override
