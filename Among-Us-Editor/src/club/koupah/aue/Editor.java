@@ -575,10 +575,10 @@ public class Editor extends JFrame {
 			@Override
 			public void settingChanged(ActionEvent event) {
 				super.settingChanged(event);
-				if (AUEditorMain.usingRichPresence) {
-					AUEditorMain.presence.state = "Color: " + getCurrentSettingValue();
+				AUEditorMain.presence.state = "Color: " + getCurrentSettingValue();
+				
+				if (AUEditorMain.usingRichPresence)
 					AUEditorMain.updatePresence();
-				}
 			}
 		}, COSMETIC);
 
@@ -623,7 +623,7 @@ public class Editor extends JFrame {
 		add(new AlwaysOnTop(new JLabel("Always On Top: "), new JCheckBox(), -1), PREFERENCES);
 
 		add(new SmoothScroll(new JLabel("Smooth Scrolling: "), new JCheckBox(), -1), PREFERENCES);
-		
+
 		add(new DiscordRichPresence(new JLabel("Discord Rich Presence: "), new JCheckBox(), -1), PREFERENCES);
 
 		add(new ResizableGUIOption(new JLabel("Resizable GUI: "), new JCheckBox(), -1), PREFERENCES);

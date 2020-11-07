@@ -31,7 +31,7 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	public static double version = 1.573;
+	public static double version = 1.574;
 
 	public static String title = "Among Us Editor";
 
@@ -64,6 +64,8 @@ public class AUEditorMain {
 			SettingType.values();
 			ConfigType.values();
 
+			presence = new DiscordRichPresence(); //This just contains values, it doesnt turn rich presence on
+			
 			// Local variable, I'm not going to use it again from outside this class
 			final Editor editor = new Editor(version);
 
@@ -183,20 +185,19 @@ public class AUEditorMain {
 
 	public static void setupRichPresence() {
 		usingRichPresence = true;
-		if (presence != null) {
+		
+		if (presence.startTimestamp != 0) {
 			updatePresence();
 			return;
 		}
 
 		try {
 			System.out.println("Starting Rich Presence");
-
-			presence = new DiscordRichPresence();
+			
 			String applicationId = AUEAppID;
 
 			lib.Discord_Initialize(applicationId, null, true, "");
 
-			presence.details = "Testing stuff";
 			presence.largeImageKey = "aue";
 			presence.largeImageText = "Among Us Editor v" + version;
 			presence.startTimestamp = System.currentTimeMillis() / 1000;

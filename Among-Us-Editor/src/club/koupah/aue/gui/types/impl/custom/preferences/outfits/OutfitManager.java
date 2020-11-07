@@ -164,8 +164,9 @@ public class OutfitManager extends GUIComponent {
 				this.current = Outfit.getOutfit(current);
 		}
 
+		AUEditorMain.presence.details = "Outfit: " + (current == null ? "None" : current);
+		
 		if (AUEditorMain.usingRichPresence) {
-			AUEditorMain.presence.details = "Outfit: " + (current == null ? "None" : current);
 			AUEditorMain.updatePresence();
 		}
 	}

@@ -165,7 +165,7 @@ public class MultiSetting extends Setting {
 		JComboBox<String> component = ((JComboBox<String>) this.component);
 		component.removeAllItems();
 
-		boolean currentRemoved = Editor.getInstance().isVisible() ? !values.contains(getCurrentSettingValue()) : true;
+		boolean currentRemoved = Editor.getInstance().isVisible() ? !values.contains(getCurrentSettingValue()) : keepCurrent;
 
 		// Essentially, if it's cosmetic then add keep current
 		if (keepCurrent)
@@ -177,10 +177,14 @@ public class MultiSetting extends Setting {
 		}
 
 		for (String value : values) {
-			if (value.equals("None"))
+			if (value.equals("None")) {
+				component.addItem("TEMP-ITEM");
 				component.insertItemAt(value, 1);
+			}
 			else component.addItem(value);
 		}
+		
+		component.removeItem("TEMP-ITEM");
 
 	}
 
