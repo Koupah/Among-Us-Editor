@@ -14,6 +14,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import club.koupah.aue.Editor;
+import club.koupah.aue.gui.types.SettingType;
 import club.koupah.aue.gui.types.impl.custom.servers.AUServer;
 import club.koupah.aue.utility.PopUp;
 
@@ -25,7 +26,16 @@ public class RegionInfoManager {
 
 	public RegionInfoManager(File regionInfo) {
 		this.regionInfo = regionInfo;
-		this.exists = regionInfo.exists();
+
+		if (regionInfo != null)
+			this.exists = regionInfo.exists();
+		else this.exists = false;
+		
+		if (!this.exists) {
+			new PopUp("Couldn't find your \"regionInfo.dat\" file!\nCustom servers won't be available!", false);
+			SettingType.SERVERS.setVisible(false);
+		}
+		
 	}
 
 	public void getServers() {
@@ -45,7 +55,7 @@ public class RegionInfoManager {
 
 						if (line.startsWith("//") || line.length() < 2)
 							continue;
-						
+
 						if (line.startsWith("AddAUServer:")) { // Only add relevant warnings
 							String[] info = line.split("AddAUServer:")[1].split(",");
 							// Format should be

@@ -26,10 +26,6 @@ public class ScrollPanel extends JScrollPane {
 		getVerticalScrollBar().setUnitIncrement(0);
 		getVerticalScrollBar().setBlockIncrement(0);
 
-		for (MouseWheelListener listener : getMouseWheelListeners()) {
-			System.out.println(listener);
-		}
-
 		panel.addMouseWheelListener(new MouseWheelListener() {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent arg0) {

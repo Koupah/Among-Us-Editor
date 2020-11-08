@@ -26,6 +26,13 @@ public class PlayerStatsManager {
 		if (exists) {
 			try {
 				currentHex = readHex();
+				
+				if (currentHex == null || currentHex.length < 130) { //Mine was 149
+					exists = false;
+					new PopUp("Your 'playerStats2' file is invalid,\ntry playing a game then relaunch Among Us Editor\notherwise you won't be able to edit stats!", false);
+					return;
+				}
+				
 				newHex = currentHex.clone();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -45,6 +52,8 @@ public class PlayerStatsManager {
 			System.out.println("\n");
 		} else {
 			System.out.println("playerStats file doesn't exist");
+			new PopUp("Your 'playerStats2' file doesn't exist,\nYou won't be able to change your stats!\n\nTo create it, try playing a game of Among Us.", false);
+			
 		}
 	}
 

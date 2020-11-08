@@ -235,17 +235,15 @@ public class Editor extends JFrame {
 
 		hostSettingsManager = new HostOptionsManager(configManager.getGameHostOptionsFile());
 
-		if (!hostSettingsManager.exists()) {
-			new PopUp("Couldn't find your 'gameHostOptions' file,\nyou won't be able to change host settings!", false);
+		if (!hostSettingsManager.exists())
 			HOST_SETTINGS.setVisible(false);
-		}
+		
 
 		playerStatsManager = new PlayerStatsManager(configManager.getPlayerStatsFile());
 
-		if (!playerStatsManager.exists()) {
-			new PopUp("Couldn't find your 'playerStats2' file,\nyou won't be able to change player stats!", false);
+		if (!playerStatsManager.exists())
 			STATS.setVisible(false);
-		}
+		
 
 		regionInfoManager = new RegionInfoManager(configManager.getRegionInfoFile());
 

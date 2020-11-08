@@ -20,16 +20,22 @@ public class ServerSelector extends Setting {
 
 		component.addItem("Keep Current");
 
-		DefaultServers.values();
+		if (SettingType.SERVERS.isVisible()) {
+			DefaultServers.values();
 
-		if (SettingType.SERVERS.isVisible())
 			Editor.getInstance().regionInfoManager.getServers();
+		}
 
 		for (AUServer server : AUServer.servers) {
 			component.addItem(server.serverName);
 		}
 
 		component.addItem("Custom Server");
+	}
+
+	@Override
+	public void updateLabel() {
+
 	}
 
 	@Override

@@ -26,6 +26,13 @@ public class HostOptionsManager {
 		if (exists) {
 			try {
 				currentHex = readHex();
+				
+				if (currentHex == null || currentHex.length < 30) { //30 is a random length :p, mine was 46
+					exists = false;
+					new PopUp("Your 'gameHostOptions' file is invalid,\ntry hosting a game and changing settings then relaunch Among Us Editor\notherwise you won't be able to edit host options!", false);
+					return;
+				}
+				
 				newHex = currentHex.clone();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -45,6 +52,7 @@ public class HostOptionsManager {
 			System.out.println("\n");
 		} else {
 			System.out.println("gameHostOptions file doesn't exist");
+			new PopUp("Couldn't find your 'gameHostOptions' file,\nyou won't be able to change host settings!\n\nTo create it, try hosting a game and changing settings.", false);
 		}
 	}
 

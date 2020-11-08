@@ -69,6 +69,17 @@ public class CustomServerInfo extends Setting {
 	String capitalFirst(String input) {
 		return input.substring(0,1).toUpperCase() + input.substring(1).toLowerCase();
 	}
+	
+	@Override
+	public void updateLabel() {
+		
+	}
+	
+	@Override
+	public void updateComponent() {
+		
+	}
+	
 	@Override
 	public void addToPane(GUIPanel contentPane) {
 		super.addToPane(contentPane);
