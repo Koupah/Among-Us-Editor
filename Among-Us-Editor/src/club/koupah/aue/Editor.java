@@ -463,6 +463,7 @@ public class Editor extends JFrame {
 				if (guicomponent instanceof CheckboxSetting)
 					AUEditorMain.checkWarning((CheckboxSetting) setting);
 				else AUEditorMain.checkWarning(setting, value);
+				
 			} else if (hostSettingsManager.exists() && guicomponent instanceof HostSetting) {
 				HostSetting hs = ((HostSetting) guicomponent);
 				String save = hs.getSaveValue();

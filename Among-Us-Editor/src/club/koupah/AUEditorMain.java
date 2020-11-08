@@ -31,7 +31,7 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	public static double version = 1.58;
+	public static double version = 1.581;
 
 	public static String title = "Among Us Editor";
 
@@ -48,11 +48,11 @@ public class AUEditorMain {
 	public static DiscordUser discordUser;
 
 	public static boolean usingRichPresence = false;
-	
+
 	public static void main(String[] args) {
 
 		System.out.println(String.format("Starting up %s version %s", title, version));
-		
+
 		try {
 
 			// Idk how to get them to initialize their values cause am big noob
@@ -64,8 +64,8 @@ public class AUEditorMain {
 			SettingType.values();
 			ConfigType.values();
 
-			presence = new DiscordRichPresence(); //This just contains values, it doesnt turn rich presence on
-			
+			presence = new DiscordRichPresence(); // This just contains values, it doesnt turn rich presence on
+
 			// Local variable, I'm not going to use it again from outside this class
 			final Editor editor = new Editor(version);
 
@@ -87,13 +87,12 @@ public class AUEditorMain {
 					| UnsupportedLookAndFeelException e1) {
 				new PopUp("Failed to apply a look and feel!", false);
 			}
-			
+
 			// Run update check, this is a seperate thread so it won't interrupt the main
 			// thread
 			Utility.runUpdateCheck(null);
 			Utility.getWarnings();
-			
-			
+
 			// Because JPanels in tabbed panels are fucked and don't let me change the
 			// background color,
 			// Set the panels to not be opaque that way we use the original background color
@@ -173,10 +172,16 @@ public class AUEditorMain {
 
 	public static void checkWarning(HostSetting hs) {
 		checkWarning(hs.getLabelText().replaceAll(" ", "").replaceAll(":", "") + "|Index:" + hs.getIndex());
+		checkWarning(hs.getLabelText().replaceAll(" ", "").replaceAll(":", "") + "|" + removeTrailingZeroes(hs.getValue()));
+	}
+
+	public static String removeTrailingZeroes(String input) {
+		return input.contains(".") ? input.replaceAll("0*$", "").replaceAll("\\.$", "") : input;
 	}
 
 	public static void checkWarning(PlayerStat ps) {
 		checkWarning(ps.getLabelText().replaceAll(" ", "").replaceAll(":", "") + "|Index:" + ps.getIndex());
+		checkWarning(ps.getLabelText().replaceAll(" ", "").replaceAll(":", "") + "|" + ps.getValue());
 	}
 
 	public static void checkWarning(CheckboxSetting setting) {
@@ -185,7 +190,7 @@ public class AUEditorMain {
 
 	public static void setupRichPresence() {
 		usingRichPresence = true;
-		
+
 		if (presence.startTimestamp != 0) {
 			updatePresence();
 			return;
@@ -193,7 +198,7 @@ public class AUEditorMain {
 
 		try {
 			System.out.println("Starting Rich Presence");
-			
+
 			String applicationId = AUEAppID;
 
 			lib.Discord_Initialize(applicationId, null, true, "");

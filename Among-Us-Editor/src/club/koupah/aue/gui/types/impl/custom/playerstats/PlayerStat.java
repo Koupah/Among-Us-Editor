@@ -65,11 +65,7 @@ public class PlayerStat extends GUIComponent {
 			return this.currentHex;
 		}
 
-		DecimalFormat decimalFormat = new DecimalFormat("0");
-		String value = "";
-		if (length == 32)
-			value = decimalFormat.format(((Double) ((JSpinner) component).getValue()));
-		else value = ((JSpinner) component).getValue().toString();
+		String value = getValue();
 
 		for (Character c : value.toCharArray()) {
 			if (!Character.isDigit(c) && !c.equals('.') && !c.equals('-')) { // TODO, count how many '-' are in the String,
@@ -107,6 +103,14 @@ public class PlayerStat extends GUIComponent {
 
 	public boolean shouldUpdate() {
 		return Editor.getInstance().playerStatsManager.exists();
+	}
+
+	public String getValue() {
+		DecimalFormat decimalFormat = new DecimalFormat("0");
+		
+		if (length == 32)
+			return decimalFormat.format(((Double) ((JSpinner) component).getValue()));
+		else return ((JSpinner) component).getValue().toString();
 	}
 
 }

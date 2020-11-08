@@ -17,7 +17,8 @@ public class Float32Setting extends HostSetting {
 		 */
 		component.setModel(new SpinnerNumberModel(1.0f, -(Float.MAX_VALUE), (Float.MAX_VALUE), 0.05f));
 		component.setEditor(new JSpinner.NumberEditor(component, "0." + zeroes));
-
+		decimalPlaces = zeroes.length();
+		
 		update();
 	}
 
