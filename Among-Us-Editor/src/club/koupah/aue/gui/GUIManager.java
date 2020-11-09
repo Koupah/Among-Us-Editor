@@ -68,15 +68,17 @@ public class GUIManager {
 	}
 
 	// Method for turning dark colors into gray
-	Color noBlack(Color input, GUITabbedPanel tabbedPanel) {
+	Color noBlend(Color input, GUITabbedPanel tabbedPanel) {
 		int red = input.getRed();
 		int green = input.getGreen();
 		int blue = input.getBlue();
+		boolean different = false;
 
 		if (red + green + blue < 140) {
 			red = Math.max(red, 70);
 			green = Math.max(red, 70);
 			blue = Math.max(red, 70);
+			different = true;
 
 			for (SettingType setting : SettingType.values()) {
 				int index = tabbedPanel.indexOfTab(setting.getGUIPanel().getName());
@@ -92,8 +94,9 @@ public class GUIManager {
 				}
 			}
 		}
-
-		return new Color(red, green, blue);
+		if (different)
+			return new Color(red, green, blue);
+		else return input.darker();
 	}
 
 	public void updateColorScheme(final boolean update) {
@@ -106,14 +109,14 @@ public class GUIManager {
 				instance.contentPanel.setForeground(scheme.getForeground());
 				instance.contentPanel.setBackground(scheme.getBackground());
 
-				Color noBlack = !scheme.isRGB() || update ? noBlack(scheme.getBackground(), instance.tabbedPanel)
+				Color noBlend = !scheme.isRGB() || update ? noBlend(scheme.getBackground(), instance.tabbedPanel)
 						: scheme.getBackground();
 
 				// Bunch of UI manager stuff
 				UIManager.put("TabbedPane.contentOpaque", true);
 
-				UIManager.put("TabbedPane.selected", noBlack); // I just don't want this stuff to be pitch black
-				UIManager.put("TabbedPane.selectedBackground", noBlack);
+				UIManager.put("TabbedPane.selected", noBlend); // I just don't want this stuff to be pitch black (or blend)
+				UIManager.put("TabbedPane.selectedBackground", noBlend);
 
 				UIManager.put("TabbedPane.unselectedForeground", scheme.getForeground());
 

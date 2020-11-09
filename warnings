@@ -15,6 +15,10 @@ InvisibleName|True=Invisible Name currently doesn't work\nIt may work every now 
 ResizableGUI|True=Resizable GUI is ridiculously buggy.\nI highly suggest not using it
 
 
+
+AUEVersion=1.0-1.58
+Controls|Index:1=Control settings (Mouse/Mouse+Keyboard) might be inverted in versions below 1.58\nThis is because Among Us updated which one was the default\nIf you didn't change this setting you don't need to worry about this message.
+
 //This will always exist because I'm never getting to version 10.0 lol
 //Basically everything below here is stuff I always want to warn for
 AUEVersion=1.0-10.0

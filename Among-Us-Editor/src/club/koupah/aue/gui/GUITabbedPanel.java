@@ -2,6 +2,7 @@ package club.koupah.aue.gui;
 
 import java.awt.Color;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
@@ -29,8 +30,14 @@ public class GUITabbedPanel extends JTabbedPane {
 	}
 
 	public void updateUI(final Color foreground) {
+		UIManager.getDefaults().put("TabbedPane.tabRunOverlay", -1);
 
 		setUI(new BasicTabbedPaneUI() {
+			@Override
+			protected boolean shouldRotateTabRuns(int i) {
+				return false;
+			}
+
 			@Override
 			protected void installDefaults() {
 				super.installDefaults();

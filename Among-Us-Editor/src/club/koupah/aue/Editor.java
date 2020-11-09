@@ -307,7 +307,7 @@ public class Editor extends JFrame {
 
 		// Create the tabbed panel
 		tabbedPanel = new GUITabbedPanel();
-		tabbedPanel.setBounds(1, 54, width, 400);
+
 		// With the GUISchemes, this isn't needed
 		// tabbedPanel.setBackground(background);
 		// tabbedPanel.setForeground(Color.BLACK);
@@ -382,7 +382,7 @@ public class Editor extends JFrame {
 		});
 
 		// Set the bounds of the tabbed panel
-		tabbedPanel.setBounds(tabbedPanel.getX(), tabbedPanel.getY(), width - 18, 400);
+		tabbedPanel.setBounds(1, 54, width - 18, 400);
 
 		// Set frame bounds too
 		setBounds(100, 100, width, height);
@@ -542,7 +542,7 @@ public class Editor extends JFrame {
 	public void updateWidth(int width, int height) {
 		this.width = width;
 		this.height = height;
-		tabbedPanel.setBounds(tabbedPanel.getX(), tabbedPanel.getY(), this.width, 400);
+		tabbedPanel.setBounds(tabbedPanel.getX(), tabbedPanel.getY(), width - 18, 400);
 		this.setBounds(this.getX(), this.getY(), width, height);
 		this.repaint();
 	}

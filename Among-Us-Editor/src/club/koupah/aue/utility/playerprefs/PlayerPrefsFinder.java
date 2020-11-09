@@ -64,8 +64,12 @@ public class PlayerPrefsFinder {
 
 		if (!foundPrefs || filePaths.size() < 1) {
 			new PopUp(
-					"Are you sure you have Among Us and have played it before?\nCouldn't seem to find your playerPrefs file anywhere!\nPlease open an issue on GitHub if this is incorrect!");
-			return null;
+					"Are you sure you have Among Us and have played it before?\nCouldn't seem to find your playerPrefs file anywhere!\nPress ok to manually select it.",
+					false);
+
+			choosePlayerPrefs();
+			
+			return instance.configManager.getPlayerPrefs();
 		}
 
 		// Look man, just assume this is the correct file
@@ -136,15 +140,14 @@ public class PlayerPrefsFinder {
 		// to find the playerPrefs file,
 		// But I don't know
 		new PopUp(
-				"Please navigate to the playerPrefs file for Among Us\nThis will typically be in your Steam folder\n\nThis will save in a file named \""
-						+ instance.configManager.configName() + "\"",
+				"Please navigate to the playerPrefs file for Among Us\nThis will typically be in:\nWindows: AppData/LocalLow/Innersloth/Among Us\nLinux: /home/yourname/.steam/steam/steamapps/compatdata/945360/pfx/drive_c/users/steamuser/AppData/LocalLow/Innersloth/Among Us/\nLinux (Wine): ~/.wine/drive_c/users/$USER/AppData/LocalLow/Innersloth/Among Us/playerPrefs\n\nThis is a one time thing, your selection will be saved in a file named \"AUEConfig\"",
 				false);
 
 		JFileChooser chooser = new JFileChooser();
 		chooser.setSelectedFile(new File("playerPrefs"));
 		chooser.setMultiSelectionEnabled(false);
 		// Just to ensure that it shows both, it should by default though
-		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
 		// Show hidden files such as the .steam file on Linux. Very Crucial.
 		// Also big shoutout to Slymeball, I will be giving them credit in the readme
