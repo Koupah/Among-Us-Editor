@@ -1,6 +1,10 @@
 package club.koupah.aue.gui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
@@ -27,11 +31,16 @@ public class GUITabbedPanel extends JTabbedPane {
 				}
 			}
 		});
+
+		UIManager.getDefaults().put("TabbedPane.tabRunOverlay", -1);
+
 	}
 
 	public void updateUI(final Color foreground) {
-		UIManager.getDefaults().put("TabbedPane.tabRunOverlay", -1);
-
+		/*
+		 * I tried experimenting and making my own, and updating it when needed but it
+		 * just caused issues.
+		 */
 		setUI(new BasicTabbedPaneUI() {
 			@Override
 			protected boolean shouldRotateTabRuns(int i) {
@@ -52,6 +61,23 @@ public class GUITabbedPanel extends JTabbedPane {
 				this.contentBorderInsets.left = 3;
 				this.contentBorderInsets.right = 3;
 				this.contentBorderInsets.bottom = 3;
+
+			}
+
+			BasicStroke underLineStroke = new BasicStroke(2);
+
+			@Override
+			protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h,
+					boolean isSelected) {
+				super.paintTabBorder(g, tabPlacement, tabIndex, x, y, w, h, isSelected);
+				
+				if (isSelected) {
+					Graphics2D g2d = (Graphics2D) g.create();
+					super.paintTabBorder(g2d, tabPlacement, tabIndex, x, y, w, h, isSelected);
+					g2d.setStroke(underLineStroke);
+					g2d.drawLine(x + 1, y + h - 1, x + w - 1, y + h - 1);
+					g2d.dispose();
+				}
 			}
 		});
 

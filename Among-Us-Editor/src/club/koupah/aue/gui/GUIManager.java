@@ -140,7 +140,7 @@ public class GUIManager {
 				// even break anything lmao (outofbounds exception for tabbedpaneui)
 
 				// can probably add a custom border to the tabbedpanel
-				if (update) // Only need to do this if we saving (basically NON RGB) as it causes the UI to
+				if (update)  // Only need to do this if we saving (basically NON RGB) as it causes the UI to
 								// reset basically
 					SwingUtilities.updateComponentTreeUI(instance);
 				// This needs to be set after the swing update
@@ -148,7 +148,8 @@ public class GUIManager {
 					instance.tabbedPanel.updateUI(scheme.getForeground());
 				} catch (Exception e) {
 				}
-			}
+				}
+			
 		});
 	}
 
