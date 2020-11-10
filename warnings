@@ -26,3 +26,4 @@ AUEVersion=1.0-10.0
 Color|12=Using the Fortegreen color can cause the following:\n-Hats not showing\n-Skins not showing\n-Pets not showing\n-Black Screens when hosting\n-Incorrect spawn location\n-Not being able to talk in lobby chat\n\nYou can find all the issues listed on the GitHub page!
 
 KillCooldown|0=Using 0 Kill Cooldown causes issues,\nUse a number like 0.01 or even a negative number like -1 instead.
+VotingTime|0=If you set Voting Time to 0, it actually sets it to be infinite!\nUse 1 second instead if you want the shortest vote time possible!
