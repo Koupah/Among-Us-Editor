@@ -24,7 +24,6 @@ import club.koupah.aue.utility.Utility;
 import club.koupah.aue.utility.config.ConfigType;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
-import club.minnced.discord.rpc.DiscordUser;
 
 public class AUEditorMain {
 
@@ -44,8 +43,6 @@ public class AUEditorMain {
 	private static String AUEAppID = "772680842749018114";
 
 	public static DiscordRichPresence presence;
-
-	public static DiscordUser discordUser;
 
 	public static boolean usingRichPresence = false;
 

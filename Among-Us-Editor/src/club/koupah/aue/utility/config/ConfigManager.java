@@ -112,7 +112,7 @@ public class ConfigManager {
 					customColors = config.split(CustomColors.lineStart)[1];
 					GUIScheme.Custom.setForeground(new Color(Integer.parseInt(customColors.split(":")[0])));
 					GUIScheme.Custom.setBackground(new Color(Integer.parseInt(customColors.split(":")[1])));
-
+				
 				} else if (isSetting(RGBSpeed, config, lineNum)) {
 
 					rgbSpeed = config.split(RGBSpeed.lineStart)[1];
@@ -129,12 +129,13 @@ public class ConfigManager {
 					String res = config.split(Resolution.lineStart)[1];
 					resolutionW = Integer.parseInt(res.split(":")[0]);
 					resolutionH = Integer.parseInt(res.split(":")[1]);
-					
+
 					if (customResolution) {
-						Editor.getInstance().setBounds(Editor.getInstance().getX(), Editor.getInstance().getY(), resolutionW, resolutionH);
+						Editor.getInstance().setBounds(Editor.getInstance().getX(), Editor.getInstance().getY(), resolutionW,
+								resolutionH);
 						Editor.getInstance().setResizable(true);
 					}
-					
+
 				} else if (isSetting(DiscordRP, config, lineNum)) {
 					discordRP = config.split(":")[1].toLowerCase().equals("true");
 				} else if (isSetting(SmoothScroll, config, lineNum)) {

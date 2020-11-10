@@ -35,7 +35,7 @@
 
 * [About the Project](#about-the-project)
   * [Video Showcase](#video-showcase)
-* [Usage](#usage)
+  * [Usage](#usage)
 * [Glitched Color](#secretglitched-color)
 * [Contributing](#contributing)
 * [License](#license)
@@ -48,9 +48,13 @@
 
 [![AUEditor Demo][product-screenshot]]()
 
-AUEditor is an Among Us Config Editor that allows you to easily modify the config that is used by Among Us for your Outfits and Game Host Settings.
+AUEditor is an Among Us Config Editor that allows you to easily modify the config that is used by Among Us for your Outfits, Game Host Settings, Player Stats and Region Info (Server Selection).
 
 If you upload a video showing or using this please give credit or atleast link this GitHub page!
+
+### DISCORD: https://koupah.club/aueditor ###  
+#### ( https://discord.com/invite/HTm3mwK ) ####  
+Join the discord to share your outfits, make suggestions and many other things!
 
 ### Video Showcase
 
@@ -65,30 +69,17 @@ If you upload a video showing or using this please give credit or atleast link t
 
 Custom names that include "\\", ")" or "\[" will result in a "Banned from Room" message and you also cannot include "," in your name as it breaks the config file.  
 Names longer than 10 characters will also not work in online games, local play lets you make a lobby but I'm not sure if others can join.
-
-Video Tutorial: https://youtu.be/OS1px12PtGQ
-
+  
+  
 1) Download the latest .jar from [here.](https://github.com/Koupah/Among-Us-Editor/releases)
-2) Make sure to download the correct Java (JRE) for your operating system from [here.](https://www.java.com/en/download/)
+2) Make sure to download the correct Java (JRE) for your operating system from [here.](https://www.java.com/en/download/) (You require atleast Java 7+)  
 3) Run the .jar you downloaded in Step 1
 4) Modify your settings to what you please!
 
-=======
-# Among-Us-Editor
-### DISCORD: https://koupah.club/aueditor ###  
-#### ( https://discord.com/invite/HTm3mwK ) ####    
-Join the discord to share your profiles, make suggestions and many other things!  
-  
-## Download Instructions ##  
-### Video Tutorial: https://youtu.be/OS1px12PtGQ ###  
-### Requires Java 7 or above https://www.java.com/en/download/ ###  
-Download Link: https://github.com/Koupah/Among-Us-Editor/releases  
-Download the .jar file by clicking on it, then run it once it's finished downloading  
-From there, it's as simple as choosing your settings then applying & running the game  
-  
+If you don't understand, watch one of these [Video Tutorials.](https://github.com/Koupah/Among-Us-Editor#video-showcase)
+
 NOTE: You need to relaunch/have your game closed when using this! 
 The game only seems to read settings on launch, so use this then launch your game!  
-
   
 ## Secret/Glitched Color ##
 The secret color is a lighter version of the dark green, in lobbies chat normally won't work, you can't customize your character. People also see your name as "???".  
@@ -97,14 +88,13 @@ Therefore there can be 3 greens and 2 reds, and I believe if multiple people hav
 ![](images/differences.png)
 
 #### This glitched color is referenced in this wiki page https://among-us.fandom.com/wiki/Fortegreen ####
-![](images/fortegreen.png)  
 ![](images/fortegreen1.png)  
   
 
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -113,23 +103,17 @@ Contributions are what make the open source community such an amazing place to b
 5. Open a Pull Request
 
 
-
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
-
-
-
+Distributed under the MIT License. See `LICENSE` for more information.  
+  
 <!-- CONTACT -->
 ## Contact
 
 Discord: Koupah#5129
   
 Among Us Editor Discord Server: [https://discord.com/invite/HTm3mwK](https://discord.com/invite/HTm3mwK)
-
-Project Link: [https://github.com/Koupah/Among-Us-Editor](https://github.com/Koupah/Among-Us-Editor)
-
 
 
 <!-- ACKNOWLEDGEMENTS -->
@@ -138,7 +122,7 @@ Project Link: [https://github.com/Koupah/Among-Us-Editor](https://github.com/Kou
 * Slymeball - Helped me bring support to Mac/Linux via his issues.
 * camas - Created the playerPrefs index table 
 
-If you'd like to help with something or recieve credit for something you've done, [contact me!](#contact)
+I've only acknowledged GitHub users who have helped me out, discord members who have helped me have the contributor role
 
 ## Information about Among Us config files ##  
 Indexes of playerPrefs file
