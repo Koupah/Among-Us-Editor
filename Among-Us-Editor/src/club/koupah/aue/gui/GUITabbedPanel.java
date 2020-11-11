@@ -61,7 +61,8 @@ public class GUITabbedPanel extends JTabbedPane {
 				this.contentBorderInsets.left = 3;
 				this.contentBorderInsets.right = 3;
 				this.contentBorderInsets.bottom = 3;
-
+				
+				this.selectedTabPadInsets.bottom = 0;
 			}
 
 			BasicStroke underLineStroke = new BasicStroke(2);

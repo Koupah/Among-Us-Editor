@@ -1,6 +1,7 @@
 package club.koupah;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -30,7 +31,7 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	public static double version = 1.584;
+	public static double version = 1.585;
 
 	public static String title = "Among Us Editor";
 
@@ -47,11 +48,13 @@ public class AUEditorMain {
 	public static boolean usingRichPresence = false;
 
 	public static void main(String[] args) {
-
+		
 		System.out.println(String.format("Starting up %s version %s", title, version));
-
+		
 		try {
-
+			
+			Locale.setDefault(Locale.Category.FORMAT, Locale.ENGLISH); //This is just going to fix JSpinner & other issues
+			
 			// Idk how to get them to initialize their values cause am big noob
 			Hats.values();
 			Pets.values();

@@ -680,6 +680,7 @@ public class Editor extends JFrame {
 		 */
 		add(serverSelector = new ServerSelector(new JLabel("Server Selector:"), new JComboBox<String>()), SERVERS);
 		add(new CustomServerInfo(new JLabel("Custom Server:"), new JSpinner()), SERVERS);
+		
 		/*
 		 * OTHER SETTINGS!
 		 */
