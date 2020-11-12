@@ -686,7 +686,7 @@ public class Editor extends JFrame {
 		 */
 
 		add(new UpdateChecker(new JLabel("Version: "), new JButton("Check for Update")), OTHER);
-		add(new DiscordButton(new JLabel("Join the Among Us Editor discord server!"), new JButton("Join Server"),
+		add(new DiscordButton(new JLabel("Join the Among Us Editor Discord Server!"), new JButton("Join Server"),
 				AUEditorMain.discordLink), OTHER);
 
 		/*
