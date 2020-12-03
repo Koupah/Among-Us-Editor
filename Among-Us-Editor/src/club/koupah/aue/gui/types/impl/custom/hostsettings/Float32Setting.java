@@ -25,7 +25,7 @@ public class Float32Setting extends HostSetting {
 	@Override
 	public void update() {
 		if (super.shouldUpdate())
-			((JSpinner) component).setValue(getFloat());
+			((JSpinner) component).setValue(((Float)getFloat()).doubleValue());
 	}
 
 }

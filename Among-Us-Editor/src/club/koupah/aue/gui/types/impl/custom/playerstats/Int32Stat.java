@@ -17,7 +17,7 @@ public class Int32Stat extends PlayerStat {
 	@Override
 	public void update() {
 		if (shouldUpdate())
-		((JSpinner)component).setValue(getInt());
+		((JSpinner)component).setValue(((Long) getInt()).doubleValue());
 	}
 	
 
