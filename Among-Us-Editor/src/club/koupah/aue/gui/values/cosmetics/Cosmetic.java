@@ -32,7 +32,7 @@ public class Cosmetic {
 	// Probably horrible name, surely someone recommends me a better name for this
 	// enum
 	public static enum CosmeticCategory {
-		Free(0), Paid(1), Halloween(2), Holiday(3);
+		Free(0), Paid(1), Halloween(2), Holiday(3), Promotional(4);
 		int value;
 
 		// I know name variable is unnecessary, but go away. I like having variables in
