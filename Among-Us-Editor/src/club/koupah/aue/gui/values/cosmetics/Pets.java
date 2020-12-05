@@ -25,7 +25,7 @@ public enum Pets {
 	Ellie(8, Paid),
 	Squiq(9, Paid),
 	Bedcrab(10, Paid),
-	Twitch(11, Paid);
+	Twitch(11, Promotional);
 	
 	Pets(int ID, CosmeticCategory category) {
 		new Cosmetic(this,ID,CosmeticType.Pet, category);
