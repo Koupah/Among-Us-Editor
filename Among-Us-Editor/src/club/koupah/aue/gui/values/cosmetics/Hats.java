@@ -113,7 +113,9 @@ public enum Hats {
 	Mini_Crewmate(90, Free),
 	Ninja_Mask(91, Free),
 	Horns(92, Free),
-	Mini_Snow_Crewmate(93, Free);
+	Mini_Snow_Crewmate(93, Free),
+
+	Geoff_Keighley(94, Promotional);
 
 	int[] displayOffset = { 0, 0, 0, 0 };
 	int ID;
