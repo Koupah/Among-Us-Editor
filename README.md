@@ -138,13 +138,13 @@ Indexes of playerPrefs file
 |7|showAdsScreen|bit flags|Personalized `0x00`, NonPersonalized `0x01`, Accepted `0x80`, Purchased `0x82`|
 |8|showMinPlayerWarning|bool||
 |9|showOnlineHelp|bool||
-|10|lastHat|uint|0 to like 93|
+|10|lastHat|uint|0 to like 94|
 |11|sfxVolume|byte|0-255|
 |12|musicVolume|byte|0-255|
 |13|joyStickSize|float|0.5, 1, 1.5|
 |14|lastGameStart|long|Ticks since last game started. Used to check if left game too early|
 |15|lastSkin|uint|0-15|
-|16|lastPet|uint|0-10|
+|16|lastPet|uint|0-11|
 |17|censorChat|bool||
 |18|lastLanguage|uint|0-4, 0: English, 1: Spanish, 2: Portuguese, 3: Korean, 4: Russian|
 |19|vsync|bool||
