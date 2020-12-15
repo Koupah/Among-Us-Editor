@@ -3,3 +3,7 @@ bin/
 AUEConfig
 .project
 .classpath
+# Ignore Gradle project-specific cache directory
+.gradle
+
+app/build
