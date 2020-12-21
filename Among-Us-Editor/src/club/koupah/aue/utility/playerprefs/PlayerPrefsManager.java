@@ -39,7 +39,6 @@ public class PlayerPrefsManager {
 				new InputStreamReader(new FileInputStream(instance.configManager.getPlayerPrefs()), "UTF-8"))) {
 
 			String line = bufferedReader.readLine();
-			System.out.println("Read the following from the playerPrefs file: \n" + line + " (Length: " + line.length() + ", indexes: " + (line.contains(",") ? line.split(",").length : 0) +")");
 
 			// This is unnecessary, playerPrefs file is 1 line
 			// while(line != null) { line = bufferedReader.readLine(); }
@@ -57,6 +56,10 @@ public class PlayerPrefsManager {
 						"It doesn't look like you played the game before...\nYour settings have now been set to some default ones!",
 						false);
 				save = true;
+			} else {
+				//If it exists
+				System.out.println("Read the following from the playerPrefs file: \n" + line + " (Length: " + line.length()
+						+ ", indexes: " + (line.contains(",") ? line.split(",").length : 0) + ")");
 			}
 
 			if (line != null && line.contains(",") && line.split(",").length >= minPlayerPrefsSize)
