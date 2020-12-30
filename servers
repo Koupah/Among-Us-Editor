@@ -10,3 +10,9 @@ RemoveAUServer:Non-existant server
 
 //Apparently it currently doesn't work
 RemoveAUServer:Skeld.net EU Server
+
+//Removed US/EU, they're just one global server now
+RemoveAUServer:Skeld.net US Server
+
+//Updated IP, global server
+AddAUServer:Skeld.net Server,192.241.154.115,22023
