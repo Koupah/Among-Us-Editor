@@ -182,16 +182,16 @@ Indexes of gameHostOptions file
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/Koupah/Among-Us-Editor.svg?style=flat-square
+[contributors-shield]: https://img.shields.io/github/contributors/Koupah/Among-Us-Editor.svg?style=for-the-badge
 [contributors-url]: https://github.com/Koupah/Among-Us-Editor/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Koupah/Among-Us-Editor.svg?style=flat-square
+[forks-shield]: https://img.shields.io/github/forks/Koupah/Among-Us-Editor.svg?style=for-the-badge
 [forks-url]: https://github.com/Koupah/Among-Us-Editor/network/members
-[stars-shield]: https://img.shields.io/github/stars/Koupah/Among-Us-Editor.svg?style=flat-square
+[stars-shield]: https://img.shields.io/github/stars/Koupah/Among-Us-Editor.svg?style=for-the-badge
 [stars-url]: https://github.com/Koupah/Among-Us-Editor/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Koupah/Among-Us-Editor.svg?style=flat-square
+[issues-shield]: https://img.shields.io/github/issues/Koupah/Among-Us-Editor.svg?style=for-the-badge
 [issues-url]: https://github.com/Koupah/Among-Us-Editor/issues
-[license-shield]: https://img.shields.io/github/license/Koupah/Among-Us-Editor.svg?style=flat-square
+[license-shield]: https://img.shields.io/github/license/Koupah/Among-Us-Editor.svg?style=for-the-badge
 [license-url]: https://github.com/Koupah/Among-Us-Editor/blob/master/LICENSE.txt
-[discord-shield]:https://img.shields.io/badge/discord-join-HTm3mwK.svg?logo=discord&longCache=true&style=flat-square
+[discord-shield]:https://img.shields.io/badge/discord-join-HTm3mwK.svg?logo=discord&longCache=true&style=for-the-badge
 [discord-url]:https://discord.com/invite/HTm3mwK
 [product-screenshot]: images/AUEditorShowcase.PNG
