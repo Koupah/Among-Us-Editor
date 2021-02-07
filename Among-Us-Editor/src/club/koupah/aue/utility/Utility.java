@@ -123,8 +123,10 @@ public class Utility {
 									double latest = Double.parseDouble(range[1]);
 									addToWarnings = AUEditorMain.version >= earliest && AUEditorMain.version <= latest;
 								} else addToWarnings = AUEditorMain.version <= Double.parseDouble(line.split("AUEVersion=")[1]);
-							} else if (addToWarnings)
-								AUEditorMain.warnings.put(line.split("=")[0], line.split("=")[1]);
+							} else if (addToWarnings) {
+								final String[] lineArray = line.split("=");
+								AUEditorMain.warnings.put(lineArray[0], lineArray[1]);
+							}
 
 						} else if (line.length() < 2) {
 							// This is just a spacer line

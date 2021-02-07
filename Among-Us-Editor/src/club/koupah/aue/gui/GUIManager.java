@@ -147,8 +147,9 @@ public class GUIManager {
 				try {
 					instance.tabbedPanel.updateUI(scheme.getForeground());
 				} catch (Exception e) {
+
 				}
-				}
+			}
 			
 		});
 	}
