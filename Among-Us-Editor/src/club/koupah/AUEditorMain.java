@@ -48,13 +48,13 @@ public class AUEditorMain {
 	public static boolean usingRichPresence = false;
 
 	public static void main(String[] args) {
-		
+
 		System.out.println(String.format("Starting up %s version %s", title, version));
-		
+
 		try {
-			
+
 			Locale.setDefault(Locale.Category.FORMAT, Locale.ENGLISH); //This is just going to fix JSpinner & other issues
-			
+
 			// Idk how to get them to initialize their values cause am big noob
 			Hats.values();
 			Pets.values();
@@ -129,22 +129,39 @@ public class AUEditorMain {
 			}
 			/*
 			 * so fucking messy lmfao
+			 *
+			 * - Better?
 			 */
-			System.out.println("Exception Type: " + cause.getClassName());
-			System.out.println("Method: " + cause.getMethodName());
-			System.out.println(origin == null ? ""
-					: "\nOrigin Class: " + origin.getClassName() + "\nOrigin Method: " + origin.getMethodName()
-							+ "\nOrigin Line: " + origin.getLineNumber());
-			JOptionPane.showMessageDialog(null,
-					"Fatal error #0001, send this to Koupah#5129 on discord or open an issue on the GitHub with the below!\nVersion: "
-							+ version + "\nMessage: " + e.getMessage() + "\nException Type: " + cause.getClassName()
-							+ "\nMethod: " + cause.getMethodName()
-							+ (origin == null ? ""
-									: "\nOrigin Class: " + origin.getClassName() + "\nOrigin Method: " + origin.getMethodName()
-											+ "\nOrigin Line: " + origin.getLineNumber())
-							+ "\n\nNote: There is a chance you can fix this error yourself by deleting your AUEConfig file\nand by also deleting your playerPrefs file (If you know where it is)");
 
+			// Error log
+			StringBuilder errorSB = new StringBuilder()
+					.append("Exception Type: ").append(cause.getClassName())
+					.append("\n")
+					.append("Method: ").append(cause.getMethodName())
+					.append("\n");
+
+			if (origin != null) {
+				errorSB
+						.append("Origin Class: ").append(origin.getClassName())
+						.append("\n")
+						.append("Origin Method: ").append(origin.getMethodName())
+						.append("\n")
+						.append("Origin Line: ").append(origin.getLineNumber());
+			}
+
+			System.out.println(errorSB.toString());
 			e.printStackTrace();
+
+			// Dialog log
+			String dialogText = String.format("Fatal error #0001, send this to Koupah#5129 on discord or open an issue on the GitHub with the below!"
+							+ "\nVersion: %f"
+							+ "\nMessage: %s"
+							+ "\n%s"
+							+ "\n\nNote: There is a chance you can fix this error yourself by deleting your AUEConfig or playerPrefs file.",
+					version, e.getMessage(), errorSB.toString());
+
+			JOptionPane.showMessageDialog(null, dialogText);
+
 			System.exit(0);
 		}
 	}
