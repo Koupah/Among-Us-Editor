@@ -124,7 +124,7 @@ public class Utility {
 									addToWarnings = AUEditorMain.version >= earliest && AUEditorMain.version <= latest;
 								} else addToWarnings = AUEditorMain.version <= Double.parseDouble(line.split("AUEVersion=")[1]);
 							} else if (addToWarnings) {
-								String[] lineArray = line.split("=");
+								final String[] lineArray = line.split("=");
 								AUEditorMain.warnings.put(lineArray[0], lineArray[1]);
 							}
 
