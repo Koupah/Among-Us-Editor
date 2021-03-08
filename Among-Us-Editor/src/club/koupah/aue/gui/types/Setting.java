@@ -46,6 +46,12 @@ public class Setting extends GUIComponent {
 		return "Error";
 	}
 
+	/*
+	 * 
+	 * Half a year later, this is a fucking mess.
+	 * TODO: clean this LMAO
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
 	protected String getValueToSave() {
 		switch (settingIndex) {
