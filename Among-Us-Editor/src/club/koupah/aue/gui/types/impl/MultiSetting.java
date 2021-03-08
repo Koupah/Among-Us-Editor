@@ -86,6 +86,14 @@ public class MultiSetting extends Setting {
 
 	}
 
+	public int getSelectedIndex() {
+		return this.values.indexOf(((JComboBox<String>) component).getSelectedItem());
+	}
+	
+	public String getIndex(int index) {
+		return this.values.get(index);
+	}
+	
 	@Override
 	public void addToPane(GUIPanel contentPane) {
 		super.addToPane(contentPane);

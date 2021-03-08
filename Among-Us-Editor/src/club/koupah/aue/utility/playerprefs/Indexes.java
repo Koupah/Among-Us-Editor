@@ -12,7 +12,8 @@ public enum Indexes {
 	 skin(15),
 	 censorChat(17),
 	 language(18),
-	 vsync(19);
+	 vsync(19),
+	 chatType(27);
 	
 	
 	int index;

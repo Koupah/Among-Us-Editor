@@ -52,7 +52,7 @@ public class RegionInfoManager {
 
 					while ((line = in.readLine()) != null) {
 						line = line.replaceAll("\n", ""); // Just sanitization incase
-
+						System.out.println(line);
 						if (line.startsWith("//") || line.length() < 2)
 							continue;
 

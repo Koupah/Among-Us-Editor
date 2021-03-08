@@ -4,10 +4,12 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
+import club.koupah.aue.gui.types.impl.MultiSetting;
 import club.koupah.aue.gui.values.cosmetics.Cosmetic;
 import club.koupah.aue.gui.values.cosmetics.Cosmetic.CosmeticType;
 import club.koupah.aue.gui.values.language.Language;
 import club.koupah.aue.utility.PopUp;
+import club.koupah.aue.utility.playerprefs.Indexes;
 
 public class Setting extends GUIComponent {
 
@@ -88,6 +90,10 @@ public class Setting extends GUIComponent {
 			}
 			return id;
 		}
+		case (27): {
+			MultiSetting chatType = (MultiSetting) this;
+			return chatType.getSelectedIndex() + "";
+		}
 		}
 		// I should've done this from the start, no one wants a messed up playerPrefs
 		// file
@@ -139,7 +145,10 @@ public class Setting extends GUIComponent {
 		case (19): {
 			return currentSettings[settingIndex].equals("True") ? "On" : "Off";
 		}
-
+		case (27): {
+			MultiSetting chatType = (MultiSetting) this;
+			return chatType.getIndex(Integer.parseInt(currentSettings[settingIndex]));
+		}
 		}
 		return "Doesn't Exist";
 	}

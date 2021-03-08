@@ -1,17 +1,7 @@
 package club.koupah.aue;
 
 import static club.koupah.aue.gui.types.SettingType.*;
-import static club.koupah.aue.utility.playerprefs.Indexes.censorChat;
-import static club.koupah.aue.utility.playerprefs.Indexes.color;
-import static club.koupah.aue.utility.playerprefs.Indexes.control;
-import static club.koupah.aue.utility.playerprefs.Indexes.hat;
-import static club.koupah.aue.utility.playerprefs.Indexes.language;
-import static club.koupah.aue.utility.playerprefs.Indexes.music;
-import static club.koupah.aue.utility.playerprefs.Indexes.name;
-import static club.koupah.aue.utility.playerprefs.Indexes.pet;
-import static club.koupah.aue.utility.playerprefs.Indexes.sfx;
-import static club.koupah.aue.utility.playerprefs.Indexes.skin;
-import static club.koupah.aue.utility.playerprefs.Indexes.vsync;
+import static club.koupah.aue.utility.playerprefs.Indexes.*;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -596,6 +586,9 @@ public class Editor extends JFrame {
 		add(new MultiSetting(new JLabel("Language: "), new JComboBox<String>(), Language.getAllLanguagesString(), false,
 				language.index()), SETTING);
 
+		add(new MultiSetting(new JLabel("Chat Type: "), new JComboBox<String>(), Arrays.asList("None", "All Chat", "Quickchat Only"), false,
+				chatType.index()), SETTING);
+		
 		add(new MultiSetting(new JLabel("Controls: "), new JComboBox<String>(),
 				Arrays.asList("Mouse Only", "Keyboard and Mouse"), false, control.index()), SETTING);
 
