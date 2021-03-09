@@ -8,7 +8,7 @@
 
 
 //AUEVersion=1.0-1.6 means if the version if between (or one of) those versions
-AUEVersion=1.0-1.605
+AUEVersion=1.0-2.0
 InvisibleName|True=Invisible name only works with local games and not anymore with online games\nYou can join the discord server for updates on when I make a workaround!
 
 ResizableGUI|True=Resizable GUI is ridiculously buggy.\nI highly suggest not using it
