@@ -61,7 +61,7 @@ public class ConfigManager {
 
 	File playerStats;
 
-	File regionInfo;
+	File[] regionInfoFiles;
 
 	Object[] customServerInfo = new Object[3];
 
@@ -313,15 +313,17 @@ public class ConfigManager {
 		return this.playerStats;
 	}
 
-	public File getRegionInfoFile() {
-		if (this.regionInfo == null) {
+	public File[] getRegionInfoFiles() {
+		if (this.regionInfoFiles == null) {
 			if (this.configExists()) {
-				this.regionInfo = new File(this.playerPrefs.getParent() + File.separator + "regionInfo.dat");
-				return regionInfo.exists() ? regionInfo : null;
+				File oldRI = new File(this.playerPrefs.getParent() + File.separator + "regionInfo.dat");
+				File newRI = new File(this.playerPrefs.getParent() + File.separator + "regionInfo.json");
+				this.regionInfoFiles = new File[] { newRI, oldRI };
+				return regionInfoFiles;
 			}
 			return null;
 		}
-		return this.regionInfo;
+		return this.regionInfoFiles;
 	}
 
 	public boolean getDiscordRP() {

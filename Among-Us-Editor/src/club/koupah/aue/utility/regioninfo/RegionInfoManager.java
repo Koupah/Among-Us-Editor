@@ -22,17 +22,25 @@ public class RegionInfoManager {
 
 	File regionInfo;
 
-	boolean exists;
+	boolean exists = true;
+	
+	boolean oldRegionInfo;
+	
+	public RegionInfoManager(File newer, File older) {
+		this.regionInfo = newer;
 
-	public RegionInfoManager(File regionInfo) {
-		this.regionInfo = regionInfo;
-
-		if (regionInfo != null)
-			this.exists = regionInfo.exists();
-		else this.exists = false;
+		if (newer != null && newer.exists()) {
+			oldRegionInfo = false;
+			regionInfo = newer;
+		} else if (older != null && older.exists()) {
+			oldRegionInfo = true;
+			regionInfo = older;
+		} else {
+			exists = false;
+		}
 		
 		if (!this.exists) {
-			new PopUp("Couldn't find your \"regionInfo.dat\" file!\nCustom servers won't be available!", false);
+			new PopUp("Couldn't find your \"regionInfo\" file!\nCustom servers won't be available!", false);
 			SettingType.SERVERS.setVisible(false);
 		}
 		
@@ -89,8 +97,15 @@ public class RegionInfoManager {
 
 		getWarnings.start();
 	}
-
+	
+	/*
+	 * Good old temporary permanent fixes
+	 */
 	public void setServer(String name, String ip, short port) {
+		if (oldRegionInfo) {
+			setServerOLD(name, null, ip, port);
+			return;
+		}
 		try {
 			byte[] address = InetAddress.getByName(ip).getAddress();
 			setServer(name, address, ip, port);
@@ -102,11 +117,22 @@ public class RegionInfoManager {
 
 	}
 
+	String jsonFormat = "{\"NHKLLGFLCLM\":0,\"PBKMLNEHKHL\":[{\"$type\":\"DnsRegionInfo, Assembly-CSharp\",\"Fqdn\":\"%IPADDRESS%\",\"DefaultIp\":\"%IPADDRESS%\",\"Name\":\"AUE-Custom-Server\",\"TranslateName\":292}]}";
+	public void setServer(String name, byte[] serverAddress, String ip, short port) {
+
+		try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(regionInfo))) {
+			dos.writeBytes(jsonFormat.replace("%IPADDRESS%", ip));
+			dos.close();
+		} catch (IOException e) {
+			System.out.println(String.format("There was an error writing to the regionInfo file!", e.getMessage()));
+			new PopUp("Error writing to regionInfo file!\n" + e.getMessage(), true);
+		}
+	}
 	/*
 	 * Credit to NaokiStark and their Crewmate-switcher
 	 */
 
-	public void setServer(String name, byte[] serverAddress, String ip, short port) {
+	public void setServerOLD(String name, byte[] serverAddress, String ip, short port) {
 
 		try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(regionInfo))) {
 			// Server master

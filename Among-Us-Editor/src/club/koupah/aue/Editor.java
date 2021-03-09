@@ -234,8 +234,8 @@ public class Editor extends JFrame {
 		if (!playerStatsManager.exists())
 			STATS.setVisible(false);
 		
-
-		regionInfoManager = new RegionInfoManager(configManager.getRegionInfoFile());
+		final File[] riFiles = configManager.getRegionInfoFiles();
+		regionInfoManager = new RegionInfoManager(riFiles[0], riFiles[1]);
 
 		// load playerPrefs settings (Commented out, we don't need to read twice on
 		// launch (We read it below))
