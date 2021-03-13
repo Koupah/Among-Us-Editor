@@ -31,7 +31,7 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	public static double version = 1.61;
+	public static double version = 1.611;
 
 	public static String title = "Among Us Editor";
 
@@ -135,7 +135,9 @@ public class AUEditorMain {
 
 			// Error log
 			StringBuilder errorSB = new StringBuilder()
-					.append("Exception Type: ").append(cause.getClassName())
+					.append("Exception Type: ").append(e.getMessage())
+					.append("\n")
+					.append("Exception Class: ").append(cause.getClassName())
 					.append("\n")
 					.append("Method: ").append(cause.getMethodName())
 					.append("\n");

@@ -1,8 +1,4 @@
-1.61
-Among Us Editor 1.61 prerelease is out!
+1.611
+Among Us Editor 1.611 prerelease is out!
  
-- Added Twitch & Geoff cosmetics
-- Added Quick Chat options
-- Fixed Custom Server/Server Selector for newer game versions
- 
-Apologies for the massive delay in updating AUE!
+- Fixed bug preventing Among Us Editor from launching if Among Us was outdated

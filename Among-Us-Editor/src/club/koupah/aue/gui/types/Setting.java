@@ -1,5 +1,7 @@
 package club.koupah.aue.gui.types;
 
+import java.util.Arrays;
+
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -9,7 +11,6 @@ import club.koupah.aue.gui.values.cosmetics.Cosmetic;
 import club.koupah.aue.gui.values.cosmetics.Cosmetic.CosmeticType;
 import club.koupah.aue.gui.values.language.Language;
 import club.koupah.aue.utility.PopUp;
-import club.koupah.aue.utility.playerprefs.Indexes;
 
 public class Setting extends GUIComponent {
 
@@ -153,7 +154,10 @@ public class Setting extends GUIComponent {
 		}
 		case (27): {
 			MultiSetting chatType = (MultiSetting) this;
-			return chatType.getIndex(Integer.parseInt(currentSettings[settingIndex]));
+			if (currentSettings.length < 28) {
+				chatType.setValues(Arrays.asList("None (Outdated PlayerPrefs)"));
+			}
+			return chatType.getIndex(0);
 		}
 		}
 		return "Doesn't Exist";
