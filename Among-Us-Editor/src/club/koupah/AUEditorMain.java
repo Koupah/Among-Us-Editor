@@ -31,7 +31,7 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	public static double version = 1.611;
+	public static double version = 1.62;
 
 	public static String title = "Among Us Editor";
 
@@ -131,6 +131,8 @@ public class AUEditorMain {
 			 * so fucking messy lmfao
 			 *
 			 * - Better?
+			 * 
+			 * Yes, thank you kind contributor of whom I forgot the name of
 			 */
 
 			// Error log
@@ -159,7 +161,7 @@ public class AUEditorMain {
 							+ "\nVersion: %f"
 							+ "\nMessage: %s"
 							+ "\n%s"
-							+ "\n\nNote: There is a chance you can fix this error yourself by deleting your AUEConfig or playerPrefs file.",
+							+ "\n\nNote: There is a chance you can fix this error yourself by deleting your AUEConfig or playerPrefs file (or updating Among Us).",
 					version, e.getMessage(), errorSB.toString());
 
 			JOptionPane.showMessageDialog(null, dialogText);
