@@ -49,8 +49,7 @@ public class Setting extends GUIComponent {
 
 	/*
 	 * 
-	 * Half a year later, this is a fucking mess.
-	 * TODO: clean this LMAO
+	 * Half a year later, this is a fucking mess. TODO: clean this LMAO
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
@@ -154,10 +153,11 @@ public class Setting extends GUIComponent {
 		}
 		case (27): {
 			MultiSetting chatType = (MultiSetting) this;
-			if (currentSettings.length < 28) {
-				chatType.setValues(Arrays.asList("None (Outdated PlayerPrefs)"));
-			}
-			return chatType.getIndex(0);
+			int index = 0;
+			if (currentSettings.length < 28)
+				chatType.forceValues(Arrays.asList("None (Outdated PlayerPrefs)"));
+			else index = Integer.parseInt(currentSettings[27]);
+			return chatType.getIndex(index);
 		}
 		}
 		return "Doesn't Exist";

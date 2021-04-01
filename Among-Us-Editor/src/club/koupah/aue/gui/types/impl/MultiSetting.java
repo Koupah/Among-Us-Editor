@@ -169,6 +169,15 @@ public class MultiSetting extends Setting {
 		updateValues(items);
 	}
 
+	public void forceValues(List<String> values) {
+		JComboBox<String> component = ((JComboBox<String>) this.component);
+		component.removeAllItems();
+		for (String value : values) {
+			component.addItem(value);
+		}
+		component.setSelectedIndex(0);
+	}
+
 	public void updateValues(List<String> values) {
 		@SuppressWarnings("unchecked")
 		JComboBox<String> component = ((JComboBox<String>) this.component);

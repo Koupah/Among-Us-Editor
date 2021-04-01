@@ -227,13 +227,12 @@ public class Editor extends JFrame {
 
 		if (!hostSettingsManager.exists())
 			HOST_SETTINGS.setVisible(false);
-		
 
 		playerStatsManager = new PlayerStatsManager(configManager.getPlayerStatsFile());
 
 		if (!playerStatsManager.exists())
 			STATS.setVisible(false);
-		
+
 		final File[] riFiles = configManager.getRegionInfoFiles();
 		regionInfoManager = new RegionInfoManager(riFiles[0], riFiles[1]);
 
@@ -443,6 +442,10 @@ public class Editor extends JFrame {
 			if (guicomponent instanceof Setting) {
 				Setting setting = (Setting) guicomponent;
 
+				// Skip settings that aren't accessible in our playerprefs
+				if (setting.getSettingIndex() + 1 > prefsManager.currentSettings.length)
+					continue;
+				
 				// This allows InvisibleName and future GUIComponents to avoid impacting
 				// settings
 				String value = setting.getComponentValue(false);
@@ -450,10 +453,11 @@ public class Editor extends JFrame {
 				if (value != null && setting.getSettingIndex() != -1) {
 					prefsManager.newSettings[setting.getSettingIndex()] = value;
 				}
+
 				if (guicomponent instanceof CheckboxSetting)
 					AUEditorMain.checkWarning((CheckboxSetting) setting);
 				else AUEditorMain.checkWarning(setting, value);
-				
+
 			} else if (hostSettingsManager.exists() && guicomponent instanceof HostSetting) {
 				HostSetting hs = ((HostSetting) guicomponent);
 				String save = hs.getSaveValue();
@@ -565,7 +569,7 @@ public class Editor extends JFrame {
 			public void settingChanged(ActionEvent event) {
 				super.settingChanged(event);
 				AUEditorMain.presence.state = "Color: " + getCurrentSettingValue();
-				
+
 				if (AUEditorMain.usingRichPresence)
 					AUEditorMain.updatePresence();
 			}
@@ -586,9 +590,9 @@ public class Editor extends JFrame {
 		add(new MultiSetting(new JLabel("Language: "), new JComboBox<String>(), Language.getAllLanguagesString(), false,
 				language.index()), SETTING);
 
-		add(new MultiSetting(new JLabel("Chat Type: "), new JComboBox<String>(), Arrays.asList("None", "All Chat", "Quickchat Only"), false,
-				chatType.index()), SETTING);
-		
+		add(new MultiSetting(new JLabel("Chat Type: "), new JComboBox<String>(),
+				Arrays.asList("None", "All Chat", "Quickchat Only"), false, chatType.index()), SETTING);
+
 		add(new MultiSetting(new JLabel("Controls: "), new JComboBox<String>(),
 				Arrays.asList("Mouse Only", "Keyboard and Mouse"), false, control.index()), SETTING);
 
@@ -673,7 +677,7 @@ public class Editor extends JFrame {
 		 */
 		add(serverSelector = new ServerSelector(new JLabel("Server Selector:"), new JComboBox<String>()), SERVERS);
 		add(new CustomServerInfo(new JLabel("Custom Server:"), new JSpinner()), SERVERS);
-		
+
 		/*
 		 * OTHER SETTINGS!
 		 */
