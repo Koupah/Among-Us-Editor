@@ -117,26 +117,28 @@ public enum Hats {
 
 	Geoff_Keighley(94, Promotional),
 	
-	Dave_Panda_Cap(95, Free),
-	Ellie_Rose_Hair(96, Free),
-	Sven_Svensson_Hat(97, Free),
-	Burt_Curtis_Hat(98, Free),
-	Ellry_Mohawk(99, Free),
-	Thomas_Chestershire_Monocles(100, Free),
-	Wizard_Hat(101, Free),
-	Fredrick_Muenster_Hat(102, Free),
-	Mr_Macbeth_Hat(103, Free),
-	Toppat_Henry_Stickmin_Hat(104, Free),
-	Toppat_Ellie_Rose_Hat(105, Free),
-	Geoffrey_Plumb_Hat(106, Free),
+	Dave_Panda_Cap(95, Paid),
+	Ellie_Rose_Hair(96, Paid),
+	Sven_Svensson_Hat(97, Paid),
+	Burt_Curtis_Hat(98, Paid),
+	Ellry_Mohawk(99, Paid),
+	Thomas_Chestershire_Monocles(100, Paid),
+	Wizard_Hat(101, Paid),
+	Fredrick_Muenster_Hat(102, Paid),
+	Mr_Macbeth_Hat(103, Paid),
+	Toppat_Henry_Stickmin_Hat(104, Paid),
+	Toppat_Ellie_Rose_Hat(105, Paid),
+	Geoffrey_Plumb_Hat(106, Paid),
+	
 	Angry_Eyebrows(107, Free),
 	Poop_Hat(108, Free),
 	Heart_Hat(109, Free),
 	Ponytail(110,Free),
 	Rubber_Glove(111,Free),
 	Unicorn_Hat(112, Free),
-	Zipper_Hat(113, Free);
+	Zipper_Hat(113, Free),
 	
+	Right_Hand_Man_Hat_and_Mustache(114, Paid);
 	
 	int[] displayOffset = { 0, 0, 0, 0 };
 	int ID;
