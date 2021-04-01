@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
 
 import club.koupah.aue.Editor;
@@ -89,11 +90,11 @@ public class MultiSetting extends Setting {
 	public int getSelectedIndex() {
 		return this.values.indexOf(((JComboBox<String>) component).getSelectedItem());
 	}
-	
+
 	public String getIndex(int index) {
 		return this.values.get(index);
 	}
-	
+
 	@Override
 	public void addToPane(GUIPanel contentPane) {
 		super.addToPane(contentPane);
@@ -173,7 +174,8 @@ public class MultiSetting extends Setting {
 		JComboBox<String> component = ((JComboBox<String>) this.component);
 		component.removeAllItems();
 
-		boolean currentRemoved = Editor.getInstance().isVisible() ? !values.contains(getCurrentSettingValue()) : keepCurrent;
+		boolean currentRemoved = Editor.getInstance().isVisible() ? !values.contains(getCurrentSettingValue())
+				: keepCurrent;
 
 		// Essentially, if it's cosmetic then add keep current
 		if (keepCurrent)
@@ -188,10 +190,9 @@ public class MultiSetting extends Setting {
 			if (value.equals("None")) {
 				component.addItem("TEMP-ITEM");
 				component.insertItemAt(value, 1);
-			}
-			else component.addItem(value);
+			} else component.addItem(value);
 		}
-		
+
 		component.removeItem("TEMP-ITEM");
 
 	}
@@ -211,8 +212,13 @@ public class MultiSetting extends Setting {
 			for (String value : MultiSetting.this.values) {
 				String ID = Cosmetic.getIDbyName(MultiSetting.this.cosmeticType, value);
 				if (!ID.equals("ErrorFinding")) {
-					images.put(value, new ImageIcon(ImageUtil
-							.scaleProper(ImageUtil.getImage(Cosmetic.class, getCosmeticImagePath(ID)), 30, 30, true)));
+					try {
+						images.put(value, new ImageIcon(ImageUtil
+								.scaleProper(ImageUtil.getImage(Cosmetic.class, getCosmeticImagePath(ID)), 30, 30, true)));
+					} catch (IllegalArgumentException e) {
+//						This is never thrown, but I'll fix that another time
+						JOptionPane.showMessageDialog(null, String.format("Failed to get the image for \"%s\"", ID));
+					}
 				}
 			}
 		}

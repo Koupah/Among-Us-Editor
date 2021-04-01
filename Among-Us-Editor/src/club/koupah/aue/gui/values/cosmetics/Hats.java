@@ -115,8 +115,29 @@ public enum Hats {
 	Horns(92, Free),
 	Mini_Snow_Crewmate(93, Free),
 
-	Geoff_Keighley(94, Promotional);
-
+	Geoff_Keighley(94, Promotional),
+	
+	Dave_Panda_Cap(95, Free),
+	Ellie_Rose_Hair(96, Free),
+	Sven_Svensson_Hat(97, Free),
+	Burt_Curtis_Hat(98, Free),
+	Ellry_Mohawk(99, Free),
+	Thomas_Chestershire_Monocles(100, Free),
+	Wizard_Hat(101, Free),
+	Fredrick_Muenster_Hat(102, Free),
+	Mr_Macbeth_Hat(103, Free),
+	Toppat_Henry_Stickmin_Hat(104, Free),
+	Toppat_Ellie_Rose_Hat(105, Free),
+	Geoffrey_Plumb_Hat(106, Free),
+	Angry_Eyebrows(107, Free),
+	Poop_Hat(108, Free),
+	Heart_Hat(109, Free),
+	Ponytail(110,Free),
+	Rubber_Glove(111,Free),
+	Unicorn_Hat(112, Free),
+	Zipper_Hat(113, Free);
+	
+	
 	int[] displayOffset = { 0, 0, 0, 0 };
 	int ID;
 

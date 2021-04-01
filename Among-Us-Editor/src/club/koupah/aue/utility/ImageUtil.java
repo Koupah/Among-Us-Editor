@@ -34,6 +34,7 @@ public class ImageUtil {
 
 			return image;
 		} catch (Exception e) {
+			System.out.println(imagePath);
 			// Popup message incase the image for some reason won't load
 			e.printStackTrace();
 			new PopUp("Failed to get Image");
