@@ -28,7 +28,10 @@ public enum Skins {
 	Tarmac(12,Paid),
 	Miner(13,Paid),
 	Winter(14,Paid),
-	Archae(15,Paid);
+	Archaeologist(15,Paid),
+	CCC(16, Paid),
+	Prisoner(17, Paid),
+	Right_Hand_Man_Reborn(18, Paid);
 	
 	Skins(int ID, CosmeticCategory category) {
 		new Cosmetic(this,ID,CosmeticType.Skin, category);
