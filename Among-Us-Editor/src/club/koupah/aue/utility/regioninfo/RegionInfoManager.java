@@ -117,11 +117,12 @@ public class RegionInfoManager {
 
 	}
 
-	String jsonFormat = "{\"NHKLLGFLCLM\":0,\"PBKMLNEHKHL\":[{\"$type\":\"DnsRegionInfo, Assembly-CSharp\",\"Fqdn\":\"%IPADDRESS%\",\"DefaultIp\":\"%IPADDRESS%\",\"Name\":\"AUE-Custom-Server\",\"TranslateName\":292}]}";
+	// String jsonFormat = "{\"NHKLLGFLCLM\":0,\"PBKMLNEHKHL\":[{\"$type\":\"DnsRegionInfo, Assembly-CSharp\",\"Fqdn\":\"%IPADDRESS%\",\"DefaultIp\":\"%IPADDRESS%\",\"Name\":\"AUE-Custom-Server\",\"TranslateName\":292}]}";
+	String jsonFormat = "{\"CurrentRegionIdx\":0,\"Regions\":[{\"$type\":\"DnsRegionInfo, Assembly-CSharp\",\"Fqdn\":\"%IPADDRESS%\",\"DefaultIp\":\"%IPADDRESS%\",\"Port\":%PORT%,\"Name\":\"AUE-Custom-Server\",\"TranslateName\":3}]}";
 	public void setServer(String name, byte[] serverAddress, String ip, short port) {
 
 		try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(regionInfo))) {
-			dos.writeBytes(jsonFormat.replace("%IPADDRESS%", ip));
+			dos.writeBytes(jsonFormat.replace("%IPADDRESS%", ip).replace("%PORT%", String.valueOf(port)));
 			dos.close();
 		} catch (IOException e) {
 			System.out.println(String.format("There was an error writing to the regionInfo file!", e.getMessage()));
