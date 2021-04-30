@@ -8,12 +8,8 @@
 
 
 //AUEVersion=1.0-1.6 means if the version if between (or one of) those versions
-AUEVersion=1.0-2.0
-InvisibleName|True=Invisible name only works with local games and not anymore with online games\nYou can join the discord server for updates on when I make a workaround!
-
-ResizableGUI|True=Resizable GUI is ridiculously buggy.\nI highly suggest not using it
-
-
+AUEVersion=1.0-1.621
+InvisibleName|True=This version of invisible name only works with local games and not anymore with online games\nIf you want to use Invisible Name, update your Among Us Editor!
 
 AUEVersion=1.0-1.58
 Controls|Index:1=Control settings (Mouse/Mouse+Keyboard) might be inverted in versions below 1.58\nThis is because Among Us updated which one was the default\nIf you didn't change this setting you don't need to worry about this message.
@@ -27,3 +23,5 @@ Color|12=Fortegreen is Gone?\nFortegreen seems to have been patched out of the g
 
 KillCooldown|0=Using 0 Kill Cooldown causes issues,\nUse a number like 0.01 or even a negative number like -1 instead.
 VotingTime|0=If you set Voting Time to 0, it actually sets it to be infinite!\nUse 1 second instead if you want the shortest vote time possible!
+
+ResizableGUI|True=Resizable GUI is ridiculously buggy.\nI highly suggest not using it
