@@ -8,7 +8,7 @@ import club.koupah.aue.gui.types.impl.CheckboxSetting;
 public class InvisibleName extends CheckboxSetting {
 	
 	//Should be a char, made a string for easy use
-	String invisibleName = "\u3164";
+	String invisibleName = "\u1160";
 	
 	public InvisibleName(JLabel label, JCheckBox component, int settingIndex) {
 		super(label, component, settingIndex);
