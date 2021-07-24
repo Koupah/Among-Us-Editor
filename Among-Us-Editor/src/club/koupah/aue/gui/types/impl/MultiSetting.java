@@ -3,6 +3,7 @@ package club.koupah.aue.gui.types.impl;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,7 @@ public class MultiSetting extends Setting {
 
 	public MultiSetting(JLabel label, JComboBox<String> component, List<String> values, boolean addKeepCurrent,
 			boolean imagePreview, int[] offset, CosmeticType ct, int settingIndex) {
-		this(label, component, values, addKeepCurrent, settingIndex);
+		this(label, component, values, null, addKeepCurrent, settingIndex);
 
 		this.cosmeticType = ct;
 		this.hasPreview = imagePreview;
@@ -67,9 +68,20 @@ public class MultiSetting extends Setting {
 
 	public MultiSetting(JLabel label, JComboBox<String> component, List<String> values, boolean addKeepCurrent,
 			int settingIndex) {
+		this(label, component, values, null, addKeepCurrent, settingIndex);
+	}
+
+	List<Integer> saveValues;
+
+	public MultiSetting(JLabel label, JComboBox<String> component, List<String> values, List<Integer> saveValues,
+			boolean addKeepCurrent, int settingIndex) {
 		super(label, component, settingIndex);
 		this.keepCurrent = addKeepCurrent;
 		this.values = values;
+
+		if (saveValues != null) {
+			this.saveValues = saveValues;
+		}
 
 		// Updated to show more items to make it easier to choose
 		component.setMaximumRowCount(14);
@@ -152,17 +164,43 @@ public class MultiSetting extends Setting {
 		// :P)
 	}
 
+	/*
+	 * Super messy fix, 24/07/2021 It seems like Among Us changed how some settings
+	 * saved, ugh
+	 */
+
 	@Override
 	public String getProperValue() {
-		final String saveValue = getValueToSave();
+//		final String saveValue = String.valueOf(((JComboBox<String>) component).getSelectedIndex());
+//
+//		if (saveValue.equals("ErrorInSaveValue")) {
+//			System.out.println("Error in save value for: " + label.getText());
+//			new PopUp("Error in save value for " + label.getText().split(":")[0]); // I really need to add a function so
+//		} // I don't have to split everytime
+//			// lol
+//
+//		return saveValue;
 
-		if (saveValue.equals("ErrorInSaveValue")) {
-			System.out.println("Error in save value for: " + label.getText());
-			new PopUp("Error in save value for " + label.getText().split(":")[0]); // I really need to add a function so
-		} // I don't have to split everytime
-			// lol
+		int selected = ((JComboBox<String>) component).getSelectedIndex();
 
-		return saveValue;
+		if (this.saveValues == null || selected + 1 > this.saveValues.size()) {
+			return String.valueOf(selected);
+		} else return String.valueOf(this.saveValues.get(selected));
+	}
+
+	@Override
+	protected String getCurrentSettingValue() {
+		if (this.saveValues != null && this.saveValues.indexOf(Integer.parseInt(currentSettings[settingIndex])) != -1) {
+			int index = this.saveValues.indexOf(Integer.parseInt(currentSettings[settingIndex]));
+			return String.valueOf(((JComboBox<String>) component).getItemAt(index));
+		}
+		return String.valueOf(((JComboBox<String>) component).getItemAt(Integer.parseInt(currentSettings[settingIndex])));
+
+	}
+
+	@Override
+	public String getComponentValue(boolean fromLabel) {
+		return String.valueOf(((JComboBox<String>) component).getSelectedIndex());
 	}
 
 	public void setValues(List<String> items) {

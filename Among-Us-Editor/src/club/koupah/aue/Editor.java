@@ -445,10 +445,10 @@ public class Editor extends JFrame {
 				// Skip settings that aren't accessible in our playerprefs
 				if (setting.getSettingIndex() + 1 > prefsManager.currentSettings.length)
 					continue;
-				
+
 				// This allows InvisibleName and future GUIComponents to avoid impacting
 				// settings
-				String value = setting.getComponentValue(false);
+				String value = setting.getProperValue();
 
 				if (value != null && setting.getSettingIndex() != -1) {
 					prefsManager.newSettings[setting.getSettingIndex()] = value;
@@ -590,11 +590,12 @@ public class Editor extends JFrame {
 		add(new MultiSetting(new JLabel("Language: "), new JComboBox<String>(), Language.getAllLanguagesString(), false,
 				language.index()), SETTING);
 
-		add(new MultiSetting(new JLabel("Chat Type: "), new JComboBox<String>(),
-				Arrays.asList("None", "All Chat", "Quickchat Only"), false, chatType.index()), SETTING);
+		// Didn't seem to work
+		//add(new MultiSetting(new JLabel("Chat Type: "), new JComboBox<String>(),
+		//		Arrays.asList("None", "All Chat", "Quickchat Only"), false, chatType.index()), SETTING);
 
 		add(new MultiSetting(new JLabel("Controls: "), new JComboBox<String>(),
-				Arrays.asList("Mouse Only", "Keyboard and Mouse"), false, control.index()), SETTING);
+				Arrays.asList("Mouse Only", "Keyboard and Mouse"), Arrays.asList(1,2), false, control.index()), SETTING);
 
 		add(new CheckboxSetting(new JLabel("VSync: "), new JCheckBox(), vsync.index()), SETTING);
 

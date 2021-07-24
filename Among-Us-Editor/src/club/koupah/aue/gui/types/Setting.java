@@ -14,9 +14,9 @@ import club.koupah.aue.utility.PopUp;
 
 public class Setting extends GUIComponent {
 
-	int settingIndex;
+	protected int settingIndex;
 
-	static String[] currentSettings;
+	protected static String[] currentSettings;
 
 	public Setting(JLabel label, JComponent component, int settingIndex) {
 		super(label, component);
@@ -51,61 +51,66 @@ public class Setting extends GUIComponent {
 	 * 
 	 * Half a year later, this is a fucking mess. TODO: clean this LMAO
 	 * 
+	 * Edit: 24/07/2021 Turns out we don't even fucking use this... what?? Why did I
+	 * make this if it isn't even used anymore. I'm so confused, when in the world
+	 * did I 'deprecate' this and take another approach LOL
+	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	protected String getValueToSave() {
-		switch (settingIndex) {
-		case (1): {
-			return String.valueOf(((JComboBox<String>) component).getSelectedIndex());
-		}
-		case (2): {
-			String id = Cosmetic.getIDbyName(CosmeticType.Color,
-					(String) ((JComboBox<String>) component).getSelectedItem());
-			// I should just make the above return the currentSetting if it had an error
-			// finding it, probably pass it the settingIndex
-			if (id.equals("ErrorFinding"))
-				return currentSettings[settingIndex];
-
-			return id;
-		}
-		case (10): {
-			String id = Cosmetic.getIDbyName(CosmeticType.Hat, (String) ((JComboBox<String>) component).getSelectedItem());
-			if (id.equals("ErrorFinding"))
-				return currentSettings[settingIndex];
-			return id;
-		}
-		case (15): {
-			String id = Cosmetic.getIDbyName(CosmeticType.Skin,
-					(String) ((JComboBox<String>) component).getSelectedItem());
-			if (id.equals("ErrorFinding"))
-				return currentSettings[settingIndex];
-			return id;
-		}
-		case (16): {
-			String id = Cosmetic.getIDbyName(CosmeticType.Pet, (String) ((JComboBox<String>) component).getSelectedItem());
-			if (id.equals("ErrorFinding"))
-				return currentSettings[settingIndex];
-			return id;
-		}
-		case (18): {
-			String id = String
-					.valueOf(Language.getLanguageIDbyName((String) ((JComboBox<String>) component).getSelectedItem()));
-			if (id.equals("69")) {
-				System.out.println("There must've be an error getting the language ID, language was "
-						+ (String) ((JComboBox<String>) component).getSelectedItem());
-			}
-			return id;
-		}
-		case (27): {
-			MultiSetting chatType = (MultiSetting) this;
-			return chatType.getSelectedIndex() + "";
-		}
-		}
-		// I should've done this from the start, no one wants a messed up playerPrefs
-		// file
-		new PopUp("Error in save value??", true);
-		return "ErrorInSaveValue";
-	}
+	
+//	@SuppressWarnings("unchecked")
+//	protected String getValueToSave() {
+//		switch (settingIndex) {
+//		case (1): {
+//			return String.valueOf(((JComboBox<String>) component).getSelectedIndex());
+//		}
+//		case (2): {
+//			String id = Cosmetic.getIDbyName(CosmeticType.Color,
+//					(String) ((JComboBox<String>) component).getSelectedItem());
+//			// I should just make the above return the currentSetting if it had an error
+//			// finding it, probably pass it the settingIndex
+//			if (id.equals("ErrorFinding"))
+//				return currentSettings[settingIndex];
+//
+//			return id;
+//		}
+//		case (10): {
+//			String id = Cosmetic.getIDbyName(CosmeticType.Hat, (String) ((JComboBox<String>) component).getSelectedItem());
+//			if (id.equals("ErrorFinding"))
+//				return currentSettings[settingIndex];
+//			return id;
+//		}
+//		case (15): {
+//			String id = Cosmetic.getIDbyName(CosmeticType.Skin,
+//					(String) ((JComboBox<String>) component).getSelectedItem());
+//			if (id.equals("ErrorFinding"))
+//				return currentSettings[settingIndex];
+//			return id;
+//		}
+//		case (16): {
+//			String id = Cosmetic.getIDbyName(CosmeticType.Pet, (String) ((JComboBox<String>) component).getSelectedItem());
+//			if (id.equals("ErrorFinding"))
+//				return currentSettings[settingIndex];
+//			return id;
+//		}
+//		case (18): {
+//			String id = String
+//					.valueOf(Language.getLanguageIDbyName((String) ((JComboBox<String>) component).getSelectedItem()));
+//			if (id.equals("69")) {
+//				System.out.println("There must've be an error getting the language ID, language was "
+//						+ (String) ((JComboBox<String>) component).getSelectedItem());
+//			}
+//			return id;
+//		}
+//		case (27): {
+//			MultiSetting chatType = (MultiSetting) this;
+//			return chatType.getSelectedIndex() + "";
+//		}
+//		}
+//		// I should've done this from the start, no one wants a messed up playerPrefs
+//		// file
+//		new PopUp("Error in save value??", true);
+//		return "ErrorInSaveValue";
+//	}
 
 	boolean fortegreenWarning = true;
 
