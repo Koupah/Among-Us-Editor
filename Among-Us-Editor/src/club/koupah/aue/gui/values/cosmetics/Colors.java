@@ -26,7 +26,8 @@ public enum Colors {
 	Brown(9, Free),
 	Cyan(10, Free),
 	Lime(11, Free),
-	Fortegreen(12, Free);
+	Maroon(12, Free),
+	Rose(13, Free);
 
 	int id;
 
