@@ -31,9 +31,9 @@ public class AUEditorMain {
 	// Ideally I'm going to make my own Look & Feel but for now, windows is desired
 	public static String desiredLookAndFeel = "WindowsLookAndFeel";
 
-	public static double version = 1.63;
+	public static double version = 0.0.1;
 
-	public static String title = "Among Us Editor";
+	public static String title = "Among Us Editor But Better";
 
 	public static String discordLink = "https://www.koupah.club/aueditor";
 
