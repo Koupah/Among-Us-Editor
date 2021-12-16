@@ -18,7 +18,7 @@ public enum Skins {
 	Captain(2,Free),
 	Mechanic(3,Free),
 	Military(4,Free),
-	Police(5,Free),
+	Police(skin_Police,Free),
 	Scientist(6,Free),
 	Black_Suit(7,Free),
 	White_Suit(8,Free),
@@ -26,11 +26,12 @@ public enum Skins {
 	MIRA_Hazmat(10,Paid),
 	MIRA_Security_Guard(11,Paid),
 	Tarmac(12,Paid),
-	Miner(13,Paid),
+	Underminer(skin_Miner,Paid),
 	Winter(14,Paid),
 	Archaeologist(15,Paid),
 	CCC(16, Paid),
 	Prisoner(17, Paid),
+	Bling_Bling(skin_Bling, Paid),
 	Right_Hand_Man_Reborn(18, Paid);
 	
 	Skins(int ID, CosmeticCategory category) {
