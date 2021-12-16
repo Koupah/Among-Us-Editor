@@ -71,7 +71,7 @@ public enum Hats {
 	Beanie(51, Free),
 	Bear_Ears(52, Free),
 	Cheese(53, Free),
-	Cherry(54, Free),
+	Cherry(hat_pk05_Cherry, Free),
 	Egg(55, Free),
 	Green_Fedora(56, Free),
 	Flamingo(57, Free),
@@ -137,8 +137,7 @@ public enum Hats {
 	Rubber_Glove(111,Free),
 	Unicorn_Hat(112, Free),
 	Zipper_Hat(113, Free),
-	
-	Right_Hand_Man_Hat_and_Mustache(114, Paid);
+	Right_Hand_Hat(114, Paid);
 	
 	int[] displayOffset = { 0, 0, 0, 0 };
 	int ID;
